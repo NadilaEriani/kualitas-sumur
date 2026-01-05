@@ -20,6 +20,28 @@
   </head>
 
   <body class="map-page">
+    <header class="topnav">
+      <div class="topnav-inner">
+        <a class="nav-brand" href="index.html">
+          <span class="nav-mark"><i class="fa-solid fa-water"></i></span>
+          <span class="nav-title">SIG Air Sumur</span>
+          <span class="nav-sub">Pekanbaru</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Navigasi utama">
+          <a class="nav-link" href="index.html">
+            <i class="fa-solid fa-house"></i> Home
+          </a>
+          <a class="nav-link active" href="map.html">
+            <i class="fa-solid fa-map-location-dot"></i> Maps
+          </a>
+          <a class="nav-link" href="data.html">
+            <i class="fa-solid fa-database"></i> Database
+          </a>
+        </nav>
+      </div>
+    </header>
+
     <!-- SIDEBAR -->
     <aside id="sidebar">
       <header class="sidebar-header">
@@ -125,51 +147,92 @@
           </label>
         </label>
       </section>
-      <section class="card">
-        <h3><i class="fa-solid fa-vial"></i> Parameter Fisik Air</h3>
 
-        <!-- PH -->
-        <div class="stat-row">
-          <span><span class="dot red"></span> pH Asam (&lt;7)</span>
-          <span id="ph-asam">0</span>
+      <!-- ✅ FILTER BARU (pH & Jarak) -->
+      <section class="card" id="filter-card">
+        <h3><i class="fa-solid fa-filter"></i> Filter pH & Jarak</h3>
+
+        <div class="filter-grid">
+          <div class="fg">
+            <label for="filter-ph-min">pH Min</label>
+            <input
+              id="filter-ph-min"
+              type="number"
+              step="0.1"
+              placeholder="cth: 6.5"
+            />
+          </div>
+
+          <div class="fg">
+            <label for="filter-ph-max">pH Max</label>
+            <input
+              id="filter-ph-max"
+              type="number"
+              step="0.1"
+              placeholder="cth: 8.0"
+            />
+          </div>
+
+          <div class="fg">
+            <label for="filter-septic-min">Septic Min (m)</label>
+            <input
+              id="filter-septic-min"
+              type="number"
+              step="1"
+              placeholder="cth: 5"
+            />
+          </div>
+
+          <div class="fg">
+            <label for="filter-septic-max">Septic Max (m)</label>
+            <input
+              id="filter-septic-max"
+              type="number"
+              step="1"
+              placeholder="cth: 30"
+            />
+          </div>
+
+          <div class="fg">
+            <label for="filter-selokan-min">Selokan Min (m)</label>
+            <input
+              id="filter-selokan-min"
+              type="number"
+              step="1"
+              placeholder="cth: 5"
+            />
+          </div>
+
+          <div class="fg">
+            <label for="filter-selokan-max">Selokan Max (m)</label>
+            <input
+              id="filter-selokan-max"
+              type="number"
+              step="1"
+              placeholder="cth: 30"
+            />
+          </div>
         </div>
 
-        <div class="stat-row">
-          <span><span class="dot green"></span> pH Netral (≈7)</span>
-          <span id="ph-netral">0</span>
+        <div class="filter-actions">
+          <button
+            type="button"
+            id="btn-apply-filter"
+            class="btn-filter primary"
+          >
+            Terapkan
+          </button>
+          <button type="button" id="btn-reset-filter" class="btn-filter">
+            Reset
+          </button>
         </div>
 
-        <div class="stat-row">
-          <span><span class="dot blue"></span> pH Basa (&gt;7)</span>
-          <span id="ph-basa">0</span>
-        </div>
-
-        <hr />
-
-        <!-- BAU -->
-        <div class="stat-row">
-          <span><i class="fa-solid fa-wind"></i> Tidak Berbau</span>
-          <span id="air-tidak-berbau">0</span>
-        </div>
-
-        <div class="stat-row">
-          <span><i class="fa-solid fa-triangle-exclamation"></i> Berbau</span>
-          <span id="air-berbau">0</span>
-        </div>
-
-        <hr />
-
-        <!-- RASA -->
-        <div class="stat-row">
-          <span><i class="fa-solid fa-face-smile"></i> Rasa Normal</span>
-          <span id="air-normal">0</span>
-        </div>
-
-        <div class="stat-row">
-          <span><i class="fa-solid fa-face-frown"></i> Rasa Tidak Normal</span>
-          <span id="air-berasa">0</span>
+        <div class="filter-result">
+          Menampilkan <b><span id="filter-count">0</span></b> titik
         </div>
       </section>
+
+      <!-- ❌ “Parameter Fisik Air” DIHAPUS sesuai permintaan -->
     </aside>
 
     <!-- BASEMAP CONTROL -->

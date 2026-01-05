@@ -57,6 +57,7 @@ const layerRisikoTinggi = L.layerGroup({ pane: "panePoint" }).addTo(map);
 const layerRisikoSedang = L.layerGroup({ pane: "panePoint" }).addTo(map);
 const layerRisikoRendah = L.layerGroup({ pane: "panePoint" }).addTo(map);
 
+
 // ==========================
 // HELPER FUNCTIONS
 // ==========================
@@ -80,16 +81,33 @@ function warnaRisiko(r) {
   return "#22c55e";
 }
 
-function klasifikasiPH(ph) {
-  if (!ph) return "Netral";
+// Ambil angka pH untuk filter (support: "<7", ">7", "7", "6.5")
+function parsePHNumeric(ph) {
+  if (ph === null || ph === undefined) return null;
 
-  const v = ph.toString().trim();
+  const s = String(ph).trim().replace(",", ".");
+  if (!s) return null;
 
-  if (v.startsWith("<")) return "Asam";
-  if (v.startsWith(">")) return "Basa";
-  if (v === "7") return "Netral";
+  if (s.startsWith("<")) {
+    const n = Number(s.slice(1).trim());
+    return Number.isFinite(n) ? n - 0.1 : null;
+  }
+  if (s.startsWith(">")) {
+    const n = Number(s.slice(1).trim());
+    return Number.isFinite(n) ? n + 0.1 : null;
+  }
 
-  return "Netral";
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+function readNumber(id) {
+  const el = document.getElementById(id);
+  if (!el) return null;
+  const v = String(el.value ?? "").trim();
+  if (v === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
 }
 
 // ==========================
@@ -140,24 +158,16 @@ const iconGali = L.AwesomeMarkers.icon({
 });
 
 // ==========================
-// STAT COUNTER
+// STATE: simpan semua titik untuk difilter
+// ==========================
+const wells = []; // { marker, circle, isBor, risiko, phNum, septic, selokan }
+
+// ==========================
+// STAT COUNTER (total dataset)
 // ==========================
 let total = 0,
   bor = 0,
-  gali = 0,
-  tinggi = 0,
-  sedang = 0,
-  rendah = 0;
-
-let phAsam = 0,
-  phNetral = 0,
-  phBasa = 0;
-
-let berbau = 0,
-  tidakBerbau = 0;
-
-let berasa = 0,
-  normalRasa = 0;
+  gali = 0;
 
 // ==========================
 // LOAD DATA SUMUR
@@ -167,55 +177,30 @@ fetch("data/kualitas_air_sumur.json")
   .then((data) => {
     L.geoJSON(data, {
       pointToLayer: (f, latlng) => {
-        const p = f.properties;
+        const p = f.properties || {};
         total++;
 
-        // ===== PARAMETER FISIK =====
-        const phKategori = klasifikasiPH(p.pH);
-        if (phKategori === "Asam") phAsam++;
-        else if (phKategori === "Basa") phBasa++;
-        else phNetral++;
+        const jenis = String(p.jenis_sumur || "").toLowerCase();
+        const isBor = jenis.includes("bor");
 
-        const bau = p.bau.toLowerCase();
+        if (isBor) bor++;
+        else gali++;
 
-        if (bau.includes("tidak")) {
-          tidakBerbau++;
-        } else {
-          berbau++;
-        }
+        const septic = Number(p.jarak_septictank_m);
+        const selokan = Number(p.jarak_selokan_m);
 
-        const rasa = p.rasa.toLowerCase();
+        // kalau NaN, anggap jauh biar gak bikin error risiko
+        const septicSafe = Number.isFinite(septic) ? septic : 999999;
+        const selokanSafe = Number.isFinite(selokan) ? selokan : 999999;
 
-        if (rasa.includes("normal")) {
-          normalRasa++;
-        } else {
-          berasa++;
-        }
+        const risiko = hitungRisiko(septicSafe, selokanSafe);
 
-        // ===== RISIKO =====
-        const risiko = hitungRisiko(
-          Number(p.jarak_septictank_m),
-          Number(p.jarak_selokan_m)
-        );
-
-        if (risiko === "Tinggi") tinggi++;
-        else if (risiko === "Sedang") sedang++;
-        else rendah++;
-
-        // ===== MARKER =====
-        const isBor = p.jenis_sumur.toLowerCase().includes("bor");
+        // Marker jenis sumur
         const marker = L.marker(latlng, {
           icon: isBor ? iconBor : iconGali,
         });
 
-        if (isBor) {
-          bor++;
-          marker.addTo(layerBor);
-        } else {
-          gali++;
-          marker.addTo(layerGali);
-        }
-
+        // Circle risiko
         const circle = L.circleMarker(latlng, {
           radius: 9,
           color: warnaRisiko(risiko),
@@ -223,45 +208,160 @@ fetch("data/kualitas_air_sumur.json")
           fillOpacity: 0.5,
         });
 
-        if (risiko === "Tinggi") circle.addTo(layerRisikoTinggi);
-        else if (risiko === "Sedang") circle.addTo(layerRisikoSedang);
-        else circle.addTo(layerRisikoRendah);
+        // Tambah ke layer (awal tampil semua)
+        (isBor ? layerBor : layerGali).addLayer(marker);
+
+        if (risiko === "Tinggi") layerRisikoTinggi.addLayer(circle);
+        else if (risiko === "Sedang") layerRisikoSedang.addLayer(circle);
+        else layerRisikoRendah.addLayer(circle);
 
         marker.bindPopup(`
-          <b>ID:</b> ${p.id_sumur}<br>
-          <b>Jenis:</b> ${p.jenis_sumur}<br>
-          <b>pH:</b> ${p.pH}<br>
-          <b>Bau:</b> ${p.bau}<br>
-          <b>Rasa:</b> ${p.rasa}<br>
-          <b>Risiko:</b> ${risiko}
+          <b>Jenis:</b> ${p.jenis_sumur ?? "-"}<br>
+          <b>pH:</b> ${p.pH ?? "-"}<br>
+          <b>Jarak Septic:</b> ${Number.isFinite(septic) ? septic : "-"} m<br>
+          <b>Jarak Selokan:</b> ${
+            Number.isFinite(selokan) ? selokan : "-"
+          } m<br>
+          <b>Risiko:</b> ${risiko}<br>
+          <b>Bau:</b> ${p.bau ?? "-"}<br>
+          <b>Rasa:</b> ${p.rasa ?? "-"}
         `);
+
+        wells.push({
+          marker,
+          circle,
+          isBor,
+          risiko,
+          phNum: parsePHNumeric(p.pH),
+          septic: Number.isFinite(septic) ? septic : null,
+          selokan: Number.isFinite(selokan) ? selokan : null,
+        });
 
         return marker;
       },
     });
 
-    // ===== UPDATE DASHBOARD =====
+    // Update statistik dasar
     document.getElementById("total-sumur").textContent = total;
     document.getElementById("count-bor").textContent = bor;
     document.getElementById("count-gali").textContent = gali;
 
-    document.getElementById("count-tinggi").textContent = tinggi;
-    document.getElementById("count-sedang").textContent = sedang;
-    document.getElementById("count-rendah").textContent = rendah;
-
-    document.getElementById("ph-asam").textContent = phAsam;
-    document.getElementById("ph-netral").textContent = phNetral;
-    document.getElementById("ph-basa").textContent = phBasa;
-
-    document.getElementById("air-berbau").textContent = berbau;
-    document.getElementById("air-tidak-berbau").textContent = tidakBerbau;
-
-    document.getElementById("air-berasa").textContent = berasa;
-    document.getElementById("air-normal").textContent = normalRasa;
+    // Apply filter awal (biar "Menampilkan" kebaca)
+    applyFilters();
   });
 
 // ==========================
-// TOGGLES
+// FILTER LOGIC
+// ==========================
+function applyFilters() {
+  const phMin = readNumber("filter-ph-min");
+  const phMax = readNumber("filter-ph-max");
+
+  const septicMin = readNumber("filter-septic-min");
+  const septicMax = readNumber("filter-septic-max");
+
+  const selokanMin = readNumber("filter-selokan-min");
+  const selokanMax = readNumber("filter-selokan-max");
+
+  let shown = 0;
+
+  for (const w of wells) {
+    let ok = true;
+
+    // ---- pH ----
+    if (phMin !== null || phMax !== null) {
+      if (w.phNum === null) ok = false;
+      if (ok && phMin !== null && w.phNum < phMin) ok = false;
+      if (ok && phMax !== null && w.phNum > phMax) ok = false;
+    }
+
+    // ---- septic ----
+    if (ok && (septicMin !== null || septicMax !== null)) {
+      if (w.septic === null) ok = false;
+      if (ok && septicMin !== null && w.septic < septicMin) ok = false;
+      if (ok && septicMax !== null && w.septic > septicMax) ok = false;
+    }
+
+    // ---- selokan ----
+    if (ok && (selokanMin !== null || selokanMax !== null)) {
+      if (w.selokan === null) ok = false;
+      if (ok && selokanMin !== null && w.selokan < selokanMin) ok = false;
+      if (ok && selokanMax !== null && w.selokan > selokanMax) ok = false;
+    }
+
+    // Apply tampil/sembunyi: marker + circle
+    if (ok) {
+      shown++;
+
+      // pastikan marker masuk group jenis yang benar
+      if (w.isBor) {
+        if (!layerBor.hasLayer(w.marker)) layerBor.addLayer(w.marker);
+        if (layerGali.hasLayer(w.marker)) layerGali.removeLayer(w.marker);
+      } else {
+        if (!layerGali.hasLayer(w.marker)) layerGali.addLayer(w.marker);
+        if (layerBor.hasLayer(w.marker)) layerBor.removeLayer(w.marker);
+      }
+
+      // pastikan circle masuk group risiko yang benar
+      layerRisikoTinggi.removeLayer(w.circle);
+      layerRisikoSedang.removeLayer(w.circle);
+      layerRisikoRendah.removeLayer(w.circle);
+
+      if (w.risiko === "Tinggi") layerRisikoTinggi.addLayer(w.circle);
+      else if (w.risiko === "Sedang") layerRisikoSedang.addLayer(w.circle);
+      else layerRisikoRendah.addLayer(w.circle);
+    } else {
+      // remove dari semua group
+      layerBor.removeLayer(w.marker);
+      layerGali.removeLayer(w.marker);
+
+      layerRisikoTinggi.removeLayer(w.circle);
+      layerRisikoSedang.removeLayer(w.circle);
+      layerRisikoRendah.removeLayer(w.circle);
+    }
+  }
+
+  const fc = document.getElementById("filter-count");
+  if (fc) fc.textContent = String(shown);
+}
+
+// tombol
+document.getElementById("btn-apply-filter").onclick = () => applyFilters();
+
+document.getElementById("btn-reset-filter").onclick = () => {
+  const ids = [
+    "filter-ph-min",
+    "filter-ph-max",
+    "filter-septic-min",
+    "filter-septic-max",
+    "filter-selokan-min",
+    "filter-selokan-max",
+  ];
+  ids.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+  applyFilters();
+};
+
+// Enter = apply
+[
+  "filter-ph-min",
+  "filter-ph-max",
+  "filter-septic-min",
+  "filter-septic-max",
+  "filter-selokan-min",
+  "filter-selokan-max",
+].forEach((id) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") applyFilters();
+  });
+});
+
+// ==========================
+// TOGGLES (layer)
 // ==========================
 document.getElementById("togglePolygon").onchange = (e) =>
   e.target.checked ? map.addLayer(layerPolygon) : map.removeLayer(layerPolygon);
