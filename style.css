@@ -1,0 +1,419 @@
+/* ============ GLOBAL ============ */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ============ LANDING PAGE ============ */
+
+body.landing {
+  background: #0f172a;
+  color: white;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  background-image: url("https://tile.openstreetmap.org/12/2140/1376.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, #0f172aee, #1d4ed8dd);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 650px;
+  padding: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 10%;
+}
+
+.hero h1 {
+  font-size: 40px;
+  margin-bottom: 5px;
+}
+
+.hero h2 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  border: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn.primary {
+  background: #f97316;
+  color: white;
+}
+
+.btn.primary:hover {
+  background: #ea580c;
+}
+
+.btn.outline {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  color: #e5e7eb;
+}
+
+.btn.outline:hover {
+  background: #e5e7eb22;
+}
+
+/* ============ MAP PAGE ============ */
+
+body.map-page {
+  margin: 0;
+  overflow: hidden;
+}
+
+#sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 290px;
+  height: 100vh;
+  background: #ffffffee;
+  border-right: 1px solid #e5e7eb;
+  padding: 16px;
+  z-index: 1000;
+  overflow-y: auto;
+  backdrop-filter: blur(6px);
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.sidebar-header .subtitle {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.card {
+  margin-top: 16px;
+  padding: 12px 12px 10px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  box-shadow: 0 4px 10px #0000000d;
+}
+
+.card h3 {
+  margin-top: 0;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.card.stat {
+  border-left: 4px solid #3b82f6;
+}
+
+.card.risk {
+  border-left: 4px solid #ef4444;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 4px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.dot {
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.red {
+  background: #ef4444;
+}
+.yellow {
+  background: #facc15;
+}
+.green {
+  background: #22c55e;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 290px;
+  right: 0;
+  bottom: 0;
+}
+
+/* ============ SWITCH TOGGLE ============ */
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #d1d5db;
+  border-radius: 999px;
+  transition: 0.3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  top: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+  background-color: #22c55e;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(18px);
+}
+/* Gambar Sumur di Halaman Awal */
+.hero-image {
+  position: absolute;
+  right: 12%;
+  top: 70%;
+  transform: translateY(-50%);
+}
+
+.hero-image img {
+  width: 500px; /* PERBESAR GAMBAR (dari 320px → 420px) */
+  opacity: 0.97;
+  filter: drop-shadow(0 8px 14px #00000055);
+  animation: float 4s ease-in-out infinite;
+}
+
+/* CARD UNTUK HERO IMAGE — DIAM */
+.hero-card-image {
+  position: absolute;
+  right: 8%;
+  top: 50%; /* card benar-benar di tengah kanan */
+  transform: translateY(-50%);
+}
+
+.card-image-wrapper {
+  background: #ffffff22;
+  border: 1px solid #ffffff33;
+  backdrop-filter: blur(8px);
+  padding: 40px 50px; /* card lebih besar */
+  border-radius: 25px;
+  box-shadow: 0 12px 35px #00000040;
+  transition: 0.3s;
+}
+
+/* Icon sumur menyesuaikan card */
+.card-image-wrapper img {
+  width: 480px; /* otomatis lebih besar mengikuti card */
+  max-width: 100%;
+  display: block;
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Animasi Floating */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+#basemap-control {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #ffffffee;
+  backdrop-filter: blur(6px);
+  padding: 12px 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px #00000030;
+  z-index: 1200;
+  border: 1px solid #e5e7eb;
+}
+
+#basemap-control h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+#basemap-select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+/* =====================================
+   RESPONSIVE (TAMBAHAN SAJA)
+   TIDAK MENGUBAH CSS ASLI
+===================================== */
+
+/* ===== TABLET ===== */
+@media (max-width: 1024px) {
+  .hero-content {
+    margin-left: 6%;
+    max-width: 520px;
+    padding: 32px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero h2 {
+    font-size: 20px;
+  }
+
+  .hero-card-image {
+    right: 4%;
+  }
+
+  .card-image-wrapper {
+    padding: 30px 36px;
+  }
+
+  .card-image-wrapper img {
+    width: 380px;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+
+  .hero-content {
+    top: auto;
+    transform: none;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 90%;
+    padding-top: 100px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-card-image {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .card-image-wrapper {
+    padding: 26px 30px;
+  }
+
+  .card-image-wrapper img {
+    width: 300px;
+  }
+}
+
+/* ===== HP KECIL ===== */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .hero h2 {
+    font-size: 18px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .card-image-wrapper img {
+    width: 240px;
+  }
+}
+.dot.blue {
+  background: #3b82f6;
+}
+.dot.teal {
+  background: #14b8a6;
+}
+.dot.gray {
+  background: #64748b;
+}

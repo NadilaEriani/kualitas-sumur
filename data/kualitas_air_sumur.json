@@ -1,0 +1,2411 @@
+{
+    "type": "FeatureCollection",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "EPSG:4326"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "id": 1,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.487375,
+                    0.494379
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS001",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 18,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 2,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.425769,
+                    0.54146
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS002",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 21,
+                "jarak_selokan_m": 25,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 3,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.427265,
+                    0.542015
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS003",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 5,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 4,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.42736,
+                    0.541861
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS004",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 5,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490017,
+                    0.491684
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS005",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 6,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490261,
+                    0.492132
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS006",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 20,
+                "jarak_selokan_m": 20,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 7,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490154,
+                    0.491749
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS007",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 11,
+                "jarak_selokan_m": 4,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 8,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490881,
+                    0.479804
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS008",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 16,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 9,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.487457,
+                    0.493903
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS009",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 16,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 10,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.487679,
+                    0.494446
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS010",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 13,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 11,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.487802,
+                    0.493773
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS011",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 21,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 12,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.487739,
+                    0.492748
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS012",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 14,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 13,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.488761,
+                    0.492164
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS013",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 13,
+                "jarak_selokan_m": 20,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 14,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.489193,
+                    0.492201
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS014",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 14,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 15,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.489034,
+                    0.492061
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS015",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 15,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 16,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.504295,
+                    0.481291
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS016",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 11,
+                "jarak_selokan_m": 11,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 17,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.504356,
+                    0.481261
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS017",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 12,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 18,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.504977,
+                    0.482113
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS018",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 13,
+                "jarak_selokan_m": 12,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 19,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490771,
+                    0.480182
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS019",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 16,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 20,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490778,
+                    0.480227
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS020",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 16,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 21,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490773,
+                    0.480095
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS021",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 16,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 22,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490546,
+                    0.480122
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS022",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 14,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 23,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.491184,
+                    0.480188
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS023",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 24,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 24,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490335,
+                    0.480207
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS024",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 12,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 25,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490475,
+                    0.480025
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS025",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 16,
+                "jarak_selokan_m": 26,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 26,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490337,
+                    0.479961
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS026",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 18,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 27,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.490022,
+                    0.480094
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS027",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 17,
+                "jarak_selokan_m": 27,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 28,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.488936,
+                    0.479786
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS028",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 18,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 29,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.489008,
+                    0.479785
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS029",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 16,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 30,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.488854,
+                    0.479663
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS030",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 18,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 31,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.488387,
+                    0.479908
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS031",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 13,
+                "jarak_selokan_m": 18,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 32,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.477893,
+                    0.512362
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS032",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 13,
+                "jarak_selokan_m": 20,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 33,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.477628,
+                    0.512407
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS033",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 15,
+                "jarak_selokan_m": 17,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 34,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.477546,
+                    0.512459
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS034",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 16,
+                "jarak_selokan_m": 20,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 35,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.477112,
+                    0.512614
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS035",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 17,
+                "jarak_selokan_m": 21,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 36,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.477348,
+                    0.512012
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS036",
+                "kecamatan": "tenayan raya",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 14,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 37,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.425654,
+                    0.541663
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS037",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 12,
+                "jarak_selokan_m": 13,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 38,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.42608,
+                    0.541442
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS038",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 8,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 39,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.426108,
+                    0.541335
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS039",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 9,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 40,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.425895,
+                    0.540948
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS040",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 14,
+                "jarak_selokan_m": 11,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 41,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.427218,
+                    0.542046
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS041",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 13,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 42,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.427501,
+                    0.541939
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS042",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 13,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 43,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.427614,
+                    0.541962
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS043",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 12,
+                "jarak_selokan_m": 9,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 44,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.427745,
+                    0.541891
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS044",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 12,
+                "jarak_selokan_m": 7,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 45,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.427438,
+                    0.541809
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS045",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 7,
+                "jarak_selokan_m": 14,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 46,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.426495,
+                    0.542671
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS046",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 47,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.425118,
+                    0.541328
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS047",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 14,
+                "jarak_selokan_m": 11,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 48,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.424955,
+                    0.541321
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS048",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Pahit",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 14,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 49,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4249991,
+                    0.5413061
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS049",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 9,
+                "jarak_selokan_m": 15,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 50,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.422268444902,
+                    0.525515270489414
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS050",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 20,
+                "jarak_selokan_m": 15,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 51,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4222276,
+                    0.5253391
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS051",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 9,
+                "jarak_selokan_m": 11,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 52,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4222033,
+                    0.5253412
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS052",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 7,
+                "jarak_selokan_m": 8,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 53,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.421952,
+                    0.5253634
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS053",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Pahit",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 13,
+                "jarak_selokan_m": 8,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 54,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4219471,
+                    0.5253638
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS054",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 12,
+                "jarak_selokan_m": 15,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 55,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4219471,
+                    0.5253638
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS055",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 20,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 56,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.418855611453,
+                    0.518371875384054
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS056",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Pahit",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 6,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 57,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4191524,
+                    0.517906
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS057",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 11,
+                "jarak_selokan_m": 7,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 58,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4180647,
+                    0.5180892
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS058",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Pahit",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 14,
+                "jarak_selokan_m": 16,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 59,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4177379,
+                    0.518199
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS059",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 7,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 60,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4167715,
+                    0.5184642
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS060",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 12,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 61,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4166684,
+                    0.5183319
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS061",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 18,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 62,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4162371,
+                    0.5182889
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS062",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 5,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 63,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4166684,
+                    0.5183319
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS063",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 6,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 64,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4154345,
+                    0.5185144
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS064",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 15,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 65,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4157115,
+                    0.5187984
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS065",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 7,
+                "jarak_selokan_m": 18,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 66,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4153522,
+                    0.517959
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS066",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 9,
+                "jarak_selokan_m": 8,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 67,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4148338,
+                    0.5179688
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS067",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 6,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 68,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4147221,
+                    0.5170625
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS068",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 7,
+                "jarak_selokan_m": 14,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 69,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4139899,
+                    0.517699
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS069",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 12,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 70,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4138305,
+                    0.5174089
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS070",
+                "kecamatan": "payung sekaki",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi tidak hujan dan tidak kemarau"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 71,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.413683,
+                    0.5186739
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS071",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 7,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 72,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.443131,
+                    0.528471
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS072",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 3,
+                "jarak_selokan_m": 4,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 73,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.443135,
+                    0.528731
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS073",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 4,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 74,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.443142,
+                    0.528866
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS074",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 3,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 75,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.443142,
+                    0.528866
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS075",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 3,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 76,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.443238,
+                    0.528448
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS076",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 4,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 77,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.443209,
+                    0.528635
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS077",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 4,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 78,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.443224,
+                    0.528734
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS078",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 7,
+                "jarak_selokan_m": 4,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 79,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.448901,
+                    0.522904
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS079",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 80,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.448098687708,
+                    0.523805390000684
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS080",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Menyengat",
+                "rasa": "Pahit",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 12,
+                "jarak_selokan_m": 5,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 81,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4478813,
+                    0.5236041
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS081",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 5,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 82,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4483349,
+                    0.5237101
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS082",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Pahit",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 8,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 83,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4486126,
+                    0.5237057
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS083",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 6,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 84,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4483305,
+                    0.5237102
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS084",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 7,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 85,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4486082,
+                    0.5237057
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS085",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 86,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4486071,
+                    0.5241002
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS086",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 14,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 87,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4491779,
+                    0.5240657
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS087",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Pahit",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 7,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 88,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4494427,
+                    0.5241324
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS088",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 89,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4483305,
+                    0.5237102
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS089",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 90,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4486181,
+                    0.5217718
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS090",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 3,
+                "jarak_selokan_m": 8,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 91,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4486181,
+                    0.5217718
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS091",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 7,
+                "jarak_selokan_m": 6,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 92,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101101.4493167,
+                    0.521116
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS092",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Pahit",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 10,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 93,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4479155,
+                    0.5210205
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS093",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 13,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 94,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.448612,
+                    0.5229449
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS094",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 6,
+                "jarak_selokan_m": 17,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 95,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4491664,
+                    0.5229445
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS095",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 7,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 96,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4497412,
+                    0.5312227
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS096",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 5,
+                "jarak_selokan_m": 16,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 97,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.449998,
+                    0.5305229
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS097",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 4,
+                "jarak_selokan_m": 12,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 98,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4460412,
+                    0.5261174
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS098",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Lain",
+                "warna": "Bening",
+                "pH": "<7",
+                "jarak_septictank_m": 13,
+                "jarak_selokan_m": 9,
+                "kondisi_sumur": "Semi-tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 99,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.446019,
+                    0.5258523
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS099",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Gali",
+                "bau": "Tidak berbau",
+                "rasa": "Normal",
+                "warna": "Bening",
+                "pH": ">7",
+                "jarak_septictank_m": 10,
+                "jarak_selokan_m": 8,
+                "kondisi_sumur": "Terbuka",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 100,
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    101.4467508,
+                    0.5251853
+                ]
+            },
+            "properties": {
+                "id_sumur": "AS100",
+                "kecamatan": "kota pekanbaru",
+                "jenis_sumur": "Sumur Bor",
+                "bau": "Sedikit",
+                "rasa": "Lain",
+                "warna": "Keruh",
+                "pH": "<7",
+                "jarak_septictank_m": 8,
+                "jarak_selokan_m": 12,
+                "kondisi_sumur": "Tertutup",
+                "catatan_lapangan": "kondisi cuaca mendung mau hujan"
+            }
+        }
+    ]
+}

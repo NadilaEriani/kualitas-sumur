@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Peta Kualitas Air Sumur</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.awesome-markers/dist/leaflet.awesome-markers.css"
+    />
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+  </head>
+
+  <body class="map-page">
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+      <header class="sidebar-header">
+        <h2><i class="fa-solid fa-chart-column"></i> Dashboard SIG</h2>
+        <span class="subtitle">Kualitas Air Sumur Pekanbaru</span>
+      </header>
+
+      <section class="card stat">
+        <h3><i class="fa-solid fa-droplet"></i> Statistik Sumur</h3>
+
+        <div class="stat-row">
+          <span>Total Sumur</span><span id="total-sumur">0</span>
+        </div>
+        <div class="stat-row">
+          <span>Sumur Bor</span><span id="count-bor">0</span>
+        </div>
+        <div class="stat-row">
+          <span>Sumur Gali</span><span id="count-gali">0</span>
+        </div>
+      </section>
+
+      <section class="card risk">
+        <h3>
+          <i class="fa-solid fa-triangle-exclamation"></i> Risiko Pencemaran
+        </h3>
+
+        <label class="switch-row">
+          <span> <span class="dot red"></span> Risiko Tinggi </span>
+          <label class="switch">
+            <input type="checkbox" id="toggleRiskHigh" checked />
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <label class="switch-row">
+          <span> <span class="dot yellow"></span> Risiko Sedang </span>
+          <label class="switch">
+            <input type="checkbox" id="toggleRiskMedium" checked />
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <label class="switch-row">
+          <span> <span class="dot green"></span> Risiko Rendah </span>
+          <label class="switch">
+            <input type="checkbox" id="toggleRiskLow" checked />
+            <span class="slider"></span>
+          </label>
+        </label>
+      </section>
+
+      <!-- LAYER PETA -->
+      <section class="card">
+        <h3><i class="fa-solid fa-layer-group"></i> Layer Peta</h3>
+
+        <label class="switch-row">
+          <span
+            ><i class="fa-solid fa-draw-polygon"></i> Wilayah Administrasi
+            Riau</span
+          >
+          <label class="switch">
+            <input type="checkbox" id="togglePolygon" checked />
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <label class="switch-row">
+          <span><i class="fa-solid fa-border-all"></i> Batas Wilayah</span>
+          <label class="switch">
+            <input type="checkbox" id="toggleBoundary" checked />
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <label class="switch-row">
+          <span
+            ><i class="fa-solid fa-location-dot"></i> Titik Persebaran
+            Sumur</span
+          >
+          <label class="switch">
+            <input type="checkbox" id="togglePoint" checked />
+            <span class="slider"></span>
+          </label>
+        </label>
+      </section>
+
+      <section class="card">
+        <h3><i class="fa-solid fa-droplet"></i> Jenis Sumur</h3>
+
+        <label class="switch-row">
+          <span> <span class="dot blue"></span> Sumur Bor </span>
+          <label class="switch">
+            <input type="checkbox" id="toggleBor" checked />
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <label class="switch-row">
+          <span> <span class="dot teal"></span> Sumur Gali </span>
+          <label class="switch">
+            <input type="checkbox" id="toggleGali" checked />
+            <span class="slider"></span>
+          </label>
+        </label>
+      </section>
+      <section class="card">
+        <h3><i class="fa-solid fa-vial"></i> Parameter Fisik Air</h3>
+
+        <!-- PH -->
+        <div class="stat-row">
+          <span><span class="dot red"></span> pH Asam (&lt;7)</span>
+          <span id="ph-asam">0</span>
+        </div>
+
+        <div class="stat-row">
+          <span><span class="dot green"></span> pH Netral (≈7)</span>
+          <span id="ph-netral">0</span>
+        </div>
+
+        <div class="stat-row">
+          <span><span class="dot blue"></span> pH Basa (&gt;7)</span>
+          <span id="ph-basa">0</span>
+        </div>
+
+        <hr />
+
+        <!-- BAU -->
+        <div class="stat-row">
+          <span><i class="fa-solid fa-wind"></i> Tidak Berbau</span>
+          <span id="air-tidak-berbau">0</span>
+        </div>
+
+        <div class="stat-row">
+          <span><i class="fa-solid fa-triangle-exclamation"></i> Berbau</span>
+          <span id="air-berbau">0</span>
+        </div>
+
+        <hr />
+
+        <!-- RASA -->
+        <div class="stat-row">
+          <span><i class="fa-solid fa-face-smile"></i> Rasa Normal</span>
+          <span id="air-normal">0</span>
+        </div>
+
+        <div class="stat-row">
+          <span><i class="fa-solid fa-face-frown"></i> Rasa Tidak Normal</span>
+          <span id="air-berasa">0</span>
+        </div>
+      </section>
+    </aside>
+
+    <!-- BASEMAP CONTROL -->
+    <div id="basemap-control">
+      <h4>Pilih Basemap</h4>
+      <select id="basemap-select">
+        <option value="osm">OSM Default</option>
+        <option value="carto-light">Carto Light</option>
+        <option value="carto-dark">Carto Dark</option>
+      </select>
+    </div>
+
+    <!-- MAP -->
+    <div id="map"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
