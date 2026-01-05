@@ -310,104 +310,7 @@ body.map-page {
   border: 1px solid #d1d5db;
   font-size: 14px;
 }
-/* =====================================
-   RESPONSIVE (TAMBAHAN SAJA)
-   TIDAK MENGUBAH CSS ASLI
-===================================== */
 
-/* ===== TABLET ===== */
-@media (max-width: 1024px) {
-  .hero-content {
-    margin-left: 6%;
-    max-width: 520px;
-    padding: 32px;
-  }
-
-  .hero h1 {
-    font-size: 34px;
-  }
-
-  .hero h2 {
-    font-size: 20px;
-  }
-
-  .hero-card-image {
-    right: 4%;
-  }
-
-  .card-image-wrapper {
-    padding: 30px 36px;
-  }
-
-  .card-image-wrapper img {
-    width: 380px;
-  }
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-  .hero {
-    height: auto;
-    min-height: 100vh;
-    padding-bottom: 40px;
-  }
-
-  .hero-content {
-    top: auto;
-    transform: none;
-    margin: 0 auto;
-    text-align: center;
-    max-width: 90%;
-    padding-top: 100px;
-  }
-
-  .hero-buttons {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hero-card-image {
-    position: relative;
-    right: auto;
-    top: auto;
-    transform: none;
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .card-image-wrapper {
-    padding: 26px 30px;
-  }
-
-  .card-image-wrapper img {
-    width: 300px;
-  }
-}
-
-/* ===== HP KECIL ===== */
-@media (max-width: 480px) {
-  .hero h1 {
-    font-size: 26px;
-  }
-
-  .hero h2 {
-    font-size: 18px;
-  }
-
-  .hero p {
-    font-size: 14px;
-  }
-
-  .btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .card-image-wrapper img {
-    width: 240px;
-  }
-}
 .dot.blue {
   background: #3b82f6;
 }
@@ -416,4 +319,796 @@ body.map-page {
 }
 .dot.gray {
   background: #64748b;
+}
+/* --- hero tambahan (badge / mini / scroll hint) --- */
+body.landing .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #ffffff24;
+  background: #0b122a8c;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px #00000055;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  margin-bottom: 14px;
+}
+
+body.landing .lead {
+  color: #e5e7eb;
+  max-width: 620px;
+}
+
+body.landing .hero-mini {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 520px;
+}
+
+body.landing .mini {
+  border: 1px solid #ffffff18;
+  background: linear-gradient(135deg, #0b122a80, #0b122a35);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px #00000045;
+}
+
+body.landing .mini i {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #1d4ed845, #f9731628);
+  border: 1px solid #ffffff22;
+}
+
+body.landing .mini strong {
+  display: block;
+  font-size: 14px;
+}
+
+body.landing .mini span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: #cbd5e1;
+}
+
+body.landing .scroll-hint {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #cbd5e1cc;
+  font-size: 13px;
+}
+
+body.landing .hero-card-image {
+  z-index: 1;
+}
+
+body.landing .glow {
+  position: absolute;
+  inset: -22%;
+  background: radial-gradient(circle at 35% 30%, #1d4ed850, transparent 55%),
+    radial-gradient(circle at 70% 60%, #f9731635, transparent 60%);
+  filter: blur(20px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* --- MAIN area: dibuat nyambung sama hero (gelap, clean, ada “water shimmer”) --- */
+body.landing .main {
+  position: relative;
+  padding: 70px 10% 90px;
+  background: radial-gradient(900px 380px at 20% 0%, #1d4ed832, transparent 60%),
+    radial-gradient(800px 360px at 85% 10%, #f9731620, transparent 55%),
+    linear-gradient(180deg, #0f172a 0%, #0b1224 35%, #07101f 100%);
+}
+
+body.landing .main::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 28px;
+  background: linear-gradient(180deg, #0f172a00, #0f172a);
+  pointer-events: none;
+}
+
+/* --- SECTION: kartu besar elegan, ada accent strip + pola halus --- */
+body.landing .section {
+  position: relative;
+  margin: 18px 0;
+  padding: 22px 22px 20px;
+  border-radius: 22px;
+  border: 1px solid #ffffff14;
+  background: linear-gradient(180deg, #0b122ab8, #0b122a7a);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 70px #00000055;
+  overflow: hidden;
+}
+
+body.landing .section::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 12px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1d4ed8, #60a5fa, #f97316);
+  opacity: 0.85;
+}
+
+body.landing .section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      600px 240px at 15% 20%,
+      #1d4ed820,
+      transparent 55%
+    ),
+    radial-gradient(520px 220px at 90% 40%, #f9731612, transparent 60%),
+    linear-gradient(135deg, #ffffff06 0%, #ffffff00 45%, #ffffff05 100%);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+body.landing .section > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- SECTION HEAD: lebih tegas dan rapi --- */
+body.landing .section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ffffff10;
+}
+
+body.landing .section-head h3 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.3px;
+}
+
+body.landing .section-head p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 13.5px;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+/* --- GRID base (landing only) --- */
+body.landing .grid {
+  display: grid;
+  gap: 14px;
+}
+
+body.landing .cards-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body.landing .split-grid {
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: start;
+}
+
+body.landing .steps-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* --- INFO CARD: desain baru (depth + gradient rim + shimmer) --- */
+body.landing .info-card {
+  position: relative;
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+  border: 1px solid #ffffff14;
+  background: linear-gradient(180deg, #0b122ab0, #0b122a55);
+  box-shadow: 0 16px 55px #00000050;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+body.landing .info-card:hover {
+  transform: translateY(-4px);
+  border-color: #60a5fa55;
+  box-shadow: 0 20px 70px #0000006a;
+}
+
+body.landing .info-card::after {
+  content: "";
+  position: absolute;
+  inset: -40% -30%;
+  background: radial-gradient(circle at 30% 30%, #1d4ed830, transparent 55%),
+    radial-gradient(circle at 70% 60%, #f9731618, transparent 60%);
+  filter: blur(18px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+body.landing .info-card .ic {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff1f;
+  background: linear-gradient(135deg, #1d4ed845, #0b122a20);
+  box-shadow: inset 0 1px 0 #ffffff1a;
+  margin-bottom: 12px;
+}
+
+body.landing .info-card h4 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+body.landing .info-card p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 13.8px;
+  line-height: 1.65;
+}
+
+/* --- PANEL (parameter) --- */
+body.landing .panel {
+  border-radius: 18px;
+  border: 1px solid #ffffff14;
+  background: linear-gradient(180deg, #061026a8, #06102655);
+  padding: 16px;
+  box-shadow: 0 16px 55px #00000045;
+}
+
+body.landing .param + .param {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #ffffff18;
+}
+
+body.landing .param-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+body.landing .muted {
+  color: #cbd5e1;
+  opacity: 0.9;
+  line-height: 1.65;
+  margin: 0;
+  font-size: 13.8px;
+}
+
+/* --- PANEL highlight: border neon halus (lebih bagus) --- */
+body.landing .panel.highlight {
+  position: relative;
+  border: 1px solid #ffffff18;
+  background: linear-gradient(180deg, #0b122abf, #0b122a70);
+  overflow: hidden;
+}
+
+body.landing .panel.highlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1d4ed81f, transparent 45%, #f9731612);
+  pointer-events: none;
+}
+
+body.landing .panel.highlight::after {
+  content: "";
+  position: absolute;
+  left: -30%;
+  top: -70%;
+  width: 160%;
+  height: 220%;
+  background: radial-gradient(circle at 40% 40%, #60a5fa22, transparent 55%);
+  filter: blur(22px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+body.landing .panel-title {
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- list checklist --- */
+body.landing .list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+body.landing .list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #cbd5e1;
+  line-height: 1.6;
+  font-size: 13.7px;
+}
+
+body.landing .list li i {
+  margin-top: 3px;
+  color: #22c55e;
+}
+
+/* --- CTA mini: rapikan --- */
+body.landing .cta-mini {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ghost button (dipakai di HTML kamu) */
+body.landing .btn.ghost {
+  background: #ffffff10;
+  color: #e5e7eb;
+  border: 1px solid #ffffff18;
+}
+
+body.landing .btn.ghost:hover {
+  background: #ffffff16;
+}
+
+/* --- CARA PAKAI: jadi step card yang lebih “mahal” --- */
+body.landing .step {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid #ffffff14;
+  background: linear-gradient(180deg, #0b122ab5, #0b122a55);
+  padding: 16px;
+  box-shadow: 0 16px 55px #00000045;
+  overflow: hidden;
+}
+
+body.landing .step::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    420px 200px at 10% 10%,
+    #1d4ed822,
+    transparent 55%
+  );
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+body.landing .step > * {
+  position: relative;
+  z-index: 1;
+}
+
+body.landing .step-no {
+  width: 40px;
+  height: 40px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f9731635, #1d4ed82a);
+  border: 1px solid #ffffff1f;
+  box-shadow: inset 0 1px 0 #ffffff1a;
+  margin-bottom: 10px;
+}
+
+body.landing .step h4 {
+  margin: 0 0 6px;
+  font-size: 15.5px;
+}
+
+body.landing .step p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 13.7px;
+  line-height: 1.6;
+}
+
+/* --- FOOTER: clean & nyatu tema --- */
+body.landing .footer {
+  margin-top: 18px;
+  padding: 16px 16px 14px;
+  border-radius: 22px;
+  border: 1px solid #ffffff14;
+  background: linear-gradient(180deg, #061026b5, #06102670);
+  box-shadow: 0 18px 70px #00000055;
+  overflow: hidden;
+  position: relative;
+}
+
+body.landing .footer::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 12px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f97316, #60a5fa, #1d4ed8);
+  opacity: 0.75;
+}
+
+body.landing .footer-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+
+body.landing .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+body.landing .brand i {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff1f;
+  background: linear-gradient(135deg, #1d4ed845, #f9731622);
+}
+
+body.landing .links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+body.landing .link-btn {
+  border: 1px solid #ffffff18;
+  background: #ffffff10;
+  color: #e5e7eb;
+  padding: 10px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  transition: 0.2s;
+  text-decoration: none;
+}
+
+body.landing .link-btn:hover {
+  background: #ffffff16;
+  transform: translateY(-1px);
+}
+
+body.landing .footer-bottom {
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ffffff12;
+  color: #cbd5e1cc;
+  font-size: 13px;
+}
+
+/* --- MODAL: (biar “Tentang Project” tampil bagus) --- */
+body.landing .modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: #00000080;
+  z-index: 9999;
+}
+
+body.landing .modal.open {
+  display: flex;
+}
+
+body.landing .modal-card {
+  width: 760px;
+  max-width: 95vw;
+  border-radius: 22px;
+  border: 1px solid #ffffff1a;
+  background: linear-gradient(180deg, #0b122af0, #07101fe6);
+  box-shadow: 0 26px 90px #00000075;
+  backdrop-filter: blur(12px);
+  outline: none;
+  overflow: hidden;
+}
+
+body.landing .modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #ffffff12;
+  background: linear-gradient(90deg, #1d4ed820, #f9731610);
+}
+
+body.landing .modal-head h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+body.landing .icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  border: 1px solid #ffffff18;
+  background: #ffffff10;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+body.landing .icon-btn:hover {
+  background: #ffffff18;
+  transform: translateY(-1px);
+}
+
+body.landing .modal-body {
+  padding: 14px 16px 10px;
+}
+
+body.landing .cards-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.landing .mini-card {
+  border-radius: 18px;
+  border: 1px solid #ffffff14;
+  background: #ffffff0b;
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  box-shadow: 0 16px 55px #00000045;
+}
+
+body.landing .mini-card i {
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff1f;
+  background: linear-gradient(135deg, #1d4ed845, #f9731620);
+}
+
+body.landing .mini-card strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+body.landing .mini-card span {
+  display: block;
+  color: #cbd5e1;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+body.landing .note {
+  margin-top: 12px;
+  border-radius: 18px;
+  border: 1px dashed #ffffff24;
+  background: #ffffff08;
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #cbd5e1;
+}
+
+body.landing .note i {
+  margin-top: 3px;
+  color: #22c55e;
+}
+
+body.landing .modal-foot {
+  padding: 12px 16px 16px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  border-top: 1px solid #ffffff12;
+  background: linear-gradient(90deg, #0b122a, #07101f);
+}
+
+/* ===========================
+   NAVBAR (LANDING ONLY) — AMAN
+=========================== */
+body.landing .topnav {
+  position: fixed;
+  top: 18px;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  pointer-events: none; /* supaya hanya isi nav yang bisa diklik */
+}
+
+body.landing .topnav-inner {
+  pointer-events: auto;
+  width: min(1180px, 92%);
+  margin: 0 auto;
+  padding: 10px 12px;
+  border-radius: 18px;
+  border: 1px solid #ffffff1a;
+  background: linear-gradient(180deg, #0b122abf, #0b122a8a);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 70px #00000065;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  overflow: hidden;
+}
+
+body.landing .topnav-inner::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 10px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1d4ed8, #60a5fa, #f97316);
+  opacity: 0.85;
+}
+
+body.landing .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  padding: 8px 10px;
+  border-radius: 14px;
+}
+
+body.landing .nav-brand:hover {
+  background: #ffffff0d;
+}
+
+body.landing .nav-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff1f;
+  background: linear-gradient(135deg, #1d4ed845, #f9731620);
+  box-shadow: inset 0 1px 0 #ffffff1a;
+}
+
+body.landing .nav-title {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+body.landing .nav-sub {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #ffffff18;
+  background: #ffffff0f;
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+body.landing .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid #ffffff12;
+  background: #ffffff08;
+}
+
+body.landing .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #e5e7eb;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+body.landing .nav-link:hover {
+  background: #ffffff12;
+  transform: translateY(-1px);
+}
+
+body.landing .nav-link.active {
+  border: 1px solid #60a5fa55;
+  background: linear-gradient(135deg, #1d4ed834, #ffffff08);
+  color: #fff;
+}
+
+body.landing .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* tombol navbar (biar gak ganggu .btn kamu) */
+body.landing .nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  font: inherit;
+  border: 1px solid #ffffff18;
+  background: #ffffff10;
+  color: #fff;
+  transition: 0.2s;
+}
+
+body.landing .nav-btn:hover {
+  background: #ffffff16;
+  transform: translateY(-1px);
+}
+
+body.landing .nav-btn.primary {
+  border-color: #f9731655;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  box-shadow: 0 14px 40px #ea580c33;
+}
+
+body.landing .nav-btn.primary:hover {
+  box-shadow: 0 18px 55px #ea580c44;
+}
+
+body.landing .nav-btn.ghost {
+  background: transparent;
+}
+body.landing .hero-content {
+  padding-top: 70px;
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIG Kualitas Air Sumur</title>
+    <title>Kualitas Air Sumur</title>
 
     <link rel="stylesheet" href="style.css" />
     <link
@@ -13,39 +13,405 @@
   </head>
 
   <body class="landing">
+    <header class="topnav">
+      <div class="topnav-inner">
+        <a class="nav-brand" href="index.html">
+          <span class="nav-mark"><i class="fa-solid fa-water"></i></span>
+          <span class="nav-title">Kualitas Air Sumur</span>
+          <span class="nav-sub">Pekanbaru</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Navigasi utama">
+          <a class="nav-link active" href="index.html">
+            <i class="fa-solid fa-house"></i> Home
+          </a>
+          <a class="nav-link" href="map.html">
+            <i class="fa-solid fa-map-location-dot"></i> Maps
+          </a>
+          <a class="nav-link" href="data.html">
+            <i class="fa-solid fa-database"></i> Database
+          </a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="nav-btn ghost" type="button" onclick="openAbout()">
+            <i class="fa-solid fa-circle-info"></i> Tentang
+          </button>
+          <a class="nav-btn primary" href="map.html">
+            <i class="fa-solid fa-arrow-right"></i> Buka Peta
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO -->
     <div class="hero">
       <div class="hero-overlay"></div>
 
       <!-- TEKS -->
       <div class="hero-content">
-        <h1>Sistem Informasi Geografis</h1>
-        <h2>Kualitas Air Sumur Kota Pekanbaru</h2>
+        <span class="badge">
+          <i class="fa-solid fa-location-dot"></i>
+          Kota Pekanbaru
+        </span>
 
-        <p>
+        <h1>Sistem Informasi Geografis</h1>
+        <h2>Kualitas Air Sumur</h2>
+
+        <p class="lead">
           Aplikasi ini menyajikan persebaran lokasi sumur penduduk dan tingkat
           kualitas air berdasarkan parameter pH, jarak terhadap septic tank dan
           selokan, serta jenis sumur.
         </p>
 
         <div class="hero-buttons">
-          <button class="btn primary" onclick="location.href='map.html'">
+          <button
+            class="btn primary"
+            type="button"
+            onclick="location.href='map.html'"
+          >
             <i class="fa-solid fa-map-location-dot"></i>
             Masuk ke Peta
           </button>
 
-          <button class="btn outline">
+          <button class="btn outline" type="button" onclick="openAbout()">
             <i class="fa-solid fa-circle-info"></i>
             Tentang Project
           </button>
         </div>
+
+        <div class="hero-mini">
+          <div class="mini">
+            <i class="fa-solid fa-filter"></i>
+            <div>
+              <strong>Filter Cepat</strong>
+              <span>pH • Jarak • Jenis sumur</span>
+            </div>
+          </div>
+          <div class="mini">
+            <i class="fa-solid fa-magnifying-glass-location"></i>
+            <div>
+              <strong>Detail Titik</strong>
+              <span>Klik marker untuk info</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-hint" aria-hidden="true">
+          <i class="fa-solid fa-angles-down"></i>
+          <span>Scroll untuk info</span>
+        </div>
       </div>
 
       <!-- GAMBAR -->
-      <div class="hero-card-image">
+      <div class="hero-card-image" aria-hidden="true">
         <div class="card-image-wrapper">
           <img src="assets/icon/sumur.png" alt="Sumur" />
         </div>
+        <div class="glow"></div>
       </div>
     </div>
+
+    <!-- INFO BAWAH -->
+    <main class="main">
+      <section class="section">
+        <div class="section-head">
+          <h3>Informasi Singkat</h3>
+          <p>
+            Ringkasan fungsi dan apa yang bisa kamu lakukan di aplikasi ini.
+          </p>
+        </div>
+
+        <div class="grid cards-3">
+          <article class="info-card">
+            <div class="ic">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h4>Pemetaan Interaktif</h4>
+            <p>
+              Lihat persebaran lokasi sumur pada peta, lalu klik marker untuk
+              melihat detail parameter kualitas air.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <div class="ic">
+              <i class="fa-solid fa-droplet"></i>
+            </div>
+            <h4>Parameter Kualitas</h4>
+            <p>
+              Penilaian berdasarkan pH, jarak terhadap septic tank dan selokan,
+              serta jenis sumur (misalnya bor/dll).
+            </p>
+          </article>
+
+          <article class="info-card">
+            <div class="ic">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h4>Bantu Pengambilan Keputusan</h4>
+            <p>
+              Membantu pemantauan kualitas air sumur, identifikasi area rawan,
+              dan rekomendasi tindak lanjut.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section split">
+        <div class="section-head">
+          <h3>Parameter Penilaian</h3>
+          <p>
+            Indikator yang digunakan untuk melihat tingkat kualitas air sumur.
+          </p>
+        </div>
+
+        <div class="grid split-grid">
+          <div class="panel">
+            <div class="param">
+              <div class="param-title">
+                <i class="fa-solid fa-vial"></i>
+                <span>pH Air</span>
+              </div>
+              <p class="muted">
+                Menggambarkan tingkat keasaman/alkalinitas air. pH ekstrem dapat
+                mempengaruhi kesehatan dan korosi pipa.
+              </p>
+            </div>
+
+            <div class="param">
+              <div class="param-title">
+                <i class="fa-solid fa-toilet-portable"></i>
+                <span>Jarak Septic Tank</span>
+              </div>
+              <p class="muted">
+                Semakin dekat septic tank, semakin tinggi potensi kontaminasi.
+              </p>
+            </div>
+
+            <div class="param">
+              <div class="param-title">
+                <i class="fa-solid fa-water"></i>
+                <span>Jarak Selokan</span>
+              </div>
+              <p class="muted">
+                Kedekatan dengan selokan dapat meningkatkan risiko masuknya
+                bakteri/limbah permukaan.
+              </p>
+            </div>
+
+            <div class="param">
+              <div class="param-title">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <span>Jenis Sumur</span>
+              </div>
+              <p class="muted">
+                Jenis sumur (mis. sumur bor / gali) mempengaruhi kerentanan
+                terhadap pencemaran.
+              </p>
+            </div>
+          </div>
+
+          <div class="panel highlight">
+            <h4 class="panel-title">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              Catatan Interpretasi
+            </h4>
+
+            <ul class="list">
+              <li>
+                <i class="fa-solid fa-check"></i>
+                Gunakan filter pada peta untuk memetakan kategori kualitas.
+              </li>
+              <li>
+                <i class="fa-solid fa-check"></i>
+                Klik marker untuk melihat detail dan ringkasan status.
+              </li>
+              <li>
+                <i class="fa-solid fa-check"></i>
+                Fokuskan pemantauan pada titik yang dekat sumber pencemar.
+              </li>
+            </ul>
+
+            <div class="cta-mini">
+              <button
+                class="btn primary"
+                type="button"
+                onclick="location.href='map.html'"
+              >
+                <i class="fa-solid fa-map"></i>
+                Buka Peta Sekarang
+              </button>
+              <button class="btn ghost" type="button" onclick="openAbout()">
+                <i class="fa-solid fa-book-open"></i>
+                Lihat Ringkasan Project
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h3>Cara Pakai</h3>
+          <p>Langkah cepat agar kamu langsung bisa eksplorasi.</p>
+        </div>
+
+        <div class="grid steps-4">
+          <div class="step">
+            <div class="step-no">1</div>
+            <h4>Masuk ke Peta</h4>
+            <p>Buka halaman peta untuk melihat titik sumur.</p>
+          </div>
+          <div class="step">
+            <div class="step-no">2</div>
+            <h4>Pakai Filter</h4>
+            <p>Saring berdasarkan pH, jarak, atau jenis sumur.</p>
+          </div>
+          <div class="step">
+            <div class="step-no">3</div>
+            <h4>Klik Marker</h4>
+            <p>Lihat detail parameter dan ringkasan status titik.</p>
+          </div>
+          <div class="step">
+            <div class="step-no">4</div>
+            <h4>Analisa Sebaran</h4>
+            <p>Bandingkan titik antar wilayah untuk identifikasi area rawan.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="brand">
+            <i class="fa-solid fa-map"></i>
+            <div>
+              <strong>SIG Kualitas Air Sumur</strong>
+              <span class="muted">Pekanbaru</span>
+            </div>
+          </div>
+
+          <div class="links">
+            <button class="link-btn" type="button" onclick="openAbout()">
+              <i class="fa-solid fa-circle-info"></i> Tentang
+            </button>
+            <a class="link-btn" href="map.html">
+              <i class="fa-solid fa-map-location-dot"></i> Peta
+            </a>
+            <a
+              class="link-btn"
+              href="#"
+              onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;"
+            >
+              <i class="fa-solid fa-arrow-up"></i> Atas
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-bottom muted">
+          © <span id="year"></span> • Dibuat untuk pemetaan kualitas air sumur.
+        </div>
+      </footer>
+    </main>
+
+    <!-- MODAL ABOUT -->
+    <div
+      class="modal"
+      id="aboutModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="aboutTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-card" role="document" tabindex="-1">
+        <div class="modal-head">
+          <h3 id="aboutTitle">
+            <i class="fa-solid fa-circle-info"></i> Tentang Project
+          </h3>
+          <button
+            class="icon-btn"
+            type="button"
+            onclick="closeAbout()"
+            aria-label="Tutup"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p class="muted">
+            Project ini berfokus pada visualisasi titik sumur dan indikator
+            kualitas air untuk membantu monitoring dan analisis area rawan.
+          </p>
+
+          <div class="grid cards-2">
+            <div class="mini-card">
+              <i class="fa-solid fa-bullseye"></i>
+              <div>
+                <strong>Tujuan</strong>
+                <span>Mempermudah pemetaan & analisa kualitas air sumur.</span>
+              </div>
+            </div>
+            <div class="mini-card">
+              <i class="fa-solid fa-chart-line"></i>
+              <div>
+                <strong>Output</strong>
+                <span>Layer sebaran + detail parameter tiap titik sumur.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="note">
+            <i class="fa-solid fa-lightbulb"></i>
+            <p>
+              Tips: gunakan filter untuk menemukan titik yang dekat septic
+              tank/selokan, lalu prioritaskan pengecekan lapangan.
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-foot">
+          <button class="btn outline" type="button" onclick="closeAbout()">
+            Tutup
+          </button>
+          <button
+            class="btn primary"
+            type="button"
+            onclick="location.href='map.html'"
+          >
+            <i class="fa-solid fa-map"></i> Masuk ke Peta
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById("aboutModal");
+      const yearEl = document.getElementById("year");
+      yearEl.textContent = new Date().getFullYear();
+
+      function openAbout() {
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        const card = modal.querySelector(".modal-card");
+        card && card.focus();
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeAbout() {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeAbout();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("open"))
+          closeAbout();
+      });
+    </script>
   </body>
 </html>
