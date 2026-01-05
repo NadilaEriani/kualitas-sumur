@@ -1308,3 +1308,330 @@ body.map-page #map {
   top: 56px; /* penting karena #map absolute */
   height: calc(100vh - 56px);
 }
+
+/* ===========================
+   DATABASE PAGE (ONLY) — AMAN
+=========================== */
+body.landing.data-page .data-head {
+  align-items: center;
+}
+
+body.landing.data-page .data-conn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+body.landing.data-page .db-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #ffffff18;
+  background: #ffffff10;
+  color: #e5e7eb;
+  font-size: 13px;
+}
+
+body.landing.data-page .db-badge.ok {
+  border-color: #22c55e55;
+  background: #22c55e20;
+}
+
+body.landing.data-page .db-badge.bad {
+  border-color: #ef444455;
+  background: #ef444420;
+}
+
+body.landing.data-page .db-hint {
+  color: #cbd5e1;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+/* toolbar */
+body.landing.data-page .db-toolbar {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 18px;
+  border: 1px solid #ffffff14;
+  background: #ffffff08;
+}
+
+body.landing.data-page .db-field {
+  display: grid;
+  gap: 6px;
+  min-width: 170px;
+}
+
+body.landing.data-page .db-field label {
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+body.landing.data-page .db-grow {
+  flex: 1;
+  min-width: 240px;
+}
+
+body.landing.data-page .db-field input,
+body.landing.data-page .db-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid #ffffff18;
+  background: #0b122a80;
+  color: #e5e7eb;
+  outline: none;
+  font: inherit;
+}
+
+body.landing.data-page .db-field input:focus,
+body.landing.data-page .db-field select:focus {
+  border-color: #60a5fa55;
+  box-shadow: 0 0 0 3px #60a5fa22;
+}
+
+body.landing.data-page .db-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+body.landing.data-page .db-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #ffffff18;
+  background: #ffffff10;
+  color: #e5e7eb;
+  cursor: pointer;
+  font: inherit;
+}
+
+body.landing.data-page .db-btn:hover {
+  background: #ffffff16;
+  transform: translateY(-1px);
+}
+
+body.landing.data-page .db-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+body.landing.data-page .db-btn.primary {
+  border-color: #f9731655;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+}
+
+/* table */
+body.landing.data-page .db-table-wrap {
+  margin-top: 12px;
+  border-radius: 18px;
+  border: 1px solid #ffffff14;
+  overflow: hidden;
+  background: #0b122a80;
+}
+
+body.landing.data-page .db-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+body.landing.data-page .db-table thead th {
+  text-align: left;
+  font-size: 13px;
+  padding: 12px;
+  color: #e5e7eb;
+  background: #ffffff08;
+  border-bottom: 1px solid #ffffff12;
+}
+
+body.landing.data-page .db-table tbody td {
+  padding: 12px;
+  font-size: 13.5px;
+  color: #e5e7eb;
+  border-bottom: 1px solid #ffffff0f;
+  vertical-align: middle;
+}
+
+body.landing.data-page .db-empty {
+  text-align: center;
+  padding: 18px;
+  color: #cbd5e1;
+}
+
+body.landing.data-page .db-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 12.5px;
+  color: #cbd5e1;
+}
+
+body.landing.data-page .db-actions-col {
+  white-space: nowrap;
+}
+
+body.landing.data-page .db-mini {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  border: 1px solid #ffffff18;
+  background: #ffffff10;
+  color: #e5e7eb;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+body.landing.data-page .db-mini:hover {
+  background: #ffffff16;
+}
+
+body.landing.data-page .db-mini.danger {
+  border-color: #ef444455;
+  background: #ef444420;
+}
+
+/* pager */
+body.landing.data-page .db-pager {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+body.landing.data-page .db-pageinfo {
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+/* modal */
+body.landing.data-page .db-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #00000080;
+  z-index: 9999;
+}
+
+body.landing.data-page .db-modal.open {
+  display: flex;
+}
+
+body.landing.data-page .db-modal-card {
+  width: 880px;
+  max-width: 96vw;
+  border-radius: 22px;
+  border: 1px solid #ffffff1a;
+  background: linear-gradient(180deg, #0b122af0, #07101fe6);
+  box-shadow: 0 26px 90px #00000075;
+  overflow: hidden;
+}
+
+body.landing.data-page .db-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #ffffff12;
+}
+
+body.landing.data-page .db-icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  border: 1px solid #ffffff18;
+  background: #ffffff10;
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+body.landing.data-page .db-icon-btn:hover {
+  background: #ffffff16;
+}
+
+body.landing.data-page .db-form {
+  padding: 14px 16px 16px;
+}
+
+body.landing.data-page .db-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+body.landing.data-page .db-small {
+  color: #cbd5e1;
+  opacity: 0.85;
+  font-size: 12px;
+}
+
+body.landing.data-page .db-form-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+body.landing.data-page .db-error {
+  margin-top: 10px;
+  color: #fca5a5;
+  font-size: 13px;
+  min-height: 18px;
+}
+
+/* toast */
+body.landing.data-page .db-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #ffffff18;
+  background: #ffffff10;
+  color: #e5e7eb;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s;
+  z-index: 10000;
+}
+
+body.landing.data-page .db-toast.show {
+  opacity: 1;
+}
+
+body.landing.data-page .db-toast.ok {
+  border-color: #22c55e55;
+  background: #22c55e20;
+}
+
+body.landing.data-page .db-toast.bad {
+  border-color: #ef444455;
+  background: #ef444420;
+}
+
+@media (max-width: 760px) {
+  body.landing.data-page .db-grid {
+    grid-template-columns: 1fr;
+  }
+}
