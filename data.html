@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Database • SIG Kualitas Air Sumur</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,15 +18,17 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
-    <!-- Supabase JS (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase JS (UMD) -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"
+    ></script>
 
     <script defer src="ui.js"></script>
     <script defer src="data.js"></script>
   </head>
 
   <body class="landing data-page">
-    <!-- NAVBAR -->
     <header class="topnav">
       <div class="topnav-inner">
         <a class="nav-brand" href="index.html">
@@ -45,6 +46,9 @@
           </a>
           <a class="nav-link active" href="data.html">
             <i class="fa-solid fa-database"></i> Database
+          </a>
+          <a class="nav-link" href="analytics.html">
+            <i class="fa-solid fa-chart-line"></i> Statistika
           </a>
         </nav>
 
@@ -73,16 +77,18 @@
           </div>
         </div>
 
-        <!-- TOOLBAR -->
         <div class="db-toolbar">
           <div class="db-field">
             <label>Table</label>
-            <input id="db-table" value="kualitas_air_sumur" />
+            <input id="db-table" value="sumur" />
           </div>
 
           <div class="db-field db-grow">
-            <label>Cari (ID/Kecamatan)</label>
-            <input id="db-search" placeholder="cth: AS036 / Tampan" />
+            <label>Cari (UUID / Jenis / pH / Bau / Rasa)</label>
+            <input
+              id="db-search"
+              placeholder="cth: Sumur Bor / >7 / Tidak berbau"
+            />
           </div>
 
           <div class="db-field">
@@ -91,6 +97,15 @@
               <option value="">Semua</option>
               <option value="Sumur Bor">Sumur Bor</option>
               <option value="Sumur Gali">Sumur Gali</option>
+            </select>
+          </div>
+
+          <div class="db-field">
+            <label>Tampilkan</label>
+            <select id="db-pagesize">
+              <option value="10" selected>10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
             </select>
           </div>
 
@@ -107,30 +122,34 @@
           </div>
         </div>
 
-        <!-- TABLE -->
         <div class="db-table-wrap">
           <table class="db-table">
             <thead>
               <tr>
-                <th class="sortable" data-sort="id_sumur">
-                  ID <span class="sort-ind" id="sort-id_sumur">↕</span>
+                <th>No</th>
+                <th class="sortable" data-sort="kecamatan">Kecamatan</th>
+                <th class="sortable" data-sort="jenis_sumur">Jenis</th>
+                <th class="sortable" data-sort="warna">Warna Air</th>
+                <th class="sortable" data-sort="ph">pH</th>
+                <th class="sortable" data-sort="jarak_septictank_m">
+                  Septic (m)
                 </th>
-                <th class="sortable" data-sort="kecamatan">
-                  Kecamatan <span class="sort-ind" id="sort-kecamatan">↕</span>
+                <th class="sortable" data-sort="jarak_selokan_m">
+                  Selokan (m)
                 </th>
-                <th>Jenis</th>
-                <th>pH</th>
-                <th>Septic (m)</th>
-                <th>Selokan (m)</th>
-                <th>Bau</th>
-                <th>Rasa</th>
-                <th>Koordinat</th>
+                <th class="sortable" data-sort="bau">Bau</th>
+                <th class="sortable" data-sort="rasa">Rasa</th>
+                <th class="sortable" data-sort="kondisi_sumur">
+                  Kondisi Sumur
+                </th>
+                <th>Lokasi</th>
                 <th>Aksi</th>
               </tr>
             </thead>
+
             <tbody id="db-body">
               <tr>
-                <td colspan="10" class="db-empty">
+                <td colspan="12" class="db-empty">
                   <div class="empty-box">
                     <i class="fa-solid fa-spinner fa-spin"></i>
                     <div>Memuat data…</div>
@@ -141,7 +160,6 @@
           </table>
         </div>
 
-        <!-- PAGER -->
         <div class="db-pager">
           <button class="db-btn" id="btn-prev" type="button">
             <i class="fa-solid fa-chevron-left"></i> Prev
@@ -159,43 +177,42 @@
       </section>
     </main>
 
-    <!-- MODAL -->
+    <!-- Modal -->
     <div class="db-modal" id="db-modal" aria-hidden="true">
-      <div class="db-modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div
+        class="db-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
         <div class="db-modal-head">
           <h3 id="modal-title">Tambah Data</h3>
-          <button class="db-icon-btn" id="modal-close" type="button" aria-label="Tutup modal">
+          <button
+            class="db-icon-btn"
+            id="modal-close"
+            type="button"
+            aria-label="Tutup modal"
+          >
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
         <form class="db-form" id="db-form">
           <div class="db-grid">
-            <div class="db-field">
-              <label>ID Sumur</label>
-              <input id="f-id_sumur" placeholder="cth: AS036" />
-              <small class="db-small">Wajib & unik.</small>
-              <div class="field-error" id="e-id_sumur"></div>
-            </div>
-
+            <!-- ✅ Tambahan untuk UPDATE -->
             <div class="db-field">
               <label>Kecamatan</label>
               <input id="f-kecamatan" placeholder="cth: Tampan" />
-              <div class="field-error" id="e-kecamatan"></div>
             </div>
 
             <div class="db-field">
-              <label>Latitude</label>
-              <input id="f-latitude" type="number" step="0.0000001" placeholder="cth: 0.5123456" />
-              <small class="db-small">Rentang: -90 s/d 90</small>
-              <div class="field-error" id="e-latitude"></div>
+              <label>Warna Air</label>
+              <input id="f-warna" placeholder="cth: Jernih / Keruh" />
             </div>
 
             <div class="db-field">
-              <label>Longitude</label>
-              <input id="f-longitude" type="number" step="0.0000001" placeholder="cth: 101.4567890" />
-              <small class="db-small">Rentang: -180 s/d 180</small>
-              <div class="field-error" id="e-longitude"></div>
+              <label>Kondisi Sumur</label>
+              <input id="f-kondisi_sumur" placeholder="cth: Baik / Rusak" />
             </div>
 
             <div class="db-field">
@@ -207,21 +224,55 @@
             </div>
 
             <div class="db-field">
+              <label>Latitude</label>
+              <input
+                id="f-lat"
+                type="number"
+                step="0.0000001"
+                placeholder="cth: 0.5123456"
+              />
+              <small class="db-small">Rentang: -90 s/d 90</small>
+              <div class="field-error" id="e-lat"></div>
+            </div>
+
+            <div class="db-field">
+              <label>Longitude</label>
+              <input
+                id="f-lng"
+                type="number"
+                step="0.0000001"
+                placeholder="cth: 101.4567890"
+              />
+              <small class="db-small">Rentang: -180 s/d 180</small>
+              <div class="field-error" id="e-lng"></div>
+            </div>
+
+            <div class="db-field">
               <label>pH</label>
-              <input id="f-pH" placeholder="cth: 6.9 / 7 / <7 / >7" />
+              <input id="f-ph" placeholder="cth: 6.9 / 7 / <7 / >7" />
               <small class="db-small">Boleh pakai format &lt;7 / &gt;7</small>
-              <div class="field-error" id="e-pH"></div>
+              <div class="field-error" id="e-ph"></div>
             </div>
 
             <div class="db-field">
               <label>Jarak Septictank (m)</label>
-              <input id="f-jarak_septictank_m" type="number" step="0.1" placeholder="cth: 12" />
+              <input
+                id="f-jarak_septictank_m"
+                type="number"
+                step="0.1"
+                placeholder="cth: 12"
+              />
               <div class="field-error" id="e-jarak_septictank_m"></div>
             </div>
 
             <div class="db-field">
               <label>Jarak Selokan (m)</label>
-              <input id="f-jarak_selokan_m" type="number" step="0.1" placeholder="cth: 18" />
+              <input
+                id="f-jarak_selokan_m"
+                type="number"
+                step="0.1"
+                placeholder="cth: 18"
+              />
               <div class="field-error" id="e-jarak_selokan_m"></div>
             </div>
 
@@ -248,7 +299,6 @@
       </div>
     </div>
 
-    <!-- TOAST -->
     <div class="db-toast" id="db-toast"></div>
   </body>
 </html>
