@@ -286,6 +286,68 @@
           <div class="filter-result">
             Tips: fokus ke titik yang <b>dekat septic/selokan</b>.
           </div>
+          <hr class="filter-divider" />
+
+          <h3 style="margin: 10px 0 8px">
+            <i class="fa-solid fa-bullseye"></i> Zona Radius
+          </h3>
+
+          <div class="filter-grid">
+            <div class="fg" style="grid-column: 1 / -1">
+              <label class="switch-row" style="padding: 10px 0">
+                <span
+                  ><i class="fa-solid fa-circle zone-dot zone-dot--septic"></i>
+                  Tampilkan Zona Septic</span
+                >
+
+                <label class="switch">
+                  <input type="checkbox" id="zone-septic-on" />
+                  <span class="slider"></span>
+                </label>
+              </label>
+
+              <label class="switch-row" style="padding: 10px 0">
+                <span
+                  ><i class="fa-solid fa-circle zone-dot zone-dot--selokan"></i>
+                  Tampilkan Zona Selokan</span
+                >
+
+                <label class="switch">
+                  <input type="checkbox" id="zone-selokan-on" />
+                  <span class="slider"></span>
+                </label>
+              </label>
+            </div>
+
+            <div class="fg">
+              <label for="zone-scale">Skala Radius</label>
+              <select id="zone-scale" class="input">
+                <option value="0.5">0.5x (lebih kecil)</option>
+                <option value="1" selected>1x (asli)</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+                <option value="3">3x</option>
+              </select>
+            </div>
+
+            <div class="fg">
+              <label for="zone-max">Batas Maks Radius (m)</label>
+              <input
+                id="zone-max"
+                class="input"
+                type="number"
+                step="10"
+                placeholder="cth: 200"
+              />
+            </div>
+          </div>
+
+          <div class="muted" style="margin-top: 8px; font-size: 12.5px">
+            Zona radius dihitung dari nilai <b>jarak septic</b> &
+            <b>jarak selokan</b>
+            pada data. Skala mengalikan radius, batas maks membatasi lingkaran
+            agar tidak terlalu besar.
+          </div>
         </section>
 
         <section class="map-card hidden" data-panel="legend">

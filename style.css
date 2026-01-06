@@ -1524,3 +1524,21 @@ body.landing.data-page .db-toolbar {
   text-align: center;
   white-space: nowrap;
 }
+.filter-divider {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin: 14px 0;
+  opacity: 0.9;
+}
+.zone-dot {
+  font-size: 10px; /* ukuran bulat */
+  margin-right: 8px; /* jarak ke teks */
+  vertical-align: middle;
+}
+
+.zone-dot--septic {
+  color: #f97316;
+} /* sama seperti circle septic */
+.zone-dot--selokan {
+  color: #0ea5e9;
+} /* sama seperti circle selokan */

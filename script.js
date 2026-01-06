@@ -33,6 +33,9 @@ map.getPane("paneBoundary").style.zIndex = 300;
 
 map.createPane("panePoint");
 map.getPane("panePoint").style.zIndex = 500;
+// ====== ZONA RADIUS (di bawah marker tapi di atas boundary) ======
+map.createPane("paneZone");
+map.getPane("paneZone").style.zIndex = 420; // boundary 300, point 500
 
 const basemaps = {
   osm: L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -118,6 +121,8 @@ const layerBoundary = L.layerGroup({ pane: "paneBoundary" }).addTo(map);
 
 const layerBor = L.layerGroup({ pane: "panePoint" }).addTo(map);
 const layerGali = L.layerGroup({ pane: "panePoint" }).addTo(map);
+const zoneLayerSeptic = L.layerGroup({ pane: "paneZone" });
+const zoneLayerSelokan = L.layerGroup({ pane: "paneZone" });
 
 const layerRisikoTinggi = L.layerGroup({ pane: "panePoint" }).addTo(map);
 const layerRisikoSedang = L.layerGroup({ pane: "panePoint" }).addTo(map);
@@ -206,6 +211,140 @@ const iconGali = L.AwesomeMarkers.icon({
   markerColor: "cadetblue",
   prefix: "fa",
 });
+// ====== ZONA RADIUS UI ======
+const ZONE = {
+  septicOn: document.getElementById("zone-septic-on"),
+  selokanOn: document.getElementById("zone-selokan-on"),
+  scale: document.getElementById("zone-scale"),
+  max: document.getElementById("zone-max"),
+};
+
+function readZoneSettings() {
+  const showSeptic = !!ZONE.septicOn?.checked;
+  const showSelokan = !!ZONE.selokanOn?.checked;
+
+  const scaleRaw = Number(String(ZONE.scale?.value ?? "1").trim());
+  const scale = Number.isFinite(scaleRaw) && scaleRaw > 0 ? scaleRaw : 1;
+
+  const maxRaw = ZONE.max ? Number(String(ZONE.max.value ?? "").trim()) : NaN;
+  const max = Number.isFinite(maxRaw) && maxRaw > 0 ? maxRaw : null;
+
+  return { showSeptic, showSelokan, scale, max };
+}
+
+function calcRadiusMeters(baseMeters, scale, max) {
+  if (baseMeters === null || baseMeters === undefined) return null;
+  const b = Number(baseMeters);
+  if (!Number.isFinite(b) || b <= 0) return null;
+
+  let r = b * scale;
+  if (max !== null) r = Math.min(r, max);
+  if (!Number.isFinite(r) || r <= 0) return null;
+  return r;
+}
+
+function isWellActuallyShown(w) {
+  // zona cuma ikut filter (visible), TIDAK ikut toggle Bor/Gali
+  return !!w?.visible;
+}
+
+function isRiskLayerEnabledForWell(w) {
+  if (w.risiko === "Tinggi") return map.hasLayer(layerRisikoTinggi);
+  if (w.risiko === "Sedang") return map.hasLayer(layerRisikoSedang);
+  return map.hasLayer(layerRisikoRendah);
+}
+
+function renderZones() {
+  if (!wells || wells.length === 0) return;
+
+  const { showSeptic, showSelokan, scale, max } = readZoneSettings();
+
+  // nyalakan / matikan layer zona
+  if (showSeptic) {
+    if (!map.hasLayer(zoneLayerSeptic)) zoneLayerSeptic.addTo(map);
+  } else {
+    if (map.hasLayer(zoneLayerSeptic)) map.removeLayer(zoneLayerSeptic);
+    zoneLayerSeptic.clearLayers();
+  }
+
+  if (showSelokan) {
+    if (!map.hasLayer(zoneLayerSelokan)) zoneLayerSelokan.addTo(map);
+  } else {
+    if (map.hasLayer(zoneLayerSelokan)) map.removeLayer(zoneLayerSelokan);
+    zoneLayerSelokan.clearLayers();
+  }
+
+  // kalau dua-duanya off, selesai
+  if (!showSeptic && !showSelokan) return;
+
+  // rebuild isi layer
+  if (showSeptic) zoneLayerSeptic.clearLayers();
+  if (showSelokan) zoneLayerSelokan.clearLayers();
+
+  for (const w of wells) {
+    if (!isWellActuallyShown(w)) continue; // lolos filter + jenis layer on
+    if (!isRiskLayerEnabledForWell(w)) continue; // risiko layer on baru boleh ada zona
+
+    if (showSeptic) {
+      const r = calcRadiusMeters(w.septic, scale, max);
+      if (r !== null) {
+        if (!w.zoneSepticCircle) {
+          w.zoneSepticCircle = L.circle(w.latlng, {
+            pane: "paneZone",
+            radius: r,
+            color: "#f97316",
+            weight: 1.5,
+            opacity: 0.70,
+            fillOpacity: 0.06,
+            dashArray: "6 6",
+            interactive: false,
+          });
+        } else {
+          w.zoneSepticCircle.setLatLng(w.latlng);
+          w.zoneSepticCircle.setRadius(r);
+        }
+        zoneLayerSeptic.addLayer(w.zoneSepticCircle);
+      }
+    }
+
+    if (showSelokan) {
+      const r = calcRadiusMeters(w.selokan, scale, max);
+      if (r !== null) {
+        if (!w.zoneSelokanCircle) {
+          w.zoneSelokanCircle = L.circle(w.latlng, {
+            pane: "paneZone",
+            radius: r,
+            color: "#0ea5e9",
+            weight: 1.5,
+            opacity: 0.70,
+            fillOpacity: 0.06,
+            dashArray: "2 6",
+            interactive: false,
+          });
+        } else {
+          w.zoneSelokanCircle.setLatLng(w.latlng);
+          w.zoneSelokanCircle.setRadius(r);
+        }
+        zoneLayerSelokan.addLayer(w.zoneSelokanCircle);
+      }
+    }
+  }
+}
+
+// listener supaya zona langsung update saat diubah
+(function bindZoneUI() {
+  const rerender = () => renderZones();
+
+  ZONE.septicOn?.addEventListener("change", rerender);
+  ZONE.selokanOn?.addEventListener("change", rerender);
+  ZONE.scale?.addEventListener("change", rerender);
+
+  let t = null;
+  ZONE.max?.addEventListener("input", () => {
+    clearTimeout(t);
+    t = setTimeout(rerender, 180);
+  });
+})();
 
 const legendCtrl = L.control({ position: "bottomright" });
 legendCtrl.onAdd = function () {
@@ -448,6 +587,7 @@ function applyFilters() {
 
   const fc = document.getElementById("filter-count");
   if (fc) fc.textContent = String(shown);
+  renderZones();
 }
 
 document.getElementById("btn-apply-filter").addEventListener("click", () => {
@@ -755,3 +895,26 @@ document.getElementById("btn-export-filtered").addEventListener("click", () => {
 map.addControl(
   new L.Control.Scale({ position: "bottomleft", metric: true, imperial: false })
 );
+let _zoneTick = null;
+function requestZonesRefresh() {
+  clearTimeout(_zoneTick);
+  _zoneTick = setTimeout(() => renderZones(), 0);
+}
+
+document.getElementById("toggleRiskHigh").addEventListener("change", (e) => {
+  if (e.target.checked) map.addLayer(layerRisikoTinggi);
+  else map.removeLayer(layerRisikoTinggi);
+  requestZonesRefresh();
+});
+
+document.getElementById("toggleRiskMedium").addEventListener("change", (e) => {
+  if (e.target.checked) map.addLayer(layerRisikoSedang);
+  else map.removeLayer(layerRisikoSedang);
+  requestZonesRefresh();
+});
+
+document.getElementById("toggleRiskLow").addEventListener("change", (e) => {
+  if (e.target.checked) map.addLayer(layerRisikoRendah);
+  else map.removeLayer(layerRisikoRendah);
+  requestZonesRefresh();
+});
