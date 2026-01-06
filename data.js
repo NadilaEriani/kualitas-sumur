@@ -665,50 +665,86 @@
   }
 
   function bind() {
-    // ✅ BIND TOMBOL GEO SEKALI (biar gak nunggu Refresh & gak numpuk event)
+    // =========================
+    // 1) BUTTONS TOP TOOLBAR
+    // =========================
+    if (btnRefresh) {
+      btnRefresh.onclick = async () => {
+        await testConnection();
+        await loadPage(1);
+      };
+    }
+
+    if (btnAdd) {
+      btnAdd.onclick = () => openModal("add");
+    }
+
+    if (btnExport) {
+      btnExport.onclick = exportCSV;
+    }
+
+    if (btnPrev) {
+      btnPrev.onclick = () => loadPage(currentPage - 1);
+    }
+
+    if (btnNext) {
+      btnNext.onclick = () => loadPage(currentPage + 1);
+    }
+
+    // =========================
+    // 2) MODAL BUTTONS
+    // =========================
+    if (modalClose) modalClose.onclick = closeModal;
+    if (btnCancel) btnCancel.onclick = closeModal;
+
+    if (modal) {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (!modal || !modal.classList.contains("open")) return;
+      if (e.key === "Escape") closeModal();
+    });
+
+    // submit form
+    if (form) form.addEventListener("submit", save);
+
+    // ✅ INI YANG PENTING: tombol ambil lokasi selalu aktif (tidak nunggu refresh)
     if (btnGeo) {
       btnGeo.onclick = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         fillCoordsFromCurrentLocation();
       };
     }
 
-    btnRefresh.onclick = async () => {
-      await testConnection();
-      await loadPage(1);
-    };
-
-    btnAdd.onclick = () => openModal("add");
-    modalClose.onclick = closeModal;
-    btnCancel.onclick = closeModal;
-
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (!modal.classList.contains("open")) return;
-      if (e.key === "Escape") closeModal();
-    });
-
-    form.addEventListener("submit", save);
-
-    btnPrev.onclick = () => loadPage(currentPage - 1);
-    btnNext.onclick = () => loadPage(currentPage + 1);
-
+    // =========================
+    // 3) FILTER / SEARCH / TABLE INPUT
+    // =========================
     if (jenisSelect) jenisSelect.onchange = () => loadPage(1);
-    if (pageSizeSelect)
+
+    if (pageSizeSelect) {
       pageSizeSelect.addEventListener("change", () => loadPage(1));
+    }
 
-    tableInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") btnRefresh.click();
-    });
+    if (tableInput) {
+      tableInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && btnRefresh) btnRefresh.click();
+      });
+    }
 
-    searchInput.addEventListener("input", () => {
-      clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => loadPage(1), 350);
-    });
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => loadPage(1), 350);
+      });
+    }
 
+    // =========================
+    // 4) SORTABLE HEADERS
+    // =========================
     document.querySelectorAll("th.sortable").forEach((th) => {
       th.addEventListener("click", () => {
         const k = th.getAttribute("data-sort");
@@ -717,8 +753,9 @@
       });
     });
 
-    btnExport.onclick = exportCSV;
-
+    // =========================
+    // 5) VALIDATION LISTENERS (FORM INPUTS)
+    // =========================
     Object.keys(F).forEach((k) => {
       const input = F[k];
       if (!input) return;
@@ -726,52 +763,56 @@
       input.addEventListener("blur", validateAll);
     });
 
-    tbody.addEventListener("click", async (e) => {
-      const btn = e.target.closest("button");
-      if (!btn) return;
+    // =========================
+    // 6) TABLE ACTIONS (EDIT/DEL/LOC)
+    // =========================
+    if (tbody) {
+      tbody.addEventListener("click", async (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
 
-      const act = btn.getAttribute("data-act");
+        const act = btn.getAttribute("data-act");
 
-      if (act === "loc") {
-        const lat = btn.getAttribute("data-lat");
-        const lng = btn.getAttribute("data-lng");
-        const id = btn.getAttribute("data-id") || "";
+        if (act === "loc") {
+          const lat = btn.getAttribute("data-lat");
+          const lng = btn.getAttribute("data-lng");
+          const id = btn.getAttribute("data-id") || "";
+          if (!lat || !lng) return;
 
-        if (!lat || !lng) return;
+          const url =
+            `map.html?lat=${encodeURIComponent(lat)}` +
+            `&lng=${encodeURIComponent(lng)}` +
+            (id ? `&id=${encodeURIComponent(id)}` : "") +
+            `&z=17`;
 
-        const url =
-          `map.html?lat=${encodeURIComponent(lat)}` +
-          `&lng=${encodeURIComponent(lng)}` +
-          (id ? `&id=${encodeURIComponent(id)}` : "") +
-          `&z=17`;
-
-        window.location.href = url;
-        return;
-      }
-
-      const dbId = btn.getAttribute("data-id");
-      if (!act || !dbId) return;
-
-      if (act === "del") return delRow(dbId);
-
-      if (act === "edit") {
-        const t = getTable();
-        const { data, error } = await sb
-          .from(t)
-          .select("*")
-          .eq(DB_PK, dbId)
-          .limit(1);
-
-        if (error || !data?.[0]) {
-          showToast(
-            `Gagal ambil data: ${error?.message || "not found"}`,
-            false
-          );
+          window.location.href = url;
           return;
         }
-        openModal("edit", data[0]);
-      }
-    });
+
+        const dbId = btn.getAttribute("data-id");
+        if (!act || !dbId) return;
+
+        if (act === "del") return delRow(dbId);
+
+        if (act === "edit") {
+          const t = getTable();
+          const { data, error } = await sb
+            .from(t)
+            .select("*")
+            .eq(DB_PK, dbId)
+            .limit(1);
+
+          if (error || !data?.[0]) {
+            showToast(
+              `Gagal ambil data: ${error?.message || "not found"}`,
+              false
+            );
+            return;
+          }
+          openModal("edit", data[0]);
+        }
+      });
+    }
   }
 
   (async function start() {

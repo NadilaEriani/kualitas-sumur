@@ -6,20 +6,24 @@ function clamp(n, a, b) {
 
 function getMapTargetFromUrl() {
   const p = new URLSearchParams(location.search);
-  const lat = Number(p.get("lat"));
-  const lng = Number(p.get("lng"));
 
-  // ✅ default zoom lebih dekat
-  const zRaw = Number(p.get("z") || 20);
-  const z = clamp(zRaw, 1, 20);
+  const latStr = p.get("lat");
+  const lngStr = p.get("lng");
+  if (latStr === null || lngStr === null) return null; // <- penting
+
+  const lat = parseFloat(latStr);
+  const lng = parseFloat(lngStr);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+
+  const zStr = p.get("z");
+  const zRaw = zStr === null ? 17 : parseInt(zStr, 10);
+  const z = clamp(Number.isFinite(zRaw) ? zRaw : 17, 1, 20);
 
   const id = (p.get("id") || "").trim();
-
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
   return { lat, lng, z, id };
 }
 
-const MAP_TARGET = getMapTargetFromUrl();
+const MAP_TARGET = window.__MAP_TARGET__ ?? getMapTargetFromUrl();
 
 map.createPane("panePolygon");
 map.getPane("panePolygon").style.zIndex = 200;
