@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistika & Analisis • SIG Kualitas Air Sumur</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script defer src="ui.js"></script>
+  </head>
+
+  <body class="landing">
+    <header class="topnav">
+      <div class="topnav-inner">
+        <a class="nav-brand" href="index.html">
+          <span class="nav-mark"><i class="fa-solid fa-water"></i></span>
+          <span class="nav-title">SIG Air Sumur</span>
+          <span class="nav-sub">Pekanbaru</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Navigasi utama">
+          <a class="nav-link" href="index.html">
+            <i class="fa-solid fa-house"></i> Home
+          </a>
+          <a class="nav-link" href="map.html">
+            <i class="fa-solid fa-map-location-dot"></i> Maps
+          </a>
+          <a class="nav-link" href="data.html">
+            <i class="fa-solid fa-database"></i> Database
+          </a>
+          <a class="nav-link active" href="analytics.html">
+            <i class="fa-solid fa-chart-line"></i> Statistika
+          </a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="nav-btn theme-toggle" type="button" data-theme-toggle>
+            <i class="fa-solid fa-moon"></i><span>Dark</span>
+          </button>
+          <a class="nav-btn primary" href="map.html">
+            <i class="fa-solid fa-arrow-right"></i> Buka Peta
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="main container">
+      <section class="section" data-reveal>
+        <div class="section-head">
+          <div>
+            <h3><i class="fa-solid fa-chart-line"></i> Statistika & Analisis Data</h3>
+            <p>Dashboard analisis komprehensif kualitas air sumur Pekanbaru</p>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <span id="last-update" class="muted" style="font-size: 13px;"></span>
+            <button class="btn" id="btn-refresh-stats" type="button">
+              <i class="fa-solid fa-rotate"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <div class="section-pad grid cards-4">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <i class="fa-solid fa-droplet"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Total Sumur</div>
+              <div class="stat-value" id="stat-total">—</div>
+              <div class="stat-change positive">
+                <i class="fa-solid fa-circle-check"></i> Data lengkap
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon danger">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Risiko Tinggi</div>
+              <div class="stat-value" id="stat-high">—</div>
+              <div class="stat-change" id="stat-high-pct">— %</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon warn">
+              <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Risiko Sedang</div>
+              <div class="stat-value" id="stat-med">—</div>
+              <div class="stat-change" id="stat-med-pct">— %</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon ok">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-label">Risiko Rendah</div>
+              <div class="stat-value" id="stat-low">—</div>
+              <div class="stat-change" id="stat-low-pct">— %</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: var(--s-6); margin-top: var(--s-6);" data-reveal>
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h3><i class="fa-solid fa-chart-pie"></i> Distribusi Risiko</h3>
+              <p>Perbandingan tingkat risiko pencemaran</p>
+            </div>
+          </div>
+          <div class="section-pad">
+            <canvas id="chartRisiko" style="max-height: 320px;"></canvas>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h3><i class="fa-solid fa-chart-column"></i> Jenis Sumur</h3>
+              <p>Perbandingan sumur bor vs gali</p>
+            </div>
+          </div>
+          <div class="section-pad">
+            <canvas id="chartJenis" style="max-height: 320px;"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <section class="section" style="margin-top: var(--s-6);" data-reveal>
+        <div class="section-head">
+          <div>
+            <h3><i class="fa-solid fa-vial"></i> Distribusi pH</h3>
+            <p>Analisis tingkat keasaman air sumur</p>
+          </div>
+        </div>
+        <div class="section-pad">
+          <canvas id="chartPH" style="max-height: 300px;"></canvas>
+        </div>
+      </section>
+
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: var(--s-6); margin-top: var(--s-6);" data-reveal>
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h3><i class="fa-solid fa-toilet"></i> Jarak Septictank</h3>
+              <p>Distribusi jarak sumur ke septic tank</p>
+            </div>
+          </div>
+          <div class="section-pad">
+            <canvas id="chartSeptic" style="max-height: 280px;"></canvas>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h3><i class="fa-solid fa-water"></i> Jarak Selokan</h3>
+              <p>Distribusi jarak sumur ke selokan</p>
+            </div>
+          </div>
+          <div class="section-pad">
+            <canvas id="chartSelokan" style="max-height: 280px;"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <section class="section" style="margin-top: var(--s-6);" data-reveal>
+        <div class="section-head">
+          <div>
+            <h3><i class="fa-solid fa-table"></i> Ringkasan Statistik</h3>
+            <p>Parameter kualitas air sumur</p>
+          </div>
+        </div>
+        <div class="section-pad">
+          <div class="stats-table">
+            <div class="stats-row">
+              <div class="stats-cell header">Parameter</div>
+              <div class="stats-cell header">Minimum</div>
+              <div class="stats-cell header">Maximum</div>
+              <div class="stats-cell header">Rata-rata</div>
+              <div class="stats-cell header">Median</div>
+            </div>
+            <div class="stats-row">
+              <div class="stats-cell"><i class="fa-solid fa-vial"></i> pH</div>
+              <div class="stats-cell" id="ph-min">—</div>
+              <div class="stats-cell" id="ph-max">—</div>
+              <div class="stats-cell" id="ph-avg">—</div>
+              <div class="stats-cell" id="ph-med">—</div>
+            </div>
+            <div class="stats-row">
+              <div class="stats-cell"><i class="fa-solid fa-toilet"></i> Jarak Septictank (m)</div>
+              <div class="stats-cell" id="septic-min">—</div>
+              <div class="stats-cell" id="septic-max">—</div>
+              <div class="stats-cell" id="septic-avg">—</div>
+              <div class="stats-cell" id="septic-med">—</div>
+            </div>
+            <div class="stats-row">
+              <div class="stats-cell"><i class="fa-solid fa-water"></i> Jarak Selokan (m)</div>
+              <div class="stats-cell" id="selokan-min">—</div>
+              <div class="stats-cell" id="selokan-max">—</div>
+              <div class="stats-cell" id="selokan-avg">—</div>
+              <div class="stats-cell" id="selokan-med">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid cards-3" style="margin-top: var(--s-6);" data-reveal>
+        <div class="card">
+          <div class="ic"><i class="fa-solid fa-lightbulb"></i></div>
+          <h4>Rekomendasi</h4>
+          <p id="recommendation">Memuat rekomendasi...</p>
+        </div>
+        <div class="card">
+          <div class="ic"><i class="fa-solid fa-chart-line"></i></div>
+          <h4>Tren</h4>
+          <p id="trend">Memuat analisis tren...</p>
+        </div>
+        <div class="card">
+          <div class="ic"><i class="fa-solid fa-circle-info"></i></div>
+          <h4>Catatan</h4>
+          <p>Data diambil dari survei lapangan dan diperbarui secara berkala. Untuk akurasi maksimal, disarankan melakukan uji laboratorium.</p>
+        </div>
+      </div>
+
+      <footer class="footer" style="margin-top: var(--s-9);" data-reveal>
+        <div class="footer-inner">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span class="nav-mark" style="width:44px; height:44px;">
+              <i class="fa-solid fa-water"></i>
+            </span>
+            <div>
+              <strong>SIG Kualitas Air Sumur</strong>
+              <div class="muted">Pekanbaru • Monitoring & analisis sebaran</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="link-btn" href="index.html">
+              <i class="fa-solid fa-house"></i> Home
+            </a>
+            <a class="link-btn" href="map.html">
+              <i class="fa-solid fa-map-location-dot"></i> Maps
+            </a>
+            <a class="link-btn" href="data.html">
+              <i class="fa-solid fa-database"></i> Database
+            </a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          © <span id="year"></span> • Dibuat untuk pemetaan kualitas air sumur.
+        </div>
+      </footer>
+    </main>
+
+    <script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function parsePHNumeric(ph) {
+  if (ph === null || ph === undefined) return null;
+  const s = String(ph).trim().replace(",", ".");
+  if (!s) return null;
+  if (s.startsWith("<")) {
+    const n = Number(s.slice(1).trim());
+    return Number.isFinite(n) ? n - 0.1 : null;
+  }
+  if (s.startsWith(">")) {
+    const n = Number(s.slice(1).trim());
+    return Number.isFinite(n) ? n + 0.1 : null;
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+function hitungRisiko(septic, selokan) {
+  const s = Number.isFinite(septic) ? septic : 999999;
+  const k = Number.isFinite(selokan) ? selokan : 999999;
+  if (s <= 10 || k <= 10) return "Tinggi";
+  if (s <= 20 || k <= 20) return "Sedang";
+  return "Rendah";
+}
+
+function median(arr) {
+  if (!arr.length) return null;
+  const sorted = [...arr].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
+let charts = {};
+
+async function loadData() {
+  try {
+    const r = await fetch("data/kualitas_air_sumur.json", { cache: "no-store" });
+    const geo = await r.json();
+    const feats = geo.features || [];
+
+    let total = 0, bor = 0, gali = 0, high = 0, med = 0, low = 0;
+    let phValues = [], septicValues = [], selokanValues = [];
+
+    for (const f of feats) {
+      const p = f.properties || {};
+      total++;
+
+      const jenis = String(p.jenis_sumur || "").toLowerCase();
+      if (jenis.includes("bor")) bor++;
+      else gali++;
+
+      const phNum = parsePHNumeric(p.pH);
+      if (phNum !== null) phValues.push(phNum);
+
+      const septic = Number(p.jarak_septictank_m);
+      const selokan = Number(p.jarak_selokan_m);
+      
+      if (Number.isFinite(septic)) septicValues.push(septic);
+      if (Number.isFinite(selokan)) selokanValues.push(selokan);
+
+      const risiko = hitungRisiko(septic, selokan);
+      if (risiko === "Tinggi") high++;
+      else if (risiko === "Sedang") med++;
+      else low++;
+    }
+
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('stat-high').textContent = high;
+    document.getElementById('stat-med').textContent = med;
+    document.getElementById('stat-low').textContent = low;
+
+    document.getElementById('stat-high-pct').textContent = ((high / total) * 100).toFixed(1) + '%';
+    document.getElementById('stat-med-pct').textContent = ((med / total) * 100).toFixed(1) + '%';
+    document.getElementById('stat-low-pct').textContent = ((low / total) * 100).toFixed(1) + '%';
+
+    if (phValues.length) {
+      document.getElementById('ph-min').textContent = Math.min(...phValues).toFixed(2);
+      document.getElementById('ph-max').textContent = Math.max(...phValues).toFixed(2);
+      document.getElementById('ph-avg').textContent = (phValues.reduce((a, b) => a + b) / phValues.length).toFixed(2);
+      document.getElementById('ph-med').textContent = median(phValues).toFixed(2);
+    }
+
+    if (septicValues.length) {
+      document.getElementById('septic-min').textContent = Math.min(...septicValues).toFixed(1);
+      document.getElementById('septic-max').textContent = Math.max(...septicValues).toFixed(1);
+      document.getElementById('septic-avg').textContent = (septicValues.reduce((a, b) => a + b) / septicValues.length).toFixed(1);
+      document.getElementById('septic-med').textContent = median(septicValues).toFixed(1);
+    }
+
+    if (selokanValues.length) {
+      document.getElementById('selokan-min').textContent = Math.min(...selokanValues).toFixed(1);
+      document.getElementById('selokan-max').textContent = Math.max(...selokanValues).toFixed(1);
+      document.getElementById('selokan-avg').textContent = (selokanValues.reduce((a, b) => a + b) / selokanValues.length).toFixed(1);
+      document.getElementById('selokan-med').textContent = median(selokanValues).toFixed(1);
+    }
+
+    const highPct = ((high / total) * 100).toFixed(0);
+    const avgSeptic = septicValues.length ? (septicValues.reduce((a, b) => a + b) / septicValues.length).toFixed(1) : 0;
+    
+    document.getElementById('recommendation').textContent = 
+      high > total * 0.3 
+        ? `Perhatian khusus diperlukan: ${highPct}% sumur berada di zona risiko tinggi. Prioritaskan sumur dengan jarak septic < 10m.`
+        : `Kondisi relatif baik: ${highPct}% risiko tinggi. Lanjutkan monitoring berkala dan edukasi masyarakat.`;
+
+    document.getElementById('trend').textContent = 
+      `Jarak rata-rata septic ${avgSeptic}m. ${avgSeptic < 15 ? 'Perlu peningkatan jarak minimal ke 15m.' : 'Sudah cukup baik, pertahankan standar ini.'}`;
+
+    document.getElementById('last-update').textContent = `Update: ${new Date().toLocaleDateString('id-ID')} ${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'})}`;
+
+    createCharts({ total, bor, gali, high, med, low, phValues, septicValues, selokanValues });
+
+  } catch (e) {
+    console.error(e);
+    window.AppUI?.toast?.('Gagal memuat data', false);
+  }
+}
+
+function createCharts(data) {
+  const theme = document.documentElement.getAttribute('data-theme');
+  const isDark = theme === 'dark' || !theme;
+  
+  const textColor = isDark ? '#f8fafc' : '#0f172a';
+  const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+
+  Chart.defaults.color = textColor;
+  Chart.defaults.borderColor = gridColor;
+  Chart.defaults.font.family = '"Plus Jakarta Sans", sans-serif';
+
+  if (charts.risiko) charts.risiko.destroy();
+  charts.risiko = new Chart(document.getElementById('chartRisiko'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Risiko Tinggi', 'Risiko Sedang', 'Risiko Rendah'],
+      datasets: [{
+        data: [data.high, data.med, data.low],
+        backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 15, font: { size: 13, weight: '600' } } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.label}: ${ctx.parsed} (${((ctx.parsed / data.total) * 100).toFixed(1)}%)`
+          }
+        }
+      }
+    }
+  });
+
+  if (charts.jenis) charts.jenis.destroy();
+  charts.jenis = new Chart(document.getElementById('chartJenis'), {
+    type: 'pie',
+    data: {
+      labels: ['Sumur Bor', 'Sumur Gali'],
+      datasets: [{
+        data: [data.bor, data.gali],
+        backgroundColor: ['#3b82f6', '#14b8a6'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 15, font: { size: 13, weight: '600' } } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.label}: ${ctx.parsed} (${((ctx.parsed / data.total) * 100).toFixed(1)}%)`
+          }
+        }
+      }
+    }
+  });
+
+  const phBins = [0, 0, 0, 0, 0];
+  data.phValues.forEach(v => {
+    if (v < 5) phBins[0]++;
+    else if (v < 6) phBins[1]++;
+    else if (v < 7) phBins[2]++;
+    else if (v < 8) phBins[3]++;
+    else phBins[4]++;
+  });
+
+  if (charts.ph) charts.ph.destroy();
+  charts.ph = new Chart(document.getElementById('chartPH'), {
+    type: 'bar',
+    data: {
+      labels: ['< 5', '5-6', '6-7', '7-8', '> 8'],
+      datasets: [{
+        label: 'Jumlah Sumur',
+        data: phBins,
+        backgroundColor: '#0ea5e9',
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `Jumlah: ${ctx.parsed.y} sumur`
+          }
+        }
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: gridColor } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  const septicBins = [0, 0, 0, 0];
+  data.septicValues.forEach(v => {
+    if (v <= 10) septicBins[0]++;
+    else if (v <= 20) septicBins[1]++;
+    else if (v <= 30) septicBins[2]++;
+    else septicBins[3]++;
+  });
+
+  if (charts.septic) charts.septic.destroy();
+  charts.septic = new Chart(document.getElementById('chartSeptic'), {
+    type: 'bar',
+    data: {
+      labels: ['≤ 10m', '10-20m', '20-30m', '> 30m'],
+      datasets: [{
+        label: 'Jumlah Sumur',
+        data: septicBins,
+        backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#0ea5e9'],
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: gridColor } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  const selokanBins = [0, 0, 0, 0];
+  data.selokanValues.forEach(v => {
+    if (v <= 10) selokanBins[0]++;
+    else if (v <= 20) selokanBins[1]++;
+    else if (v <= 30) selokanBins[2]++;
+    else selokanBins[3]++;
+  });
+
+  if (charts.selokan) charts.selokan.destroy();
+  charts.selokan = new Chart(document.getElementById('chartSelokan'), {
+    type: 'bar',
+    data: {
+      labels: ['≤ 10m', '10-20m', '20-30m', '> 30m'],
+      datasets: [{
+        label: 'Jumlah Sumur',
+        data: selokanBins,
+        backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#0ea5e9'],
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: gridColor } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+document.getElementById('btn-refresh-stats').addEventListener('click', () => {
+  window.AppUI?.toast?.('Memuat data terbaru...');
+  loadData();
+});
+
+loadData();
+    </script>
+  </body>
+</html>

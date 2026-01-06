@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SIG Kualitas Air Sumur • Pekanbaru</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
@@ -24,7 +23,6 @@
   </head>
 
   <body class="landing">
-    <!-- NAVBAR -->
     <header class="topnav">
       <div class="topnav-inner">
         <a class="nav-brand" href="index.html">
@@ -42,6 +40,9 @@
           </a>
           <a class="nav-link" href="data.html">
             <i class="fa-solid fa-database"></i> Database
+          </a>
+          <a class="nav-link" href="analytics.html">
+            <i class="fa-solid fa-chart-line"></i> Statistika
           </a>
         </nav>
 
@@ -61,7 +62,6 @@
       </div>
     </header>
 
-    <!-- HERO -->
     <section class="hero">
       <div class="hero-grid">
         <div data-reveal>
@@ -83,6 +83,9 @@
             <a class="btn primary" href="map.html">
               <i class="fa-solid fa-map-location-dot"></i> Buka Peta
             </a>
+            <a class="btn outline" href="analytics.html">
+              <i class="fa-solid fa-chart-line"></i> Statistika
+            </a>
             <a class="btn outline" href="data.html">
               <i class="fa-solid fa-database"></i> Database
             </a>
@@ -91,14 +94,13 @@
             </button>
           </div>
 
-          <!-- Ringkasan Data (auto dari JSON) -->
           <div class="hero-kpis" data-reveal>
             <div class="kpi">
               <div class="k">Total Titik Sumur</div>
               <div class="v" id="sum-total">—</div>
             </div>
             <div class="kpi">
-              <div class="k">Rata-rata pH (dataset)</div>
+              <div class="k">Rata-rata pH</div>
               <div class="v" id="sum-avgph">—</div>
             </div>
             <div class="kpi">
@@ -149,7 +151,6 @@
     </section>
 
     <main class="main container">
-      <!-- Ringkasan + fitur -->
       <section class="section" data-reveal>
         <div class="section-head">
           <div>
@@ -162,24 +163,23 @@
           <article class="card">
             <div class="ic"><i class="fa-solid fa-map"></i></div>
             <h4>Peta Interaktif</h4>
-            <p>Lihat persebaran sumur dan klik titik untuk detail parameter.</p>
+            <p>Lihat persebaran sumur dengan basemap satelit dan klik titik untuk detail parameter.</p>
+          </article>
+
+          <article class="card">
+            <div class="ic"><i class="fa-solid fa-chart-line"></i></div>
+            <h4>Statistika Lengkap</h4>
+            <p>Dashboard analisis dengan chart dan visualisasi data komprehensif.</p>
           </article>
 
           <article class="card">
             <div class="ic"><i class="fa-solid fa-filter"></i></div>
             <h4>Filter Cepat</h4>
-            <p>Saring berdasarkan pH dan jarak septic/selokan.</p>
-          </article>
-
-          <article class="card">
-            <div class="ic"><i class="fa-solid fa-file-export"></i></div>
-            <h4>Export Data</h4>
-            <p>Unduh CSV dari titik yang sedang tampil (filtered).</p>
+            <p>Saring berdasarkan pH dan jarak septic/selokan secara real-time.</p>
           </article>
         </div>
       </section>
 
-      <!-- Legenda risiko + cara baca -->
       <section class="section" data-reveal>
         <div class="section-head">
           <div>
@@ -245,8 +245,8 @@
               <a class="btn primary" href="map.html">
                 <i class="fa-solid fa-map-location-dot"></i> Mulai dari Peta
               </a>
-              <a class="btn" href="data.html">
-                <i class="fa-solid fa-database"></i> Kelola Data
+              <a class="btn" href="analytics.html">
+                <i class="fa-solid fa-chart-line"></i> Lihat Statistika
               </a>
             </div>
           </div>
@@ -272,6 +272,9 @@
             <a class="link-btn" href="map.html">
               <i class="fa-solid fa-map-location-dot"></i> Maps
             </a>
+            <a class="link-btn" href="analytics.html">
+              <i class="fa-solid fa-chart-line"></i> Statistika
+            </a>
             <a class="link-btn" href="data.html">
               <i class="fa-solid fa-database"></i> Database
             </a>
@@ -284,7 +287,6 @@
       </footer>
     </main>
 
-    <!-- MODAL ABOUT -->
     <div
       class="modal"
       id="aboutModal"

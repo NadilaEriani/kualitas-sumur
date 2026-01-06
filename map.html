@@ -5,27 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peta • SIG Kualitas Air Sumur</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <link
       rel="stylesheet"
-      href="https://unpkg.com/leaflet.awesome-markers/dist/leaflet.awesome-markers.css"
+      href="https://unpkg.com/leaflet.awesome-markers@2.0.5/dist/leaflet.awesome-markers.css"
     />
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.awesome-markers@2.0.5/dist/leaflet.awesome-markers.js"></script>
 
     <script defer src="ui.js"></script>
   </head>
@@ -49,6 +48,9 @@
           <a class="nav-link" href="data.html">
             <i class="fa-solid fa-database"></i> Database
           </a>
+          <a class="nav-link" href="analytics.html">
+            <i class="fa-solid fa-chart-line"></i> Statistika
+          </a>
         </nav>
 
         <div class="nav-actions">
@@ -62,7 +64,6 @@
       </div>
     </header>
 
-    <!-- SIDEBAR -->
     <aside id="sidebar">
       <div class="sidebar-top">
         <h2><i class="fa-solid fa-chart-column"></i> Dashboard SIG</h2>
@@ -100,7 +101,6 @@
         </div>
       </div>
 
-      <!-- Tabs -->
       <div class="tabs" role="tablist" aria-label="Panel Sidebar">
         <button class="tab-btn active" data-tab="stat" type="button">
           Statistik
@@ -110,9 +110,7 @@
         <button class="tab-btn" data-tab="legend" type="button">Legenda</button>
       </div>
 
-      <!-- Panels -->
       <div class="tab-panels">
-        <!-- STAT -->
         <section class="map-card" data-panel="stat">
           <h3><i class="fa-solid fa-droplet"></i> Statistik Dataset</h3>
           <div class="stat-row">
@@ -126,7 +124,6 @@
           </div>
         </section>
 
-        <!-- LAYER -->
         <section class="map-card hidden" data-panel="layer">
           <h3><i class="fa-solid fa-layer-group"></i> Layer Peta</h3>
 
@@ -198,7 +195,6 @@
           </label>
         </section>
 
-        <!-- FILTER -->
         <section class="map-card hidden" data-panel="filter" id="filter-card">
           <h3><i class="fa-solid fa-filter"></i> Filter pH & Jarak</h3>
 
@@ -284,7 +280,6 @@
           </div>
         </section>
 
-        <!-- LEGEND -->
         <section class="map-card hidden" data-panel="legend">
           <h3><i class="fa-solid fa-circle-info"></i> Legenda</h3>
           <div class="muted" style="font-size: 13px">
@@ -311,20 +306,23 @@
       </div>
     </aside>
 
-    <!-- BASEMAP CONTROL -->
     <div id="basemap-control">
       <h4>Pilih Basemap</h4>
       <select id="basemap-select">
-        <option value="osm">OSM Default</option>
-        <option value="carto-light">Carto Light</option>
-        <option value="carto-dark">Carto Dark</option>
+        <option value="osm">🗺️ OpenStreetMap</option>
+        <option value="satellite">🛰️ Satelit</option>
+        <option value="hybrid">🌍 Hybrid (Satelit + Label)</option>
+        <option value="terrain">🏔️ Terrain</option>
+        <option value="carto-light">☀️ Carto Light</option>
+        <option value="carto-dark">🌙 Carto Dark</option>
       </select>
+      <div class="muted" style="margin-top: 8px; font-size: 11px;">
+        💡 Gunakan <b>Satelit</b> atau <b>Hybrid</b> untuk melihat detail geografis.
+      </div>
     </div>
 
-    <!-- MAP -->
     <div id="map"></div>
 
-    <!-- Loading overlay -->
     <div id="map-loading">
       <div class="loading-card">
         <div style="display:flex; align-items:center; gap:10px;">
@@ -346,7 +344,6 @@
     <script src="script.js"></script>
 
     <script>
-      // Tabs logic (UI only)
       const tabBtns = document.querySelectorAll(".tab-btn");
       const panels = document.querySelectorAll("[data-panel]");
       tabBtns.forEach((b) => {
