@@ -57,12 +57,11 @@ const layerRisikoTinggi = L.layerGroup({ pane: "panePoint" }).addTo(map);
 const layerRisikoSedang = L.layerGroup({ pane: "panePoint" }).addTo(map);
 const layerRisikoRendah = L.layerGroup({ pane: "panePoint" }).addTo(map);
 
-
 // ==========================
 // HELPER FUNCTIONS
 // ==========================
 function interpolateColor(value, min, max) {
-  const t = (value - min) / (max - min);
+  const t = (value - min) / (max - min || 1);
   const r = Math.round(255 * (1 - t) + 50 * t);
   const g = Math.round(230 * (1 - t) + 100 * t);
   const b = Math.round(150 * (1 - t) + 255 * t);
@@ -110,37 +109,32 @@ function readNumber(id) {
   return Number.isFinite(n) ? n : null;
 }
 
+function esc(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function badgeClass(r) {
+  if (r === "Tinggi") return "high";
+  if (r === "Sedang") return "med";
+  return "low";
+}
+
+function toGmapsLink(lat, lng) {
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  return `https://www.google.com/maps?q=${lat},${lng}`;
+}
+
 // ==========================
-// LOAD POLYGON RIAU
+// STATE
 // ==========================
-fetch("data/polygon_riau.json")
-  .then((r) => r.json())
-  .then((data) => {
-    const vals = data.features.map((f) => f.properties?.OBJECTID ?? 0);
-    const min = Math.min(...vals);
-    const max = Math.max(...vals);
-
-    L.geoJSON(data, {
-      pane: "panePolygon",
-      style: (f) => ({
-        fillColor: interpolateColor(f.properties?.OBJECTID ?? 0, min, max),
-        fillOpacity: 0.85,
-        color: "transparent",
-        weight: 0,
-      }),
-    }).addTo(layerPolygon);
-
-    L.geoJSON(data, {
-      pane: "paneBoundary",
-      style: {
-        color: "#1e293b",
-        weight: 0.6,
-        fillOpacity: 0,
-      },
-    }).addTo(layerBoundary);
-
-    map.fitBounds(layerPolygon.getBounds());
-  });
+const wells = []; // { marker, circle, isBor, risiko, phNum, septic, selokan, props, latlng, visible }
+let initialBounds = null;
+let locateLayer = null;
 
 // ==========================
 // ICONS
@@ -158,20 +152,61 @@ const iconGali = L.AwesomeMarkers.icon({
 });
 
 // ==========================
-// STATE: simpan semua titik untuk difilter
+// MINI LEGEND CONTROL (Leaflet)
 // ==========================
-const wells = []; // { marker, circle, isBor, risiko, phNum, septic, selokan }
+const legendCtrl = L.control({ position: "bottomright" });
+legendCtrl.onAdd = function () {
+  const div = L.DomUtil.create("div", "legend-mini");
+  div.innerHTML = `
+    <b>Legenda Risiko</b>
+    <div class="row"><span class="sw high"></span><span> Tinggi</span></div>
+    <div class="row"><span class="sw med"></span><span> Sedang</span></div>
+    <div class="row"><span class="sw low"></span><span> Rendah</span></div>
+  `;
+  return div;
+};
+legendCtrl.addTo(map);
 
 // ==========================
-// STAT COUNTER (total dataset)
+// LOAD POLYGON RIAU
+// ==========================
+fetch("data/polygon_riau.json")
+  .then((r) => r.json())
+  .then((data) => {
+    const vals = data.features.map((f) => f.properties?.OBJECTID ?? 0);
+    const min = Math.min(...vals);
+    const max = Math.max(...vals);
+
+    const poly = L.geoJSON(data, {
+      pane: "panePolygon",
+      style: (f) => ({
+        fillColor: interpolateColor(f.properties?.OBJECTID ?? 0, min, max),
+        fillOpacity: 0.78,
+        color: "transparent",
+        weight: 0,
+      }),
+    }).addTo(layerPolygon);
+
+    L.geoJSON(data, {
+      pane: "paneBoundary",
+      style: {
+        color: "#1e293b",
+        weight: 0.8,
+        fillOpacity: 0,
+      },
+    }).addTo(layerBoundary);
+
+    initialBounds = poly.getBounds();
+    map.fitBounds(initialBounds, { padding: [24, 24] });
+  });
+
+// ==========================
+// LOAD DATA SUMUR
 // ==========================
 let total = 0,
   bor = 0,
   gali = 0;
 
-// ==========================
-// LOAD DATA SUMUR
-// ==========================
 fetch("data/kualitas_air_sumur.json")
   .then((r) => r.json())
   .then((data) => {
@@ -182,50 +217,68 @@ fetch("data/kualitas_air_sumur.json")
 
         const jenis = String(p.jenis_sumur || "").toLowerCase();
         const isBor = jenis.includes("bor");
-
         if (isBor) bor++;
         else gali++;
 
         const septic = Number(p.jarak_septictank_m);
         const selokan = Number(p.jarak_selokan_m);
 
-        // kalau NaN, anggap jauh biar gak bikin error risiko
         const septicSafe = Number.isFinite(septic) ? septic : 999999;
         const selokanSafe = Number.isFinite(selokan) ? selokan : 999999;
 
         const risiko = hitungRisiko(septicSafe, selokanSafe);
 
-        // Marker jenis sumur
-        const marker = L.marker(latlng, {
-          icon: isBor ? iconBor : iconGali,
-        });
-
-        // Circle risiko
+        const marker = L.marker(latlng, { icon: isBor ? iconBor : iconGali });
         const circle = L.circleMarker(latlng, {
           radius: 9,
           color: warnaRisiko(risiko),
           weight: 2,
-          fillOpacity: 0.5,
+          fillOpacity: 0.45,
         });
 
-        // Tambah ke layer (awal tampil semua)
-        (isBor ? layerBor : layerGali).addLayer(marker);
+        // Popup card
+        const lat = Number(latlng.lat);
+        const lng = Number(latlng.lng);
+        const gmaps = toGmapsLink(lat, lng);
 
+        const idSumur = p.id_sumur ?? p.ID ?? p.id ?? "-";
+        const kec = p.kecamatan ?? "-";
+
+        marker.bindPopup(`
+          <div class="popup-card">
+            <div class="popup-title">
+              <div>
+                <b>${esc(idSumur)}</b><br/>
+                <span class="muted">${esc(kec)}</span>
+              </div>
+              <span class="badge-risk ${badgeClass(risiko)}">${esc(risiko)}</span>
+            </div>
+
+            <div class="popup-grid">
+              <div><b>Jenis:</b> ${esc(p.jenis_sumur ?? "-")}</div>
+              <div><b>pH:</b> ${esc(p.pH ?? "-")}</div>
+              <div><b>Septic:</b> ${Number.isFinite(septic) ? esc(septic) : "-"} m</div>
+              <div><b>Selokan:</b> ${Number.isFinite(selokan) ? esc(selokan) : "-"} m</div>
+              <div><b>Bau:</b> ${esc(p.bau ?? "-")}</div>
+              <div><b>Rasa:</b> ${esc(p.rasa ?? "-")}</div>
+              <div><b>Koordinat:</b> <span class="mono">${lat.toFixed(6)}, ${lng.toFixed(6)}</span></div>
+            </div>
+
+            <div class="popup-actions">
+              ${
+                gmaps
+                  ? `<a href="${gmaps}" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-dot"></i> Buka di Google Maps</a>`
+                  : ""
+              }
+            </div>
+          </div>
+        `);
+
+        // Add awal tampil semua
+        (isBor ? layerBor : layerGali).addLayer(marker);
         if (risiko === "Tinggi") layerRisikoTinggi.addLayer(circle);
         else if (risiko === "Sedang") layerRisikoSedang.addLayer(circle);
         else layerRisikoRendah.addLayer(circle);
-
-        marker.bindPopup(`
-          <b>Jenis:</b> ${p.jenis_sumur ?? "-"}<br>
-          <b>pH:</b> ${p.pH ?? "-"}<br>
-          <b>Jarak Septic:</b> ${Number.isFinite(septic) ? septic : "-"} m<br>
-          <b>Jarak Selokan:</b> ${
-            Number.isFinite(selokan) ? selokan : "-"
-          } m<br>
-          <b>Risiko:</b> ${risiko}<br>
-          <b>Bau:</b> ${p.bau ?? "-"}<br>
-          <b>Rasa:</b> ${p.rasa ?? "-"}
-        `);
 
         wells.push({
           marker,
@@ -235,20 +288,42 @@ fetch("data/kualitas_air_sumur.json")
           phNum: parsePHNumeric(p.pH),
           septic: Number.isFinite(septic) ? septic : null,
           selokan: Number.isFinite(selokan) ? selokan : null,
+          props: {
+            id_sumur: idSumur,
+            kecamatan: kec,
+            jenis_sumur: p.jenis_sumur ?? null,
+            pH: p.pH ?? null,
+            jarak_septictank_m: Number.isFinite(septic) ? septic : null,
+            jarak_selokan_m: Number.isFinite(selokan) ? selokan : null,
+            bau: p.bau ?? null,
+            rasa: p.rasa ?? null,
+            latitude: lat,
+            longitude: lng,
+          },
+          latlng,
+          visible: true,
         });
 
         return marker;
       },
     });
 
-    // Update statistik dasar
-    document.getElementById("total-sumur").textContent = total;
-    document.getElementById("count-bor").textContent = bor;
-    document.getElementById("count-gali").textContent = gali;
+    document.getElementById("total-sumur").textContent = String(total);
+    document.getElementById("count-bor").textContent = String(bor);
+    document.getElementById("count-gali").textContent = String(gali);
 
-    // Apply filter awal (biar "Menampilkan" kebaca)
     applyFilters();
+    hideMapLoading();
+  })
+  .catch(() => {
+    hideMapLoading();
+    window.AppUI?.toast?.("Gagal memuat data sumur", false);
   });
+
+function hideMapLoading() {
+  const el = document.getElementById("map-loading");
+  if (el) el.style.display = "none";
+}
 
 // ==========================
 // FILTER LOGIC
@@ -268,32 +343,33 @@ function applyFilters() {
   for (const w of wells) {
     let ok = true;
 
-    // ---- pH ----
+    // pH
     if (phMin !== null || phMax !== null) {
       if (w.phNum === null) ok = false;
       if (ok && phMin !== null && w.phNum < phMin) ok = false;
       if (ok && phMax !== null && w.phNum > phMax) ok = false;
     }
 
-    // ---- septic ----
+    // septic
     if (ok && (septicMin !== null || septicMax !== null)) {
       if (w.septic === null) ok = false;
       if (ok && septicMin !== null && w.septic < septicMin) ok = false;
       if (ok && septicMax !== null && w.septic > septicMax) ok = false;
     }
 
-    // ---- selokan ----
+    // selokan
     if (ok && (selokanMin !== null || selokanMax !== null)) {
       if (w.selokan === null) ok = false;
       if (ok && selokanMin !== null && w.selokan < selokanMin) ok = false;
       if (ok && selokanMax !== null && w.selokan > selokanMax) ok = false;
     }
 
-    // Apply tampil/sembunyi: marker + circle
+    w.visible = ok;
+
     if (ok) {
       shown++;
 
-      // pastikan marker masuk group jenis yang benar
+      // marker jenis
       if (w.isBor) {
         if (!layerBor.hasLayer(w.marker)) layerBor.addLayer(w.marker);
         if (layerGali.hasLayer(w.marker)) layerGali.removeLayer(w.marker);
@@ -302,7 +378,7 @@ function applyFilters() {
         if (layerBor.hasLayer(w.marker)) layerBor.removeLayer(w.marker);
       }
 
-      // pastikan circle masuk group risiko yang benar
+      // circle risiko
       layerRisikoTinggi.removeLayer(w.circle);
       layerRisikoSedang.removeLayer(w.circle);
       layerRisikoRendah.removeLayer(w.circle);
@@ -311,10 +387,8 @@ function applyFilters() {
       else if (w.risiko === "Sedang") layerRisikoSedang.addLayer(w.circle);
       else layerRisikoRendah.addLayer(w.circle);
     } else {
-      // remove dari semua group
       layerBor.removeLayer(w.marker);
       layerGali.removeLayer(w.marker);
-
       layerRisikoTinggi.removeLayer(w.circle);
       layerRisikoSedang.removeLayer(w.circle);
       layerRisikoRendah.removeLayer(w.circle);
@@ -325,26 +399,23 @@ function applyFilters() {
   if (fc) fc.textContent = String(shown);
 }
 
-// tombol
 document.getElementById("btn-apply-filter").onclick = () => applyFilters();
 
 document.getElementById("btn-reset-filter").onclick = () => {
-  const ids = [
+  [
     "filter-ph-min",
     "filter-ph-max",
     "filter-septic-min",
     "filter-septic-max",
     "filter-selokan-min",
     "filter-selokan-max",
-  ];
-  ids.forEach((id) => {
+  ].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.value = "";
   });
   applyFilters();
 };
 
-// Enter = apply
 [
   "filter-ph-min",
   "filter-ph-max",
@@ -367,9 +438,7 @@ document.getElementById("togglePolygon").onchange = (e) =>
   e.target.checked ? map.addLayer(layerPolygon) : map.removeLayer(layerPolygon);
 
 document.getElementById("toggleBoundary").onchange = (e) =>
-  e.target.checked
-    ? map.addLayer(layerBoundary)
-    : map.removeLayer(layerBoundary);
+  e.target.checked ? map.addLayer(layerBoundary) : map.removeLayer(layerBoundary);
 
 document.getElementById("toggleBor").onchange = (e) =>
   e.target.checked ? map.addLayer(layerBor) : map.removeLayer(layerBor);
@@ -378,16 +447,183 @@ document.getElementById("toggleGali").onchange = (e) =>
   e.target.checked ? map.addLayer(layerGali) : map.removeLayer(layerGali);
 
 document.getElementById("toggleRiskHigh").onchange = (e) =>
-  e.target.checked
-    ? map.addLayer(layerRisikoTinggi)
-    : map.removeLayer(layerRisikoTinggi);
+  e.target.checked ? map.addLayer(layerRisikoTinggi) : map.removeLayer(layerRisikoTinggi);
 
 document.getElementById("toggleRiskMedium").onchange = (e) =>
-  e.target.checked
-    ? map.addLayer(layerRisikoSedang)
-    : map.removeLayer(layerRisikoSedang);
+  e.target.checked ? map.addLayer(layerRisikoSedang) : map.removeLayer(layerRisikoSedang);
 
 document.getElementById("toggleRiskLow").onchange = (e) =>
-  e.target.checked
-    ? map.addLayer(layerRisikoRendah)
-    : map.removeLayer(layerRisikoRendah);
+  e.target.checked ? map.addLayer(layerRisikoRendah) : map.removeLayer(layerRisikoRendah);
+
+// ==========================
+// NEW: Reset View
+// ==========================
+document.getElementById("btn-reset-view").onclick = () => {
+  if (initialBounds) map.fitBounds(initialBounds, { padding: [24, 24] });
+  else map.setView([0.52, 101.45], 8);
+};
+
+// ==========================
+// NEW: Locate Me
+// ==========================
+document.getElementById("btn-locate").onclick = () => {
+  if (!navigator.geolocation) {
+    window.AppUI?.toast?.("Browser tidak mendukung geolocation", false);
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+
+      if (locateLayer) map.removeLayer(locateLayer);
+      locateLayer = L.layerGroup().addTo(map);
+
+      L.circle([lat, lng], {
+        radius: Math.max(30, pos.coords.accuracy || 50),
+        color: "#0ea5e9",
+        weight: 2,
+        fillOpacity: 0.12,
+      }).addTo(locateLayer);
+
+      L.marker([lat, lng]).addTo(locateLayer).bindPopup("Lokasi Anda").openPopup();
+
+      map.flyTo([lat, lng], 15, { duration: 0.8 });
+      window.AppUI?.toast?.("Lokasi ditemukan");
+    },
+    () => window.AppUI?.toast?.("Izin lokasi ditolak / gagal", false),
+    { enableHighAccuracy: true, timeout: 8000 }
+  );
+};
+
+// ==========================
+// NEW: Search titik (id_sumur/kecamatan)
+// ==========================
+const searchInput = document.getElementById("map-search");
+const btnClearSearch = document.getElementById("btn-clear-search");
+
+function findBestMatch(q) {
+  const s = String(q || "").trim().toLowerCase();
+  if (!s) return null;
+
+  // priority: exact id
+  let exact = wells.find(
+    (w) => String(w.props.id_sumur || "").trim().toLowerCase() === s
+  );
+  if (exact) return exact;
+
+  // contains in id or kecamatan
+  let contains = wells.find((w) => {
+    const id = String(w.props.id_sumur || "").toLowerCase();
+    const kec = String(w.props.kecamatan || "").toLowerCase();
+    return id.includes(s) || kec.includes(s);
+  });
+  return contains || null;
+}
+
+function zoomToWell(w) {
+  if (!w) return;
+  map.flyTo(w.latlng, 16, { duration: 0.75 });
+  w.marker.openPopup();
+
+  // highlight pulse ring
+  const pulse = L.circleMarker(w.latlng, {
+    radius: 18,
+    color: "#0ea5e9",
+    weight: 2,
+    fillOpacity: 0.05,
+  }).addTo(map);
+
+  setTimeout(() => map.removeLayer(pulse), 900);
+}
+
+let searchTimer = null;
+searchInput?.addEventListener("input", () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    const w = findBestMatch(searchInput.value);
+    if (w) {
+      zoomToWell(w);
+      window.AppUI?.toast?.("Titik ditemukan");
+    }
+  }, 350);
+});
+
+searchInput?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const w = findBestMatch(searchInput.value);
+    if (!w) return window.AppUI?.toast?.("Tidak ditemukan", false);
+    zoomToWell(w);
+  }
+});
+
+btnClearSearch?.addEventListener("click", () => {
+  if (searchInput) searchInput.value = "";
+  window.AppUI?.toast?.("Search dibersihkan");
+});
+
+// ==========================
+// NEW: Export Filtered Data (CSV)
+// ==========================
+function toCSV(rows) {
+  const headers = [
+    "id_sumur",
+    "kecamatan",
+    "jenis_sumur",
+    "pH",
+    "jarak_septictank_m",
+    "jarak_selokan_m",
+    "bau",
+    "rasa",
+    "latitude",
+    "longitude",
+    "risiko",
+  ];
+
+  const escCsv = (v) => {
+    const s = String(v ?? "");
+    if (/[,"\n]/.test(s)) return `"${s.replaceAll('"', '""')}"`;
+    return s;
+  };
+
+  const lines = [headers.join(",")];
+  for (const r of rows) {
+    lines.push(
+      headers
+        .map((h) => escCsv(h === "risiko" ? r.risiko : r[h]))
+        .join(",")
+    );
+  }
+  return lines.join("\n");
+}
+
+function downloadFile(name, content, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+document.getElementById("btn-export-filtered").onclick = () => {
+  const visible = wells.filter((w) => w.visible);
+  if (!visible.length) {
+    window.AppUI?.toast?.("Tidak ada data untuk diexport", false);
+    return;
+  }
+
+  const rows = visible.map((w) => ({
+    ...w.props,
+    risiko: w.risiko,
+  }));
+
+  const csv = toCSV(rows);
+  const fname = `filtered_sumur_${new Date().toISOString().slice(0, 10)}.csv`;
+  downloadFile(fname, csv, "text/csv;charset=utf-8");
+  window.AppUI?.toast?.("CSV berhasil diunduh");
+};

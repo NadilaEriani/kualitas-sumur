@@ -2,7 +2,16 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <title>Peta Kualitas Air Sumur</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peta • SIG Kualitas Air Sumur</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -17,6 +26,8 @@
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+
+    <script defer src="ui.js"></script>
   </head>
 
   <body class="map-page">
@@ -39,200 +50,265 @@
             <i class="fa-solid fa-database"></i> Database
           </a>
         </nav>
+
+        <div class="nav-actions">
+          <button class="nav-btn theme-toggle" type="button" data-theme-toggle>
+            <i class="fa-solid fa-moon"></i><span>Dark</span>
+          </button>
+          <a class="nav-btn primary" href="data.html">
+            <i class="fa-solid fa-database"></i> Kelola Data
+          </a>
+        </div>
       </div>
     </header>
 
     <!-- SIDEBAR -->
     <aside id="sidebar">
-      <header class="sidebar-header">
+      <div class="sidebar-top">
         <h2><i class="fa-solid fa-chart-column"></i> Dashboard SIG</h2>
-        <span class="subtitle">Kualitas Air Sumur Pekanbaru</span>
-      </header>
+        <div class="subtitle">Kualitas Air Sumur Pekanbaru</div>
 
-      <section class="card stat">
-        <h3><i class="fa-solid fa-droplet"></i> Statistik Sumur</h3>
-
-        <div class="stat-row">
-          <span>Total Sumur</span><span id="total-sumur">0</span>
-        </div>
-        <div class="stat-row">
-          <span>Sumur Bor</span><span id="count-bor">0</span>
-        </div>
-        <div class="stat-row">
-          <span>Sumur Gali</span><span id="count-gali">0</span>
-        </div>
-      </section>
-
-      <section class="card risk">
-        <h3>
-          <i class="fa-solid fa-triangle-exclamation"></i> Risiko Pencemaran
-        </h3>
-
-        <label class="switch-row">
-          <span> <span class="dot red"></span> Risiko Tinggi </span>
-          <label class="switch">
-            <input type="checkbox" id="toggleRiskHigh" checked />
-            <span class="slider"></span>
-          </label>
-        </label>
-
-        <label class="switch-row">
-          <span> <span class="dot yellow"></span> Risiko Sedang </span>
-          <label class="switch">
-            <input type="checkbox" id="toggleRiskMedium" checked />
-            <span class="slider"></span>
-          </label>
-        </label>
-
-        <label class="switch-row">
-          <span> <span class="dot green"></span> Risiko Rendah </span>
-          <label class="switch">
-            <input type="checkbox" id="toggleRiskLow" checked />
-            <span class="slider"></span>
-          </label>
-        </label>
-      </section>
-
-      <!-- LAYER PETA -->
-      <section class="card">
-        <h3><i class="fa-solid fa-layer-group"></i> Layer Peta</h3>
-
-        <label class="switch-row">
-          <span
-            ><i class="fa-solid fa-draw-polygon"></i> Wilayah Administrasi
-            Riau</span
+        <div class="sidebar-search">
+          <label class="muted" for="map-search" style="font-size: 12px"
+            >Search lokasi / kecamatan / id_sumur</label
           >
-          <label class="switch">
-            <input type="checkbox" id="togglePolygon" checked />
-            <span class="slider"></span>
-          </label>
-        </label>
-
-        <label class="switch-row">
-          <span><i class="fa-solid fa-border-all"></i> Batas Wilayah</span>
-          <label class="switch">
-            <input type="checkbox" id="toggleBoundary" checked />
-            <span class="slider"></span>
-          </label>
-        </label>
-
-        <label class="switch-row">
-          <span
-            ><i class="fa-solid fa-location-dot"></i> Titik Persebaran
-            Sumur</span
-          >
-          <label class="switch">
-            <input type="checkbox" id="togglePoint" checked />
-            <span class="slider"></span>
-          </label>
-        </label>
-      </section>
-
-      <section class="card">
-        <h3><i class="fa-solid fa-droplet"></i> Jenis Sumur</h3>
-
-        <label class="switch-row">
-          <span> <span class="dot blue"></span> Sumur Bor </span>
-          <label class="switch">
-            <input type="checkbox" id="toggleBor" checked />
-            <span class="slider"></span>
-          </label>
-        </label>
-
-        <label class="switch-row">
-          <span> <span class="dot teal"></span> Sumur Gali </span>
-          <label class="switch">
-            <input type="checkbox" id="toggleGali" checked />
-            <span class="slider"></span>
-          </label>
-        </label>
-      </section>
-
-      <!-- ✅ FILTER BARU (pH & Jarak) -->
-      <section class="card" id="filter-card">
-        <h3><i class="fa-solid fa-filter"></i> Filter pH & Jarak</h3>
-
-        <div class="filter-grid">
-          <div class="fg">
-            <label for="filter-ph-min">pH Min</label>
-            <input
-              id="filter-ph-min"
-              type="number"
-              step="0.1"
-              placeholder="cth: 6.5"
-            />
-          </div>
-
-          <div class="fg">
-            <label for="filter-ph-max">pH Max</label>
-            <input
-              id="filter-ph-max"
-              type="number"
-              step="0.1"
-              placeholder="cth: 8.0"
-            />
-          </div>
-
-          <div class="fg">
-            <label for="filter-septic-min">Septic Min (m)</label>
-            <input
-              id="filter-septic-min"
-              type="number"
-              step="1"
-              placeholder="cth: 5"
-            />
-          </div>
-
-          <div class="fg">
-            <label for="filter-septic-max">Septic Max (m)</label>
-            <input
-              id="filter-septic-max"
-              type="number"
-              step="1"
-              placeholder="cth: 30"
-            />
-          </div>
-
-          <div class="fg">
-            <label for="filter-selokan-min">Selokan Min (m)</label>
-            <input
-              id="filter-selokan-min"
-              type="number"
-              step="1"
-              placeholder="cth: 5"
-            />
-          </div>
-
-          <div class="fg">
-            <label for="filter-selokan-max">Selokan Max (m)</label>
-            <input
-              id="filter-selokan-max"
-              type="number"
-              step="1"
-              placeholder="cth: 30"
-            />
-          </div>
+          <input
+            id="map-search"
+            class="input"
+            placeholder="cth: AS036 / Tampan"
+            autocomplete="off"
+          />
         </div>
 
-        <div class="filter-actions">
-          <button
-            type="button"
-            id="btn-apply-filter"
-            class="btn-filter primary"
-          >
-            Terapkan
+        <div class="quick-actions">
+          <button class="btn" id="btn-reset-view" type="button">
+            <i class="fa-solid fa-arrows-rotate"></i> Reset View
           </button>
-          <button type="button" id="btn-reset-filter" class="btn-filter">
-            Reset
+          <button class="btn" id="btn-locate" type="button">
+            <i class="fa-solid fa-location-crosshairs"></i> Lokasi Saya
+          </button>
+          <button class="btn primary" id="btn-export-filtered" type="button">
+            <i class="fa-solid fa-file-export"></i> Export CSV
+          </button>
+          <button class="btn" id="btn-clear-search" type="button">
+            <i class="fa-solid fa-eraser"></i> Clear
           </button>
         </div>
 
-        <div class="filter-result">
-          Menampilkan <b><span id="filter-count">0</span></b> titik
+        <div class="muted" style="margin-top: 10px; font-size: 12.5px">
+          Menampilkan <b><span id="filter-count">0</span></b> titik (hasil filter)
         </div>
-      </section>
+      </div>
 
-      <!-- ❌ “Parameter Fisik Air” DIHAPUS sesuai permintaan -->
+      <!-- Tabs -->
+      <div class="tabs" role="tablist" aria-label="Panel Sidebar">
+        <button class="tab-btn active" data-tab="stat" type="button">
+          Statistik
+        </button>
+        <button class="tab-btn" data-tab="layer" type="button">Layer</button>
+        <button class="tab-btn" data-tab="filter" type="button">Filter</button>
+        <button class="tab-btn" data-tab="legend" type="button">Legenda</button>
+      </div>
+
+      <!-- Panels -->
+      <div class="tab-panels">
+        <!-- STAT -->
+        <section class="map-card" data-panel="stat">
+          <h3><i class="fa-solid fa-droplet"></i> Statistik Dataset</h3>
+          <div class="stat-row">
+            <span>Total Sumur</span><b id="total-sumur">0</b>
+          </div>
+          <div class="stat-row">
+            <span>Sumur Bor</span><b id="count-bor">0</b>
+          </div>
+          <div class="stat-row">
+            <span>Sumur Gali</span><b id="count-gali">0</b>
+          </div>
+        </section>
+
+        <!-- LAYER -->
+        <section class="map-card hidden" data-panel="layer">
+          <h3><i class="fa-solid fa-layer-group"></i> Layer Peta</h3>
+
+          <label class="switch-row">
+            <span
+              ><i class="fa-solid fa-draw-polygon"></i> Wilayah Administrasi
+              Riau</span
+            >
+            <label class="switch">
+              <input type="checkbox" id="togglePolygon" checked />
+              <span class="slider"></span>
+            </label>
+          </label>
+
+          <label class="switch-row">
+            <span><i class="fa-solid fa-border-all"></i> Batas Wilayah</span>
+            <label class="switch">
+              <input type="checkbox" id="toggleBoundary" checked />
+              <span class="slider"></span>
+            </label>
+          </label>
+
+          <h3 style="margin-top: 12px">
+            <i class="fa-solid fa-droplet"></i> Jenis Sumur
+          </h3>
+
+          <label class="switch-row">
+            <span> <span class="dot blue"></span> Sumur Bor </span>
+            <label class="switch">
+              <input type="checkbox" id="toggleBor" checked />
+              <span class="slider"></span>
+            </label>
+          </label>
+
+          <label class="switch-row">
+            <span> <span class="dot teal"></span> Sumur Gali </span>
+            <label class="switch">
+              <input type="checkbox" id="toggleGali" checked />
+              <span class="slider"></span>
+            </label>
+          </label>
+
+          <h3 style="margin-top: 12px">
+            <i class="fa-solid fa-triangle-exclamation"></i> Risiko Pencemaran
+          </h3>
+
+          <label class="switch-row">
+            <span> <span class="dot red"></span> Risiko Tinggi </span>
+            <label class="switch">
+              <input type="checkbox" id="toggleRiskHigh" checked />
+              <span class="slider"></span>
+            </label>
+          </label>
+
+          <label class="switch-row">
+            <span> <span class="dot yellow"></span> Risiko Sedang </span>
+            <label class="switch">
+              <input type="checkbox" id="toggleRiskMedium" checked />
+              <span class="slider"></span>
+            </label>
+          </label>
+
+          <label class="switch-row">
+            <span> <span class="dot green"></span> Risiko Rendah </span>
+            <label class="switch">
+              <input type="checkbox" id="toggleRiskLow" checked />
+              <span class="slider"></span>
+            </label>
+          </label>
+        </section>
+
+        <!-- FILTER -->
+        <section class="map-card hidden" data-panel="filter" id="filter-card">
+          <h3><i class="fa-solid fa-filter"></i> Filter pH & Jarak</h3>
+
+          <div class="filter-grid">
+            <div class="fg">
+              <label for="filter-ph-min">pH Min</label>
+              <input
+                id="filter-ph-min"
+                class="input"
+                type="number"
+                step="0.1"
+                placeholder="cth: 6.5"
+              />
+            </div>
+
+            <div class="fg">
+              <label for="filter-ph-max">pH Max</label>
+              <input
+                id="filter-ph-max"
+                class="input"
+                type="number"
+                step="0.1"
+                placeholder="cth: 8.0"
+              />
+            </div>
+
+            <div class="fg">
+              <label for="filter-septic-min">Septic Min (m)</label>
+              <input
+                id="filter-septic-min"
+                class="input"
+                type="number"
+                step="1"
+                placeholder="cth: 5"
+              />
+            </div>
+
+            <div class="fg">
+              <label for="filter-septic-max">Septic Max (m)</label>
+              <input
+                id="filter-septic-max"
+                class="input"
+                type="number"
+                step="1"
+                placeholder="cth: 30"
+              />
+            </div>
+
+            <div class="fg">
+              <label for="filter-selokan-min">Selokan Min (m)</label>
+              <input
+                id="filter-selokan-min"
+                class="input"
+                type="number"
+                step="1"
+                placeholder="cth: 5"
+              />
+            </div>
+
+            <div class="fg">
+              <label for="filter-selokan-max">Selokan Max (m)</label>
+              <input
+                id="filter-selokan-max"
+                class="input"
+                type="number"
+                step="1"
+                placeholder="cth: 30"
+              />
+            </div>
+          </div>
+
+          <div class="filter-actions">
+            <button type="button" id="btn-apply-filter" class="btn-filter primary">
+              Terapkan
+            </button>
+            <button type="button" id="btn-reset-filter" class="btn-filter">
+              Reset
+            </button>
+          </div>
+
+          <div class="filter-result">
+            Tips: fokus ke titik yang <b>dekat septic/selokan</b>.
+          </div>
+        </section>
+
+        <!-- LEGEND -->
+        <section class="map-card hidden" data-panel="legend">
+          <h3><i class="fa-solid fa-circle-info"></i> Legenda</h3>
+          <div class="muted" style="font-size: 13px">
+            Warna lingkaran menunjukkan risiko pencemaran.
+          </div>
+
+          <div style="margin-top: 12px; display:grid; gap:10px;">
+            <div class="switch-row" style="justify-content:flex-start;">
+              <span class="dot red"></span><span>Risiko Tinggi</span>
+            </div>
+            <div class="switch-row" style="justify-content:flex-start;">
+              <span class="dot yellow"></span><span>Risiko Sedang</span>
+            </div>
+            <div class="switch-row" style="justify-content:flex-start;">
+              <span class="dot green"></span><span>Risiko Rendah</span>
+            </div>
+
+            <div class="muted" style="margin-top: 6px; font-size: 13px">
+              Marker menunjukkan jenis sumur (bor/gali). Klik titik untuk detail
+              & tombol buka koordinat di Google Maps.
+            </div>
+          </div>
+        </section>
+      </div>
     </aside>
 
     <!-- BASEMAP CONTROL -->
@@ -248,6 +324,42 @@
     <!-- MAP -->
     <div id="map"></div>
 
+    <!-- Loading overlay -->
+    <div id="map-loading">
+      <div class="loading-card">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <div>
+            <b>Memuat peta & data…</b>
+            <div class="muted" style="font-size: 13px">Menyiapkan layer dan titik sumur</div>
+          </div>
+        </div>
+        <div class="loading-lines">
+          <div class="skeleton big"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+      </div>
+    </div>
+
     <script src="script.js"></script>
+
+    <script>
+      // Tabs logic (UI only)
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const panels = document.querySelectorAll("[data-panel]");
+      tabBtns.forEach((b) => {
+        b.addEventListener("click", () => {
+          tabBtns.forEach((x) => x.classList.remove("active"));
+          b.classList.add("active");
+          const key = b.getAttribute("data-tab");
+          panels.forEach((p) => {
+            const match = p.getAttribute("data-panel") === key;
+            p.classList.toggle("hidden", !match);
+          });
+        });
+      });
+    </script>
   </body>
 </html>
