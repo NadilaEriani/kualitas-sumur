@@ -1,7 +1,3 @@
-/* =========================================================
-   SIG KUALITAS AIR SUMUR — MODERN UI 2025
-========================================================= */
-
 :root {
   --s-0: 0;
   --s-1: 4px;
@@ -1497,5 +1493,34 @@ body.landing.data-page .db-toolbar {
 
 /* kolom aksi & lokasi biar rapih */
 .db-actions-col {
+  white-space: nowrap;
+}
+#db-count[readonly] {
+  cursor: default;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+/* ====== FIX: atur lebar kolom tertentu ====== */
+/* Kolom 1 = No */
+.db-table th:nth-child(1),
+.db-table td:nth-child(1) {
+  width: 56px;
+  min-width: 56px;
+  max-width: 56px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Kolom 5 = pH */
+.db-table th:nth-child(5),
+.db-table td:nth-child(5) {
+  width: 72px;
+  min-width: 72px;
+  max-width: 72px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
   white-space: nowrap;
 }

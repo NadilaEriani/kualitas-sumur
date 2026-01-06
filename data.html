@@ -78,17 +78,29 @@
         </div>
 
         <div class="db-toolbar">
+          <!-- tetap simpan nama table untuk data.js (jangan dihapus) -->
+          <input id="db-table" value="sumur" type="hidden" />
+
           <div class="db-field">
-            <label>Table</label>
-            <input id="db-table" value="sumur" />
+            <label>Jumlah Data</label>
+            <input id="db-count" value="0" readonly />
           </div>
 
           <div class="db-field db-grow">
-            <label>Cari (UUID / Jenis / pH / Bau / Rasa)</label>
+            <label>Cari (Kecamatan / Bau / Rasa / Warna / Kondisi)</label>
             <input
               id="db-search"
-              placeholder="cth: Sumur Bor / >7 / Tidak berbau"
+              placeholder="cth: Tampan / Tidak berbau / Normal / Jernih"
             />
+          </div>
+          <div class="db-field">
+            <label>pH</label>
+            <select id="db-ph">
+              <option value="">Semua</option>
+              <option value="lt7">&lt; 7 (Asam)</option>
+              <option value="eq7">= 7 (Netral)</option>
+              <option value="gt7">&gt; 7 (Basa)</option>
+            </select>
           </div>
 
           <div class="db-field">

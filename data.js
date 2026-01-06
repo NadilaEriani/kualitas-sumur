@@ -23,6 +23,7 @@
   const tableInput = el("db-table");
   const searchInput = el("db-search");
   const jenisSelect = el("db-jenis");
+  const phSelect = el("db-ph");
   const pageSizeSelect = el("db-pagesize");
 
   const tbody = el("db-body");
@@ -96,6 +97,22 @@
     toast.classList.add("show");
     setTimeout(() => toast.classList.remove("show"), 2200);
   }
+  function resetAllFilters() {
+    // reset input filter
+    if (searchInput) searchInput.value = "";
+    if (phSelect) phSelect.value = ""; // "Semua"
+    if (jenisSelect) jenisSelect.value = ""; // "Semua"
+    if (pageSizeSelect) pageSizeSelect.value = "10"; // balik ke default
+
+    // reset sorting ke default
+    sortKey = "created_at";
+    sortAsc = false;
+
+    // matikan debounce search yang lagi jalan
+    if (searchTimer) clearTimeout(searchTimer);
+    searchTimer = null;
+  }
+
   function fillCoordsFromCurrentLocation() {
     if (!navigator.geolocation) {
       showToast("Browser tidak mendukung lokasi (geolocation).", false);
@@ -109,7 +126,6 @@
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
 
-        // isi ke form
         F.lat.value = Number(lat).toFixed(7);
         F.lng.value = Number(lng).toFixed(7);
 
@@ -132,6 +148,11 @@
   function getTable() {
     const t = (tableInput?.value || "").trim();
     return t || TABLE_DEFAULT;
+  }
+
+  function getPhFilter() {
+    const v = (phSelect?.value || "").trim();
+    return ["lt7", "eq7", "gt7"].includes(v) ? v : "";
   }
 
   function isUuid(s) {
@@ -208,12 +229,14 @@
     }
   }
 
-  function buildQuery() {
+  function buildQuery(withCount = true) {
     const t = getTable();
     const cols =
       "id,kecamatan,jenis_sumur,warna,ph,jarak_septictank_m,jarak_selokan_m,bau,rasa,kondisi_sumur,lat,lng,created_at";
 
-    let q = sb.from(t).select(cols, { count: "exact" });
+    let q = withCount
+      ? sb.from(t).select(cols, { count: "exact" })
+      : sb.from(t).select(cols);
 
     const s = (searchInput?.value || "").trim();
     const jenis = (jenisSelect?.value || "").trim();
@@ -223,9 +246,9 @@
         q = q.eq("id", s);
       } else {
         const like = `%${s}%`;
+        // NOTE: id_sumur dihapus karena sering tidak ada kolomnya
         q = q.or(
           [
-            `id_sumur.ilike.${like}`,
             `kecamatan.ilike.${like}`,
             `jenis_sumur.ilike.${like}`,
             `warna.ilike.${like}`,
@@ -260,6 +283,114 @@
     pageSize = [10, 50, 100].includes(v) ? v : 10;
   }
 
+  function phBucket(v) {
+    if (v === null || v === undefined) return null;
+    const s = String(v).trim().replace(",", ".");
+    if (!s) return null;
+
+    // handle "<7", ">7", "=7"
+    if (s.startsWith("<")) return "lt7";
+    if (s.startsWith(">")) return "gt7";
+    if (s.startsWith("=")) {
+      const n2 = Number(s.slice(1).trim());
+      if (Number.isFinite(n2)) {
+        if (n2 < 7) return "lt7";
+        if (n2 > 7) return "gt7";
+        return "eq7";
+      }
+      return s.slice(1).trim() === "7" ? "eq7" : null;
+    }
+
+    // handle numeric "6.9", "7", "7.1"
+    const n = Number(s);
+    if (!Number.isFinite(n)) return null;
+    if (n < 7) return "lt7";
+    if (n > 7) return "gt7";
+    return "eq7";
+  }
+
+  async function fetchAllForFilters() {
+    const rows = [];
+    const CHUNK = 2000;
+    let from = 0;
+
+    while (true) {
+      const to = from + CHUNK - 1;
+      const { data, error } = await buildQuery(false)
+        .order(sortKey, { ascending: sortAsc })
+        .range(from, to);
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) break;
+      rows.push(...data);
+
+      if (data.length < CHUNK) break;
+      from += CHUNK;
+
+      // safety cap
+      if (from > 20000) break;
+    }
+
+    return rows;
+  }
+
+  function renderRows(data, startNo) {
+    tbody.innerHTML = "";
+
+    data.forEach((row, idx) => {
+      const tr = document.createElement("tr");
+      const no = startNo + idx;
+
+      const lat = row.lat;
+      const lng = row.lng;
+      const hasCoord =
+        Number.isFinite(Number(lat)) && Number.isFinite(Number(lng));
+
+      tr.innerHTML = `
+        <td class="db-mono"><b>${no}</b></td>
+        <td title="${esc(row.kecamatan)}">${esc(row.kecamatan)}</td>
+        <td title="${esc(row.jenis_sumur)}">${esc(row.jenis_sumur)}</td>
+        <td title="${esc(row.warna)}">${esc(row.warna)}</td>
+        <td class="db-mono" title="${esc(row.ph)}">${esc(row.ph)}</td>
+        <td class="db-mono">${esc(row.jarak_septictank_m)}</td>
+        <td class="db-mono">${esc(row.jarak_selokan_m)}</td>
+        <td title="${esc(row.bau)}">${esc(row.bau)}</td>
+        <td title="${esc(row.rasa)}">${esc(row.rasa)}</td>
+        <td title="${esc(row.kondisi_sumur)}">${esc(row.kondisi_sumur)}</td>
+        <td>
+          ${
+            hasCoord
+              ? `<button class="db-mini"
+                  data-act="loc"
+                  data-id="${esc(row.id)}"
+                  data-lat="${esc(lat)}"
+                  data-lng="${esc(lng)}"
+                  aria-label="Buka lokasi"
+                  title="${esc(lat)}, ${esc(lng)}">
+                  <i class="fa-solid fa-location-dot"></i>
+                </button>`
+              : `<span class="db-mono">-</span>`
+          }
+        </td>
+        <td class="db-actions-col">
+          <button class="db-mini" data-act="edit" data-id="${esc(
+            row.id
+          )}" aria-label="Edit">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+          <button class="db-mini danger" data-act="del" data-id="${esc(
+            row.id
+          )}" aria-label="Hapus">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+  }
+
   async function loadPage(page) {
     syncPageSizeFromUI();
 
@@ -268,87 +399,68 @@
 
     renderSkeletonRows(7);
 
+    const phFilter = getPhFilter();
+    const useClientPh = !!phFilter;
+
     const from = (currentPage - 1) * pageSize;
     const to = from + pageSize - 1;
 
     try {
-      const { data, error, count } = await buildQuery()
-        .order(sortKey, { ascending: sortAsc })
-        .range(from, to);
+      // =========================
+      // MODE 1: tanpa pH filter -> server-side paging (cepat)
+      // =========================
+      if (!useClientPh) {
+        const { data, error, count } = await buildQuery(true)
+          .order(sortKey, { ascending: sortAsc })
+          .range(from, to);
 
-      if (error) {
-        emptyState(`Error: ${error.message}`, "fa-triangle-exclamation");
-        totalRows = 0;
-        totalEl.textContent = "0";
+        if (error) {
+          emptyState(`Error: ${error.message}`, "fa-triangle-exclamation");
+          totalRows = 0;
+          totalEl.textContent = "0";
+          return;
+        }
+
+        totalRows = count ?? 0;
+        totalEl.textContent = String(totalRows);
+
+        if (!data || data.length === 0) {
+          emptyState(
+            "Tidak ada data (coba ubah filter/search).",
+            "fa-database"
+          );
+          btnPrev.disabled = currentPage <= 1;
+          btnNext.disabled = true;
+          return;
+        }
+
+        renderRows(data, from + 1);
+        btnPrev.disabled = currentPage <= 1;
+        btnNext.disabled = currentPage * pageSize >= totalRows;
         return;
       }
 
-      totalRows = count ?? 0;
+      // =========================
+      // MODE 2: pH filter aktif -> ambil semua (chunk) lalu filter + paginate di client
+      // =========================
+      const all = await fetchAllForFilters();
+      const filtered = all.filter((r) => phBucket(r.ph) === phFilter);
+
+      totalRows = filtered.length;
       totalEl.textContent = String(totalRows);
 
-      if (!data || data.length === 0) {
+      const pageRows = filtered.slice(from, from + pageSize);
+
+      if (!pageRows.length) {
         emptyState("Tidak ada data (coba ubah filter/search).", "fa-database");
         btnPrev.disabled = currentPage <= 1;
         btnNext.disabled = true;
         return;
       }
 
-      tbody.innerHTML = "";
-
-      data.forEach((row, idx) => {
-        const tr = document.createElement("tr");
-        const no = from + idx + 1;
-
-        const lat = row.lat;
-        const lng = row.lng;
-        const hasCoord =
-          Number.isFinite(Number(lat)) && Number.isFinite(Number(lng));
-
-        tr.innerHTML = `
-          <td class="db-mono"><b>${no}</b></td>
-          <td title="${esc(row.kecamatan)}">${esc(row.kecamatan)}</td>
-          <td title="${esc(row.jenis_sumur)}">${esc(row.jenis_sumur)}</td>
-          <td title="${esc(row.warna)}">${esc(row.warna)}</td>
-          <td class="db-mono" title="${esc(row.ph)}">${esc(row.ph)}</td>
-          <td class="db-mono">${esc(row.jarak_septictank_m)}</td>
-          <td class="db-mono">${esc(row.jarak_selokan_m)}</td>
-          <td title="${esc(row.bau)}">${esc(row.bau)}</td>
-          <td title="${esc(row.rasa)}">${esc(row.rasa)}</td>
-          <td title="${esc(row.kondisi_sumur)}">${esc(row.kondisi_sumur)}</td>
-          <td>
-            ${
-              hasCoord
-                ? `<button class="db-mini"
-      data-act="loc"
-      data-id="${esc(row.id)}"
-      data-lat="${esc(lat)}"
-      data-lng="${esc(lng)}"
-      aria-label="Buka lokasi"
-      title="${esc(lat)}, ${esc(lng)}">
-      <i class="fa-solid fa-location-dot"></i>
-    </button>`
-                : `<span class="db-mono">-</span>`
-            }
-          </td>
-          <td class="db-actions-col">
-            <button class="db-mini" data-act="edit" data-id="${esc(
-              row.id
-            )}" aria-label="Edit">
-              <i class="fa-solid fa-pen"></i>
-            </button>
-            <button class="db-mini danger" data-act="del" data-id="${esc(
-              row.id
-            )}" aria-label="Hapus">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </td>
-        `;
-
-        tbody.appendChild(tr);
-      });
-
+      renderRows(pageRows, from + 1);
       btnPrev.disabled = currentPage <= 1;
-      btnNext.disabled = currentPage * pageSize >= totalRows;
+      btnNext.disabled = from + pageSize >= totalRows;
     } catch (e) {
       emptyState(
         `Error: ${e?.message || "Failed to fetch"}`,
@@ -425,6 +537,7 @@
       .replace(",", ".");
     if (!s) return true;
     if (/^[<>]\s*\d+(\.\d+)?$/.test(s)) return true;
+    if (/^=\s*\d+(\.\d+)?$/.test(s)) return true;
     if (/^\d+(\.\d+)?$/.test(s)) return true;
     return false;
   }
@@ -609,91 +722,65 @@
   async function exportCSV() {
     showToast("Menyiapkan export…");
 
-    const rows = [];
-    const CHUNK = 1000;
-    let from = 0;
+    try {
+      const phFilter = getPhFilter();
+      const all = await fetchAllForFilters();
+      const rows = phFilter
+        ? all.filter((r) => phBucket(r.ph) === phFilter)
+        : all;
 
-    while (true) {
-      const to = from + CHUNK - 1;
-      const { data, error } = await buildQuery()
-        .order(sortKey, { ascending: sortAsc })
-        .range(from, to);
-
-      if (error) {
-        showToast(`Export gagal: ${error.message}`, false);
+      if (!rows.length) {
+        showToast("Tidak ada data untuk diexport", false);
         return;
       }
 
-      if (!data || data.length === 0) break;
-      rows.push(...data);
-      if (data.length < CHUNK) break;
-      from += CHUNK;
-      if (from > 20000) break;
+      const headers = [
+        "kecamatan",
+        "jenis_sumur",
+        "warna",
+        "ph",
+        "jarak_septictank_m",
+        "jarak_selokan_m",
+        "bau",
+        "rasa",
+        "kondisi_sumur",
+        "lat",
+        "lng",
+        "created_at",
+      ];
+
+      const lines = [headers.join(",")];
+      for (const r of rows) {
+        lines.push(headers.map((h) => csvEscape(r[h])).join(","));
+      }
+
+      downloadFile(
+        `db_export_${new Date().toISOString().slice(0, 10)}.csv`,
+        lines.join("\n"),
+        "text/csv;charset=utf-8"
+      );
+      showToast("Export CSV berhasil");
+    } catch (e) {
+      showToast(`Export gagal: ${e?.message || "error"}`, false);
     }
-
-    if (!rows.length) {
-      showToast("Tidak ada data untuk diexport", false);
-      return;
-    }
-
-    const headers = [
-      "kecamatan",
-      "jenis_sumur",
-      "warna",
-      "ph",
-      "jarak_septictank_m",
-      "jarak_selokan_m",
-      "bau",
-      "rasa",
-      "kondisi_sumur",
-      "lat",
-      "lng",
-      "created_at",
-    ];
-
-    const lines = [headers.join(",")];
-    for (const r of rows) {
-      lines.push(headers.map((h) => csvEscape(r[h])).join(","));
-    }
-
-    downloadFile(
-      `db_export_${new Date().toISOString().slice(0, 10)}.csv`,
-      lines.join("\n"),
-      "text/csv;charset=utf-8"
-    );
-    showToast("Export CSV berhasil");
   }
 
   function bind() {
-    // =========================
     // 1) BUTTONS TOP TOOLBAR
-    // =========================
     if (btnRefresh) {
       btnRefresh.onclick = async () => {
+        resetAllFilters(); // ✅ reset filter dulu
         await testConnection();
-        await loadPage(1);
+        await loadPage(1); // ✅ reload dari halaman 1
       };
     }
 
-    if (btnAdd) {
-      btnAdd.onclick = () => openModal("add");
-    }
+    if (btnAdd) btnAdd.onclick = () => openModal("add");
+    if (btnExport) btnExport.onclick = exportCSV;
+    if (btnPrev) btnPrev.onclick = () => loadPage(currentPage - 1);
+    if (btnNext) btnNext.onclick = () => loadPage(currentPage + 1);
 
-    if (btnExport) {
-      btnExport.onclick = exportCSV;
-    }
-
-    if (btnPrev) {
-      btnPrev.onclick = () => loadPage(currentPage - 1);
-    }
-
-    if (btnNext) {
-      btnNext.onclick = () => loadPage(currentPage + 1);
-    }
-
-    // =========================
     // 2) MODAL BUTTONS
-    // =========================
     if (modalClose) modalClose.onclick = closeModal;
     if (btnCancel) btnCancel.onclick = closeModal;
 
@@ -708,10 +795,8 @@
       if (e.key === "Escape") closeModal();
     });
 
-    // submit form
     if (form) form.addEventListener("submit", save);
 
-    // ✅ INI YANG PENTING: tombol ambil lokasi selalu aktif (tidak nunggu refresh)
     if (btnGeo) {
       btnGeo.onclick = (e) => {
         e.preventDefault();
@@ -720,10 +805,9 @@
       };
     }
 
-    // =========================
-    // 3) FILTER / SEARCH / TABLE INPUT
-    // =========================
+    // 3) FILTER / SEARCH / INPUT
     if (jenisSelect) jenisSelect.onchange = () => loadPage(1);
+    if (phSelect) phSelect.onchange = () => loadPage(1);
 
     if (pageSizeSelect) {
       pageSizeSelect.addEventListener("change", () => loadPage(1));
@@ -742,9 +826,7 @@
       });
     }
 
-    // =========================
     // 4) SORTABLE HEADERS
-    // =========================
     document.querySelectorAll("th.sortable").forEach((th) => {
       th.addEventListener("click", () => {
         const k = th.getAttribute("data-sort");
@@ -753,9 +835,7 @@
       });
     });
 
-    // =========================
-    // 5) VALIDATION LISTENERS (FORM INPUTS)
-    // =========================
+    // 5) VALIDATION LISTENERS
     Object.keys(F).forEach((k) => {
       const input = F[k];
       if (!input) return;
@@ -763,9 +843,7 @@
       input.addEventListener("blur", validateAll);
     });
 
-    // =========================
-    // 6) TABLE ACTIONS (EDIT/DEL/LOC)
-    // =========================
+    // 6) TABLE ACTIONS
     if (tbody) {
       tbody.addEventListener("click", async (e) => {
         const btn = e.target.closest("button");
@@ -820,4 +898,24 @@
     await testConnection();
     await loadPage(1);
   })();
+})();
+
+// ====== Sinkronkan "Jumlah Data" dengan total hasil (db-total) ======
+(function syncDbCount() {
+  const totalEl = document.getElementById("db-total");
+  const countEl = document.getElementById("db-count");
+  if (!totalEl || !countEl) return;
+
+  const update = () => {
+    const n = parseInt(String(totalEl.textContent || "0").trim(), 10);
+    countEl.value = Number.isFinite(n) ? String(n) : "0";
+  };
+
+  update();
+
+  new MutationObserver(update).observe(totalEl, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  });
 })();
