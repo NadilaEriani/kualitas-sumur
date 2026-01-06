@@ -15,6 +15,7 @@
       : null;
 
   const el = (id) => document.getElementById(id);
+  const btnGeo = el("btn-geo");
 
   const badge = el("db-badge");
   const hint = el("db-hint");
@@ -94,6 +95,38 @@
     toast.classList.toggle("bad", !ok);
     toast.classList.add("show");
     setTimeout(() => toast.classList.remove("show"), 2200);
+  }
+  function fillCoordsFromCurrentLocation() {
+    if (!navigator.geolocation) {
+      showToast("Browser tidak mendukung lokasi (geolocation).", false);
+      return;
+    }
+
+    showToast("Mengambil lokasi…");
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        // isi ke form
+        F.lat.value = Number(lat).toFixed(7);
+        F.lng.value = Number(lng).toFixed(7);
+
+        validateAll();
+        showToast("Koordinat berhasil diisi dari lokasi saat ini");
+      },
+      (err) => {
+        const msg =
+          err?.code === 1
+            ? "Izin lokasi ditolak."
+            : err?.code === 2
+            ? "Lokasi tidak tersedia."
+            : "Gagal mengambil lokasi.";
+        showToast(msg, false);
+      },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 10000 }
+    );
   }
 
   function getTable() {
@@ -632,6 +665,14 @@
   }
 
   function bind() {
+    // ✅ BIND TOMBOL GEO SEKALI (biar gak nunggu Refresh & gak numpuk event)
+    if (btnGeo) {
+      btnGeo.onclick = (e) => {
+        e.preventDefault();
+        fillCoordsFromCurrentLocation();
+      };
+    }
+
     btnRefresh.onclick = async () => {
       await testConnection();
       await loadPage(1);
@@ -698,17 +739,13 @@
 
         if (!lat || !lng) return;
 
-        // arahkan ke halaman maps internal kamu + kirim koordinat via query param
         const url =
           `map.html?lat=${encodeURIComponent(lat)}` +
           `&lng=${encodeURIComponent(lng)}` +
           (id ? `&id=${encodeURIComponent(id)}` : "") +
           `&z=17`;
 
-        // pilih salah satu:
-        window.location.href = url; // pindah tab yang sama
-        // window.open(url, "_blank");       // kalau mau buka tab baru
-
+        window.location.href = url;
         return;
       }
 
