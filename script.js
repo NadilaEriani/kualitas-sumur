@@ -1,4 +1,25 @@
-const map = L.map("map").setView([0.52, 101.45], 11);
+const map = L.map("map", { maxZoom: 20 }).setView([0.52, 101.45], 11);
+// ====== Fokus dari data.html: map.html?lat=...&lng=...&z=...&id=... ======
+function clamp(n, a, b) {
+  return Math.max(a, Math.min(b, n));
+}
+
+function getMapTargetFromUrl() {
+  const p = new URLSearchParams(location.search);
+  const lat = Number(p.get("lat"));
+  const lng = Number(p.get("lng"));
+
+  // ✅ default zoom lebih dekat
+  const zRaw = Number(p.get("z") || 20);
+  const z = clamp(zRaw, 1, 20);
+
+  const id = (p.get("id") || "").trim();
+
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  return { lat, lng, z, id };
+}
+
+const MAP_TARGET = getMapTargetFromUrl();
 
 map.createPane("panePolygon");
 map.getPane("panePolygon").style.zIndex = 200;
@@ -12,59 +33,81 @@ map.getPane("panePoint").style.zIndex = 500;
 const basemaps = {
   osm: L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 20,
-    attribution: '© OpenStreetMap'
+    attribution: "© OpenStreetMap",
   }),
-  
-  satellite: L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-    maxZoom: 20,
-    attribution: '© Esri'
-  }),
-  
-  hybrid: L.layerGroup([
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-      maxZoom: 20
-    }),
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png", {
+
+  satellite: L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
       maxZoom: 20,
-      opacity: 0.9
-    })
+      attribution: "© Esri",
+    }
+  ),
+
+  hybrid: L.layerGroup([
+    L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        maxZoom: 20,
+      }
+    ),
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png",
+      {
+        maxZoom: 20,
+        opacity: 0.9,
+      }
+    ),
   ]),
-  
-  terrain: L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}", {
-    maxZoom: 20,
-    attribution: '© Esri'
-  }),
-  
-  cartoLight: L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    maxZoom: 20,
-    attribution: '© CartoDB'
-  }),
-  
-  cartoDark: L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-    maxZoom: 20,
-    attribution: '© CartoDB'
-  })
+
+  terrain: L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+    {
+      maxZoom: 20,
+      attribution: "© Esri",
+    }
+  ),
+
+  cartoLight: L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    {
+      maxZoom: 20,
+      attribution: "© CartoDB",
+    }
+  ),
+
+  cartoDark: L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    {
+      maxZoom: 20,
+      attribution: "© CartoDB",
+    }
+  ),
 };
 
 let currentBasemap = basemaps.osm;
 currentBasemap.addTo(map);
 
-document.getElementById("basemap-select").addEventListener("change", function () {
-  map.removeLayer(currentBasemap);
-  
-  const value = this.value;
-  if (value === "satellite") currentBasemap = basemaps.satellite;
-  else if (value === "hybrid") currentBasemap = basemaps.hybrid;
-  else if (value === "terrain") currentBasemap = basemaps.terrain;
-  else if (value === "carto-light") currentBasemap = basemaps.cartoLight;
-  else if (value === "carto-dark") currentBasemap = basemaps.cartoDark;
-  else currentBasemap = basemaps.osm;
-  
-  currentBasemap.addTo(map);
-  currentBasemap.bringToBack();
-  
-  window.AppUI?.toast?.(`Basemap diubah ke ${this.options[this.selectedIndex].text}`);
-});
+document
+  .getElementById("basemap-select")
+  .addEventListener("change", function () {
+    map.removeLayer(currentBasemap);
+
+    const value = this.value;
+    if (value === "satellite") currentBasemap = basemaps.satellite;
+    else if (value === "hybrid") currentBasemap = basemaps.hybrid;
+    else if (value === "terrain") currentBasemap = basemaps.terrain;
+    else if (value === "carto-light") currentBasemap = basemaps.cartoLight;
+    else if (value === "carto-dark") currentBasemap = basemaps.cartoDark;
+    else currentBasemap = basemaps.osm;
+
+    currentBasemap.addTo(map);
+    currentBasemap.bringToBack();
+
+    window.AppUI?.toast?.(
+      `Basemap diubah ke ${this.options[this.selectedIndex].text}`
+    );
+  });
 
 const layerPolygon = L.layerGroup({ pane: "panePolygon" }).addTo(map);
 const layerBoundary = L.layerGroup({ pane: "paneBoundary" }).addTo(map);
@@ -201,10 +244,16 @@ fetch("data/polygon_riau.json")
     }).addTo(layerBoundary);
 
     initialBounds = poly.getBounds();
-    map.fitBounds(initialBounds, { padding: [24, 24] });
+
+    // kalau tidak ada target dari data.html -> baru fitBounds
+    if (!MAP_TARGET) {
+      map.fitBounds(initialBounds, { padding: [24, 24] });
+    }
   });
 
-let total = 0, bor = 0, gali = 0;
+let total = 0,
+  bor = 0,
+  gali = 0;
 
 fetch("data/kualitas_air_sumur.json")
   .then((r) => r.json())
@@ -249,21 +298,33 @@ fetch("data/kualitas_air_sumur.json")
                 <b>${esc(idSumur)}</b><br/>
                 <span class="muted">${esc(kec)}</span>
               </div>
-              <span class="badge-risk ${badgeClass(risiko)}">${esc(risiko)}</span>
+              <span class="badge-risk ${badgeClass(risiko)}">${esc(
+          risiko
+        )}</span>
             </div>
 
             <div class="popup-grid">
               <div><b>Jenis:</b> ${esc(p.jenis_sumur ?? "-")}</div>
               <div><b>pH:</b> ${esc(p.pH ?? "-")}</div>
-              <div><b>Septic:</b> ${Number.isFinite(septic) ? esc(septic) : "-"} m</div>
-              <div><b>Selokan:</b> ${Number.isFinite(selokan) ? esc(selokan) : "-"} m</div>
+              <div><b>Septic:</b> ${
+                Number.isFinite(septic) ? esc(septic) : "-"
+              } m</div>
+              <div><b>Selokan:</b> ${
+                Number.isFinite(selokan) ? esc(selokan) : "-"
+              } m</div>
               <div><b>Bau:</b> ${esc(p.bau ?? "-")}</div>
               <div><b>Rasa:</b> ${esc(p.rasa ?? "-")}</div>
-              <div><b>Koordinat:</b> <span class="mono">${lat.toFixed(6)}, ${lng.toFixed(6)}</span></div>
+              <div><b>Koordinat:</b> <span class="mono">${lat.toFixed(
+                6
+              )}, ${lng.toFixed(6)}</span></div>
             </div>
 
             <div class="popup-actions">
-              ${gmaps ? `<a href="${gmaps}" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-dot"></i> Buka di Google Maps</a>` : ""}
+              ${
+                gmaps
+                  ? `<a href="${gmaps}" target="_blank" rel="noreferrer"><i class="fa-solid fa-location-dot"></i> Buka di Google Maps</a>`
+                  : ""
+              }
             </div>
           </div>
         `);
@@ -306,6 +367,9 @@ fetch("data/kualitas_air_sumur.json")
     document.getElementById("count-gali").textContent = String(gali);
 
     applyFilters();
+    hideMapLoading();
+    applyFilters();
+    focusFromUrlTarget();
     hideMapLoading();
   })
   .catch(() => {
@@ -388,7 +452,14 @@ document.getElementById("btn-apply-filter").addEventListener("click", () => {
 });
 
 document.getElementById("btn-reset-filter").addEventListener("click", () => {
-  ["filter-ph-min", "filter-ph-max", "filter-septic-min", "filter-septic-max", "filter-selokan-min", "filter-selokan-max"].forEach((id) => {
+  [
+    "filter-ph-min",
+    "filter-ph-max",
+    "filter-septic-min",
+    "filter-septic-max",
+    "filter-selokan-min",
+    "filter-selokan-max",
+  ].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.value = "";
   });
@@ -396,7 +467,14 @@ document.getElementById("btn-reset-filter").addEventListener("click", () => {
   window.AppUI?.toast?.("Filter direset");
 });
 
-["filter-ph-min", "filter-ph-max", "filter-septic-min", "filter-septic-max", "filter-selokan-min", "filter-selokan-max"].forEach((id) => {
+[
+  "filter-ph-min",
+  "filter-ph-max",
+  "filter-septic-min",
+  "filter-septic-max",
+  "filter-selokan-min",
+  "filter-selokan-max",
+].forEach((id) => {
   const el = document.getElementById(id);
   if (!el) return;
   el.addEventListener("keydown", (e) => {
@@ -469,7 +547,10 @@ document.getElementById("btn-locate").addEventListener("click", () => {
         fillOpacity: 0.12,
       }).addTo(locateLayer);
 
-      L.marker([lat, lng]).addTo(locateLayer).bindPopup("Lokasi Anda").openPopup();
+      L.marker([lat, lng])
+        .addTo(locateLayer)
+        .bindPopup("Lokasi Anda")
+        .openPopup();
 
       map.flyTo([lat, lng], 15, { duration: 0.8 });
       window.AppUI?.toast?.("Lokasi ditemukan");
@@ -483,10 +564,17 @@ const searchInput = document.getElementById("map-search");
 const btnClearSearch = document.getElementById("btn-clear-search");
 
 function findBestMatch(q) {
-  const s = String(q || "").trim().toLowerCase();
+  const s = String(q || "")
+    .trim()
+    .toLowerCase();
   if (!s) return null;
 
-  let exact = wells.find((w) => String(w.props.id_sumur || "").trim().toLowerCase() === s);
+  let exact = wells.find(
+    (w) =>
+      String(w.props.id_sumur || "")
+        .trim()
+        .toLowerCase() === s
+  );
   if (exact) return exact;
 
   let contains = wells.find((w) => {
@@ -499,7 +587,7 @@ function findBestMatch(q) {
 
 function zoomToWell(w) {
   if (!w) return;
-  map.flyTo(w.latlng, 16, { duration: 0.75 });
+  map.flyTo(w.latlng, 18, { duration: 0.8 });
   w.marker.openPopup();
 
   const pulse = L.circleMarker(w.latlng, {
@@ -510,6 +598,68 @@ function zoomToWell(w) {
   }).addTo(map);
 
   setTimeout(() => map.removeLayer(pulse), 900);
+}
+
+function findNearestWell(lat, lng) {
+  let best = null;
+  let bestDist = Infinity;
+
+  for (const w of wells) {
+    const d = map.distance([lat, lng], w.latlng);
+    if (d < bestDist) {
+      bestDist = d;
+      best = w;
+    }
+  }
+
+  // toleransi 200 meter biar aman
+  if (best && bestDist <= 200) return best;
+  return null;
+}
+
+function focusFromUrlTarget() {
+  if (!MAP_TARGET) return;
+
+  // kalau wells belum siap, tunggu
+  if (!wells || wells.length === 0) return;
+
+  const { lat, lng, z, id } = MAP_TARGET;
+
+  // 1) kalau ada id dan kebetulan sama dengan id_sumur di dataset, buka marker itu
+  // NOTE: di data.js kamu mungkin ngirim UUID (row.id) → ini TIDAK sama dengan id_sumur "AS001", dll.
+  let w = null;
+  if (id) {
+    w =
+      wells.find((x) => String(x.props?.id_sumur || "").trim() === id) || null;
+  }
+
+  // 2) fallback: cari marker terdekat dari koordinat
+  if (!w) w = findNearestWell(lat, lng);
+
+  if (w) {
+    map.flyTo(w.latlng, z || 20, { duration: 0.8 });
+    w.marker.openPopup();
+    return;
+  }
+
+  // 3) kalau tidak ketemu marker (misal data map dari file json beda dengan supabase),
+  // tetap fokus ke koordinat + marker sementara
+  map.flyTo([lat, lng], z || 20, { duration: 0.8 });
+
+  const temp = L.marker([lat, lng]).addTo(map);
+  temp
+    .bindPopup(
+      `Lokasi dari Database<br><span class="mono">${lat.toFixed(
+        6
+      )}, ${lng.toFixed(6)}</span>`
+    )
+    .openPopup();
+
+  setTimeout(() => {
+    try {
+      map.removeLayer(temp);
+    } catch {}
+  }, 6000);
 }
 
 let searchTimer = null;
@@ -538,7 +688,19 @@ btnClearSearch?.addEventListener("click", () => {
 });
 
 function toCSV(rows) {
-  const headers = ["id_sumur", "kecamatan", "jenis_sumur", "pH", "jarak_septictank_m", "jarak_selokan_m", "bau", "rasa", "latitude", "longitude", "risiko"];
+  const headers = [
+    "id_sumur",
+    "kecamatan",
+    "jenis_sumur",
+    "pH",
+    "jarak_septictank_m",
+    "jarak_selokan_m",
+    "bau",
+    "rasa",
+    "latitude",
+    "longitude",
+    "risiko",
+  ];
 
   const escCsv = (v) => {
     const s = String(v ?? "");
@@ -548,7 +710,9 @@ function toCSV(rows) {
 
   const lines = [headers.join(",")];
   for (const r of rows) {
-    lines.push(headers.map((h) => escCsv(h === "risiko" ? r.risiko : r[h])).join(","));
+    lines.push(
+      headers.map((h) => escCsv(h === "risiko" ? r.risiko : r[h])).join(",")
+    );
   }
   return lines.join("\n");
 }
@@ -575,9 +739,15 @@ document.getElementById("btn-export-filtered").addEventListener("click", () => {
   const rows = visible.map((w) => ({ ...w.props, risiko: w.risiko }));
   const csv = toCSV(rows);
   const now = new Date();
-  const fname = `filtered_sumur_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}.csv`;
+  const fname = `filtered_sumur_${now.getFullYear()}-${String(
+    now.getMonth() + 1
+  ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}_${String(
+    now.getHours()
+  ).padStart(2, "0")}-${String(now.getMinutes()).padStart(2, "0")}.csv`;
   downloadFile(fname, csv, "text/csv;charset=utf-8");
   window.AppUI?.toast?.("CSV berhasil diunduh");
 });
 
-map.addControl(new L.Control.Scale({ position: 'bottomleft', metric: true, imperial: false }));
+map.addControl(
+  new L.Control.Scale({ position: "bottomleft", metric: true, imperial: false })
+);

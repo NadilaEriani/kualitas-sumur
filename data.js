@@ -285,13 +285,15 @@
           <td>
             ${
               hasCoord
-                ? `<button class="db-mini" data-act="loc" data-lat="${esc(
-                    lat
-                  )}" data-lng="${esc(
-                    lng
-                  )}" aria-label="Buka lokasi" title="${esc(lat)}, ${esc(lng)}">
-                    <i class="fa-solid fa-location-dot"></i>
-                  </button>`
+                ? `<button class="db-mini"
+      data-act="loc"
+      data-id="${esc(row.id)}"
+      data-lat="${esc(lat)}"
+      data-lng="${esc(lng)}"
+      aria-label="Buka lokasi"
+      title="${esc(lat)}, ${esc(lng)}">
+      <i class="fa-solid fa-location-dot"></i>
+    </button>`
                 : `<span class="db-mono">-</span>`
             }
           </td>
@@ -692,12 +694,21 @@
       if (act === "loc") {
         const lat = btn.getAttribute("data-lat");
         const lng = btn.getAttribute("data-lng");
+        const id = btn.getAttribute("data-id") || "";
+
         if (!lat || !lng) return;
 
-        const url = `https://www.google.com/maps?q=${encodeURIComponent(
-          `${lat},${lng}`
-        )}`;
-        window.open(url, "_blank", "noopener");
+        // arahkan ke halaman maps internal kamu + kirim koordinat via query param
+        const url =
+          `map.html?lat=${encodeURIComponent(lat)}` +
+          `&lng=${encodeURIComponent(lng)}` +
+          (id ? `&id=${encodeURIComponent(id)}` : "") +
+          `&z=17`;
+
+        // pilih salah satu:
+        window.location.href = url; // pindah tab yang sama
+        // window.open(url, "_blank");       // kalau mau buka tab baru
+
         return;
       }
 

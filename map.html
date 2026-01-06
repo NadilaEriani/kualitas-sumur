@@ -13,7 +13,10 @@
     />
 
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -97,7 +100,8 @@
         </div>
 
         <div class="muted" style="margin-top: 10px; font-size: 12.5px">
-          Menampilkan <b><span id="filter-count">0</span></b> titik (hasil filter)
+          Menampilkan <b><span id="filter-count">0</span></b> titik (hasil
+          filter)
         </div>
       </div>
 
@@ -267,7 +271,11 @@
           </div>
 
           <div class="filter-actions">
-            <button type="button" id="btn-apply-filter" class="btn-filter primary">
+            <button
+              type="button"
+              id="btn-apply-filter"
+              class="btn-filter primary"
+            >
               Terapkan
             </button>
             <button type="button" id="btn-reset-filter" class="btn-filter">
@@ -286,14 +294,14 @@
             Warna lingkaran menunjukkan risiko pencemaran.
           </div>
 
-          <div style="margin-top: 12px; display:grid; gap:10px;">
-            <div class="switch-row" style="justify-content:flex-start;">
+          <div style="margin-top: 12px; display: grid; gap: 10px">
+            <div class="switch-row" style="justify-content: flex-start">
               <span class="dot red"></span><span>Risiko Tinggi</span>
             </div>
-            <div class="switch-row" style="justify-content:flex-start;">
+            <div class="switch-row" style="justify-content: flex-start">
               <span class="dot yellow"></span><span>Risiko Sedang</span>
             </div>
-            <div class="switch-row" style="justify-content:flex-start;">
+            <div class="switch-row" style="justify-content: flex-start">
               <span class="dot green"></span><span>Risiko Rendah</span>
             </div>
 
@@ -316,8 +324,9 @@
         <option value="carto-light">☀️ Carto Light</option>
         <option value="carto-dark">🌙 Carto Dark</option>
       </select>
-      <div class="muted" style="margin-top: 8px; font-size: 11px;">
-        💡 Gunakan <b>Satelit</b> atau <b>Hybrid</b> untuk melihat detail geografis.
+      <div class="muted" style="margin-top: 8px; font-size: 11px">
+        💡 Gunakan <b>Satelit</b> atau <b>Hybrid</b> untuk melihat detail
+        geografis.
       </div>
     </div>
 
@@ -325,11 +334,13 @@
 
     <div id="map-loading">
       <div class="loading-card">
-        <div style="display:flex; align-items:center; gap:10px;">
+        <div style="display: flex; align-items: center; gap: 10px">
           <i class="fa-solid fa-spinner fa-spin"></i>
           <div>
             <b>Memuat peta & data…</b>
-            <div class="muted" style="font-size: 13px">Menyiapkan layer dan titik sumur</div>
+            <div class="muted" style="font-size: 13px">
+              Menyiapkan layer dan titik sumur
+            </div>
           </div>
         </div>
         <div class="loading-lines">
@@ -340,6 +351,24 @@
         </div>
       </div>
     </div>
+    <script>
+      (() => {
+        const p = new URLSearchParams(location.search);
+        const lat = parseFloat(p.get("lat"));
+        const lng = parseFloat(p.get("lng"));
+        const z = parseInt(p.get("z") || "17", 10);
+        const id = p.get("id");
+
+        if (Number.isFinite(lat) && Number.isFinite(lng)) {
+          window.__MAP_TARGET__ = {
+            lat,
+            lng,
+            z: Number.isFinite(z) ? z : 17,
+            id,
+          };
+        }
+      })();
+    </script>
 
     <script src="script.js"></script>
 
