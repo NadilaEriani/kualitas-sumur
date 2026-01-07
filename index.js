@@ -31,6 +31,10 @@ function hitungRisiko(septic, selokan) {
     rHigh: document.getElementById("sum-high"),
     rMed: document.getElementById("sum-med"),
     rLow: document.getElementById("sum-low"),
+    total2: document.getElementById("sum-total-2"),
+    avgph2: document.getElementById("sum-avgph-2"),
+    highPct: document.getElementById("sum-high-pct"),
+    safePct: document.getElementById("sum-safe-pct"),
   };
 
   try {
@@ -62,14 +66,26 @@ function hitungRisiko(septic, selokan) {
       else low++;
     }
 
+    const avgPh = phCount > 0 ? (phSum / phCount).toFixed(2) : "—";
+    const highPct = total > 0 ? ((high / total) * 100).toFixed(1) + "%" : "—";
+    const safePct = total > 0 ? (((med + low) / total) * 100).toFixed(1) + "%" : "—";
+
     if (els.total) els.total.textContent = String(total);
     if (els.bor) els.bor.textContent = String(bor);
     if (els.gali) els.gali.textContent = String(gali);
-    if (els.avgph) els.avgph.textContent = phCount > 0 ? (phSum / phCount).toFixed(2) : "—";
+    if (els.avgph) els.avgph.textContent = avgPh;
     if (els.rHigh) els.rHigh.textContent = String(high);
     if (els.rMed) els.rMed.textContent = String(med);
     if (els.rLow) els.rLow.textContent = String(low);
+
+    // New stats section
+    if (els.total2) els.total2.textContent = String(total);
+    if (els.avgph2) els.avgph2.textContent = avgPh;
+    if (els.highPct) els.highPct.textContent = highPct;
+    if (els.safePct) els.safePct.textContent = safePct;
+
   } catch (e) {
+    console.error(e);
     if (els.total) els.total.textContent = "—";
     if (els.avgph) els.avgph.textContent = "—";
   }

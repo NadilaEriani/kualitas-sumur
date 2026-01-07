@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIG Kualitas Air Sumur • Pekanbaru</title>
+    <title>SIG Kualitas Air Sumur • 3 Kecamatan Pekanbaru</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +28,7 @@
         <a class="nav-brand" href="index.html">
           <span class="nav-mark"><i class="fa-solid fa-water"></i></span>
           <span class="nav-title">SIG Air Sumur</span>
-          <span class="nav-sub">Pekanbaru</span>
+          
         </a>
 
         <nav class="nav-links" aria-label="Navigasi utama">
@@ -67,16 +67,16 @@
         <div data-reveal>
           <span class="hero-badge">
             <i class="fa-solid fa-location-dot"></i>
-            Kota Pekanbaru • SIG Kualitas Air Sumur
+            3 Kecamatan • Payung Sekaki, Kota Pekanbaru, Tenayan Raya
           </span>
 
           <h1>Visualisasi Kualitas Air Sumur</h1>
           <h2>pH • Jarak septic/selokan • Jenis sumur</h2>
 
           <p class="lead">
-            Website ini membantu memantau titik sumur penduduk dan memahami
-            potensi risiko pencemaran berdasarkan parameter sederhana yang mudah
-            dipahami.
+            Website ini membantu memantau titik sumur penduduk di 3 kecamatan yaitu 
+            Payung Sekaki, Kota Pekanbaru (pusat kota), dan Tenayan Raya serta memahami 
+            potensi risiko pencemaran berdasarkan parameter sederhana yang mudah dipahami.
           </p>
 
           <div class="hero-actions">
@@ -117,7 +117,7 @@
         <div class="hero-visual" data-reveal aria-hidden="true">
           <div class="visual-inner">
             <div class="visual-title">
-              <i class="fa-solid fa-layer-group"></i> Preview Sistem
+              <i class="fa-solid fa-layer-group"></i> Distribusi Risiko Pencemaran
             </div>
             <div class="visual-card">
               <img
@@ -127,22 +127,18 @@
               />
             </div>
 
-            <div style="margin-top: 14px" class="grid cards-4">
-              <div class="kpi">
-                <div class="k">Risiko Tinggi</div>
-                <div class="v" id="sum-high">—</div>
+            <div style="margin-top: 18px" class="grid cards-3-risk">
+              <div class="kpi-risk danger">
+                <div class="k-risk"><i class="fa-solid fa-triangle-exclamation"></i> Tinggi</div>
+                <div class="v-risk" id="sum-high">—</div>
               </div>
-              <div class="kpi">
-                <div class="k">Risiko Sedang</div>
-                <div class="v" id="sum-med">—</div>
+              <div class="kpi-risk warning">
+                <div class="k-risk"><i class="fa-solid fa-circle-exclamation"></i> Sedang</div>
+                <div class="v-risk" id="sum-med">—</div>
               </div>
-              <div class="kpi">
-                <div class="k">Risiko Rendah</div>
-                <div class="v" id="sum-low">—</div>
-              </div>
-              <div class="kpi">
-                <div class="k">Mode Tema</div>
-                <div class="v" style="font-size: 16px">Light<br>/Dark</div>
+              <div class="kpi-risk success">
+                <div class="k-risk"><i class="fa-solid fa-circle-check"></i> Rendah</div>
+                <div class="v-risk" id="sum-low">—</div>
               </div>
             </div>
           </div>
@@ -154,7 +150,7 @@
       <section class="section" data-reveal>
         <div class="section-head">
           <div>
-            <h3>Ringkasan Fitur</h3>
+            <h3><i class="fa-solid fa-sparkles"></i> Ringkasan Fitur</h3>
             <p>Yang bisa kamu lakukan dengan cepat di sistem SIG ini.</p>
           </div>
         </div>
@@ -183,7 +179,109 @@
       <section class="section" data-reveal>
         <div class="section-head">
           <div>
-            <h3>Legenda Risiko & Cara Membaca Data</h3>
+            <h3><i class="fa-solid fa-water"></i> Tentang Kualitas Air Sumur</h3>
+            <p>Memahami parameter penting dalam penilaian kualitas air</p>
+          </div>
+        </div>
+
+        <div class="section-pad">
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-icon blue">
+                <i class="fa-solid fa-vial"></i>
+              </div>
+              <div class="info-content">
+                <h4>Tingkat pH</h4>
+                <p>pH air yang ideal berkisar antara 6.5 - 8.5. Nilai di luar rentang ini dapat mengindikasikan kontaminasi atau kondisi geologis khusus yang mempengaruhi kualitas air.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon orange">
+                <i class="fa-solid fa-toilet"></i>
+              </div>
+              <div class="info-content">
+                <h4>Jarak Septic Tank</h4>
+                <p>Jarak minimal yang direkomendasikan adalah 10 meter dari sumur. Jarak kurang dari ini meningkatkan risiko kontaminasi bakteri E.coli dan patogen lainnya.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon cyan">
+                <i class="fa-solid fa-water"></i>
+              </div>
+              <div class="info-content">
+                <h4>Jarak Selokan</h4>
+                <p>Selokan yang terlalu dekat kurang dari 10m dapat menjadi sumber pencemaran, terutama saat musim hujan ketika air permukaan dapat merembes ke dalam sumur.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon green">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div class="info-content">
+                <h4>Standar Keamanan</h4>
+                <p>Data ini mengacu pada Peraturan Menteri Kesehatan RI tentang Kualitas Air Minum dan standar WHO untuk memastikan air layak konsumsi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" data-reveal>
+        <div class="section-head">
+          <div>
+            <h3><i class="fa-solid fa-chart-bar"></i> Statistik Wilayah</h3>
+            <p>Ringkasan data kualitas air sumur di 3 Kecamatan: Payung Sekaki, Kota Pekanbaru, dan Tenayan Raya</p>
+          </div>
+        </div>
+
+        <div class="section-pad">
+          <div class="stats-highlight-grid">
+            <div class="stat-highlight">
+              <div class="stat-highlight-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="stat-highlight-value" id="sum-total-2">—</div>
+              <div class="stat-highlight-label">Total Sumur Terpetakan</div>
+              <div class="stat-highlight-desc">Data dari 3 kecamatan di Pekanbaru</div>
+            </div>
+
+            <div class="stat-highlight">
+              <div class="stat-highlight-icon">
+                <i class="fa-solid fa-droplet"></i>
+              </div>
+              <div class="stat-highlight-value" id="sum-avgph-2">—</div>
+              <div class="stat-highlight-label">Rata-rata pH</div>
+              <div class="stat-highlight-desc">Tingkat keasaman air sumur</div>
+            </div>
+
+            <div class="stat-highlight">
+              <div class="stat-highlight-icon danger-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+              <div class="stat-highlight-value danger-text" id="sum-high-pct">—</div>
+              <div class="stat-highlight-label">Persentase Risiko Tinggi</div>
+              <div class="stat-highlight-desc">Memerlukan perhatian khusus</div>
+            </div>
+
+            <div class="stat-highlight">
+              <div class="stat-highlight-icon success-icon">
+                <i class="fa-solid fa-check-circle"></i>
+              </div>
+              <div class="stat-highlight-value success-text" id="sum-safe-pct">—</div>
+              <div class="stat-highlight-label">Sumur Kondisi Baik</div>
+              <div class="stat-highlight-desc">Risiko rendah dan sedang</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" data-reveal>
+        <div class="section-head">
+          <div>
+            <h3><i class="fa-solid fa-book-open"></i> Legenda Risiko dan Cara Membaca Data</h3>
             <p>Interpretasi sederhana untuk memahami kondisi lapangan.</p>
           </div>
         </div>
@@ -193,51 +291,47 @@
             <h4 style="margin-top: 0">
               <i class="fa-solid fa-triangle-exclamation"></i> Legenda Risiko
             </h4>
-            <ul class="list">
-              <li>
-                <i class="fa-solid fa-circle"></i>
-                <span
-                  ><b>Risiko Tinggi</b>: septic ≤ 10m atau selokan ≤ 10m.</span
-                >
-              </li>
-              <li>
-                <i class="fa-solid fa-circle"></i>
-                <span
-                  ><b>Risiko Sedang</b>: septic ≤ 20m atau selokan ≤ 20m.</span
-                >
-              </li>
-              <li>
-                <i class="fa-solid fa-circle"></i>
+            <div class="legend-risk-list">
+              <div class="legend-risk-item">
+                <span class="legend-risk-dot danger"></span>
+                <span><b>Risiko Tinggi</b>: septic ≤ 10m atau selokan ≤ 10m.</span>
+              </div>
+              <div class="legend-risk-item">
+                <span class="legend-risk-dot warning"></span>
+                <span><b>Risiko Sedang</b>: septic ≤ 20m atau selokan ≤ 20m.</span>
+              </div>
+              <div class="legend-risk-item">
+                <span class="legend-risk-dot success"></span>
                 <span><b>Risiko Rendah</b>: di atas ambang sedang.</span>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
 
           <div class="panel">
             <h4 style="margin-top: 0">
-              <i class="fa-solid fa-vial"></i> Cara membaca pH & jarak
+              <i class="fa-solid fa-vial"></i> Cara membaca pH dan jarak
             </h4>
             <ul class="list">
               <li>
                 <i class="fa-solid fa-check"></i>
-                <span
-                  ><b>pH</b> menunjukkan tingkat keasaman/alkalinitas air (nilai
-                  ekstrem perlu perhatian).</span
-                >
+                <span>
+                  <b>pH</b> menunjukkan tingkat keasaman/alkalinitas air (nilai
+                  ekstrem perlu perhatian).
+                </span>
               </li>
               <li>
                 <i class="fa-solid fa-check"></i>
-                <span
-                  ><b>Jarak septic/selokan</b> makin dekat → potensi kontaminasi
-                  makin tinggi.</span
-                >
+                <span>
+                  <b>Jarak septic/selokan</b> makin dekat → potensi kontaminasi
+                  makin tinggi.
+                </span>
               </li>
               <li>
                 <i class="fa-solid fa-check"></i>
-                <span
-                  >Gunakan filter untuk fokus pada titik yang perlu
-                  diprioritaskan.</span
-                >
+                <span>
+                  Gunakan filter untuk fokus pada titik yang perlu
+                  diprioritaskan.
+                </span>
               </li>
             </ul>
 
@@ -261,7 +355,7 @@
             </span>
             <div>
               <strong>SIG Kualitas Air Sumur</strong>
-              <div class="muted">Pekanbaru • Monitoring & analisis sebaran</div>
+              <div class="muted">3 Kecamatan: Payung Sekaki, Kota Pekanbaru, Tenayan Raya</div>
             </div>
           </div>
 
@@ -312,15 +406,16 @@
 
         <div class="modal-body">
           <p class="muted">
-            Project ini memvisualisasikan titik sumur penduduk dan indikator
-            kualitas air untuk membantu monitoring dan analisis area rawan.
+            Project ini memvisualisasikan titik sumur penduduk di 3 Kecamatan yaitu 
+            Payung Sekaki, Kota Pekanbaru (pusat kota), dan Tenayan Raya beserta indikator 
+            kualitas air untuk membantu monitoring dan analisis area rawan pencemaran.
           </p>
 
           <div class="grid cards-3" style="margin-top: 14px">
             <div class="card">
               <div class="ic"><i class="fa-solid fa-bullseye"></i></div>
               <h4>Tujuan</h4>
-              <p>Mempermudah pemetaan & analisa kualitas air sumur.</p>
+              <p>Mempermudah pemetaan dan analisa kualitas air sumur.</p>
             </div>
             <div class="card">
               <div class="ic"><i class="fa-solid fa-chart-line"></i></div>
@@ -373,6 +468,8 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && modal.classList.contains("open")) closeAbout();
       });
+      
+      document.getElementById("year").textContent = new Date().getFullYear();
     </script>
   </body>
 </html>
