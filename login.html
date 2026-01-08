@@ -33,17 +33,18 @@
     <script defer src="ui.js"></script>
     <script defer src="login.js"></script>
     <style>
-  html.auth-check body { visibility: hidden; }
-</style>
-<script>
-  document.documentElement.classList.add("auth-check");
-  // theme cepat
-  try {
-    const saved = localStorage.getItem("theme");
-    if (saved === "light") document.documentElement.dataset.theme = "light";
-  } catch (e) {}
-</script>
-
+      html.auth-check body {
+        visibility: hidden;
+      }
+    </style>
+    <script>
+      document.documentElement.classList.add("auth-check");
+      // theme cepat
+      try {
+        const saved = localStorage.getItem("theme");
+        if (saved === "light") document.documentElement.dataset.theme = "light";
+      } catch (e) {}
+    </script>
   </head>
 
   <body class="landing login-page">
@@ -95,7 +96,7 @@
                 name="email"
                 type="email"
                 autocomplete="username"
-                placeholder="admin@gmail.com"
+                placeholder="example@examplel.com"
                 required
               />
 
