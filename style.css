@@ -311,8 +311,7 @@ img {
 
 /* ========== LANDING ========== */
 body.landing {
-  background: 
-    radial-gradient(
+  background: radial-gradient(
       ellipse 1200px 600px at 22% 10%,
       rgba(29, 78, 216, 0.18),
       transparent 65%
@@ -1334,6 +1333,16 @@ body.landing.data-page .db-toolbar {
   color: var(--text);
   outline: none;
 }
+body.landing.data-page .db-field select option,
+body.landing.data-page .db-field select optgroup {
+  background: var(--bg);
+  color: var(--text);
+}
+/* bantu browser render komponen form sesuai tema */
+body.landing.data-page .db-field select {
+  color-scheme: light dark;
+}
+
 .db-field input:focus,
 .db-field select:focus {
   border-color: rgba(96, 165, 250, 0.35);
@@ -1384,21 +1393,32 @@ body.landing.data-page .db-toolbar {
   border: 1px solid var(--border);
   background: var(--surface);
   box-shadow: var(--sh-md);
-  overflow-x: hidden !important;
-  max-height: calc(100vh - 360px);
+
+  overflow-x: auto;
+  overflow-y: visible;
+  max-height: none;
 }
+
 .db-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  min-width: 980px;
+  min-width: 1480px;
   table-layout: fixed;
 }
 .db-table th,
 .db-table td {
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: normal;
+
+  white-space: nowrap;
+}
+.db-table td:nth-child(2),  /* Kecamatan */
+.db-table td:nth-child(10) {
+  /* Kondisi Sumur */
   white-space: normal;
 }
+
 .db-table thead th {
   position: sticky;
   top: 0;
@@ -1407,7 +1427,7 @@ body.landing.data-page .db-toolbar {
   color: var(--text);
   text-align: left;
   font-size: 13px;
-  padding: 12px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
 }
@@ -1424,7 +1444,7 @@ body.landing.data-page .db-toolbar {
 }
 
 .db-table tbody td {
-  padding: 12px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--border);
   color: var(--muted);
   vertical-align: middle;
@@ -1455,6 +1475,56 @@ body.landing.data-page .db-toolbar {
   text-align: center;
   white-space: nowrap;
 }
+/* ✅ Lebarkan kolom-kolom lain biar tidak himpit */
+.db-table th:nth-child(2),
+.db-table td:nth-child(2) {
+  min-width: 200px;
+} /* Kecamatan */
+
+.db-table th:nth-child(3),
+.db-table td:nth-child(3) {
+  min-width: 140px;
+} /* Jenis */
+
+.db-table th:nth-child(4),
+.db-table td:nth-child(4) {
+  min-width: 120px;
+} /* Warna Air */
+
+.db-table th:nth-child(6),
+.db-table td:nth-child(6) {
+  min-width: 110px;
+} /* Septic */
+
+.db-table th:nth-child(7),
+.db-table td:nth-child(7) {
+  min-width: 120px;
+} /* Selokan */
+
+.db-table th:nth-child(8),
+.db-table td:nth-child(8) {
+  min-width: 110px;
+} /* Bau */
+
+.db-table th:nth-child(9),
+.db-table td:nth-child(9) {
+  min-width: 110px;
+} /* Rasa */
+
+.db-table th:nth-child(10),
+.db-table td:nth-child(10) {
+  min-width: 170px;
+} /* Kondisi Sumur */
+
+.db-table th:nth-child(11),
+.db-table td:nth-child(11) {
+  min-width: 90px;
+} /* Lokasi */
+
+.db-table th:nth-child(12),
+.db-table td:nth-child(12) {
+  min-width: 130px;
+} /* Aksi */
 
 .db-empty {
   text-align: center;
@@ -1557,7 +1627,8 @@ body.landing.data-page .db-toolbar {
   border-radius: var(--r-lg);
   padding: var(--s-4);
   box-shadow: var(--sh-sm);
-  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  transition: transform 0.18s ease, background 0.18s ease,
+    border-color 0.18s ease;
   text-align: center;
 }
 
@@ -1566,7 +1637,8 @@ body.landing.data-page .db-toolbar {
 }
 
 .kpi-risk.danger {
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     color-mix(in srgb, var(--surface) 70%, rgba(239, 68, 68, 0.16)),
     color-mix(in srgb, var(--surface) 85%, rgba(239, 68, 68, 0.08))
   );
@@ -1575,14 +1647,16 @@ body.landing.data-page .db-toolbar {
 
 .kpi-risk.danger:hover {
   border-color: rgba(239, 68, 68, 0.5);
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     color-mix(in srgb, var(--surface) 60%, rgba(239, 68, 68, 0.22)),
     color-mix(in srgb, var(--surface) 75%, rgba(239, 68, 68, 0.12))
   );
 }
 
 .kpi-risk.warning {
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     color-mix(in srgb, var(--surface) 70%, rgba(250, 204, 21, 0.16)),
     color-mix(in srgb, var(--surface) 85%, rgba(250, 204, 21, 0.08))
   );
@@ -1591,14 +1665,16 @@ body.landing.data-page .db-toolbar {
 
 .kpi-risk.warning:hover {
   border-color: rgba(250, 204, 21, 0.5);
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     color-mix(in srgb, var(--surface) 60%, rgba(250, 204, 21, 0.22)),
     color-mix(in srgb, var(--surface) 75%, rgba(250, 204, 21, 0.12))
   );
 }
 
 .kpi-risk.success {
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     color-mix(in srgb, var(--surface) 70%, rgba(34, 197, 94, 0.16)),
     color-mix(in srgb, var(--surface) 85%, rgba(34, 197, 94, 0.08))
   );
@@ -1607,7 +1683,8 @@ body.landing.data-page .db-toolbar {
 
 .kpi-risk.success:hover {
   border-color: rgba(34, 197, 94, 0.5);
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     color-mix(in srgb, var(--surface) 60%, rgba(34, 197, 94, 0.22)),
     color-mix(in srgb, var(--surface) 75%, rgba(34, 197, 94, 0.12))
   );
@@ -1687,7 +1764,7 @@ body.landing.data-page .db-toolbar {
 }
 
 .legend-risk-dot::before {
-  content: '';
+  content: "";
   width: 8px;
   height: 8px;
   background: rgba(255, 255, 255, 0.5);
@@ -1707,7 +1784,8 @@ body.landing.data-page .db-toolbar {
   padding: var(--s-5);
   display: flex;
   gap: var(--s-4);
-  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  transition: transform 0.18s ease, background 0.18s ease,
+    border-color 0.18s ease;
 }
 
 .info-card:hover {
@@ -1782,7 +1860,11 @@ body.landing.data-page .db-toolbar {
   height: 64px;
   margin: 0 auto 14px;
   border-radius: 20px;
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(29, 78, 216, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.2),
+    rgba(29, 78, 216, 0.15)
+  );
   border: 1px solid rgba(96, 165, 250, 0.3);
   display: grid;
   place-items: center;
@@ -1791,13 +1873,21 @@ body.landing.data-page .db-toolbar {
 }
 
 .stat-highlight-icon.danger-icon {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.2),
+    rgba(220, 38, 38, 0.15)
+  );
   border-color: rgba(239, 68, 68, 0.3);
   color: #fca5a5;
 }
 
 .stat-highlight-icon.success-icon {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.2),
+    rgba(22, 163, 74, 0.15)
+  );
   border-color: rgba(34, 197, 94, 0.3);
   color: #86efac;
 }
