@@ -39,6 +39,7 @@
 
   --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --nav-h: 64px;
+  color-scheme: dark;
 }
 
 :root[data-theme="light"] {
@@ -50,6 +51,7 @@
   --muted: rgba(51, 65, 85, 0.78);
   --sh-sm: 0 10px 25px rgba(2, 6, 23, 0.08);
   --sh-md: 0 18px 60px rgba(2, 6, 23, 0.1);
+  color-scheme: light;
 }
 
 * {
