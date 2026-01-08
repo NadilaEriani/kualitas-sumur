@@ -135,11 +135,23 @@
     }
   }
 
-  function gmapsLinkFromRow(r) {
+  function mapLinkFromRow(r) {
     const lat = r?.[state.coordLatKey];
     const lng = r?.[state.coordLngKey];
-    if (lat == null || lng == null) return "";
-    return `https://www.google.com/maps?q=${lat},${lng}`;
+    const id = r?.id ?? r?.uuid ?? "";
+
+    const nLat = Number(lat);
+    const nLng = Number(lng);
+
+    if (!Number.isFinite(nLat) || !Number.isFinite(nLng)) return "";
+
+    const z = 17; // zoom default
+    return (
+      `map.html?lat=${encodeURIComponent(nLat)}` +
+      `&lng=${encodeURIComponent(nLng)}` +
+      (id ? `&id=${encodeURIComponent(id)}` : "") +
+      `&z=${encodeURIComponent(z)}`
+    );
   }
 
   function getFilters() {
@@ -150,6 +162,15 @@
       pageSize: parseInt(pageSizeEl?.value || "10", 10) || 10,
     };
   }
+  window.addEventListener("pageshow", (ev) => {
+    if (ev.persisted) window.location.reload();
+  });
+
+  client.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_OUT" || !session) {
+      window.location.replace("login.html");
+    }
+  });
 
   async function requireAuth() {
     if (!client) {
@@ -307,11 +328,11 @@
     tbody.innerHTML = rows
       .map((r, idx) => {
         const no = startNo + idx;
-        const gmaps = gmapsLinkFromRow(r);
-        const lokasiCell = gmaps
-          ? `<a class="link-btn" href="${gmaps}" target="_blank" rel="noopener">
-               <i class="fa-solid fa-location-dot"></i> Buka
-             </a>`
+        const mapLink = mapLinkFromRow(r);
+        const lokasiCell = mapLink
+          ? `<a class="link-btn" href="${mapLink}">
+       <i class="fa-solid fa-location-dot"></i> Buka
+     </a>`
           : `<span class="muted">-</span>`;
 
         const rowId = r.id ?? r.uuid ?? "";
@@ -645,11 +666,26 @@
     if (!(await requireAuth())) return;
 
     $("btnLogout")?.addEventListener("click", async () => {
-      await client.auth.signOut();
+      const btn = $("btnLogout");
+      if (btn) btn.disabled = true;
+
+      try {
+        const { error } = await client.auth.signOut({ scope: "local" });
+        if (error) console.warn("signOut error:", error);
+      } catch (err) {
+        console.warn("signOut throw:", err);
+      }
+
+      try {
+        localStorage.removeItem("sb-sanvsobyezkgyljknxvy-auth-token");
+      } catch {}
+      try {
+        sessionStorage.removeItem("sb-sanvsobyezkgyljknxvy-auth-token");
+      } catch {}
+
       window.location.replace("login.html");
     });
 
-    // test koneksi
     try {
       const { error } = await client.from(tableName).select("id").range(0, 0);
       if (error) throw error;
