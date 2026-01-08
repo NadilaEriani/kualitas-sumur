@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login • SIG Kualitas Air Sumur</title>
+
+    <!-- apply theme lebih awal (biar tidak flash/kedip) -->
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("theme");
+          if (saved === "light")
+            document.documentElement.dataset.theme = "light";
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Supabase + UI + Login (urutan penting) -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"
+    ></script>
+    <script defer src="ui.js"></script>
+    <script defer src="login.js"></script>
+    <style>
+  html.auth-check body { visibility: hidden; }
+</style>
+<script>
+  document.documentElement.classList.add("auth-check");
+  // theme cepat
+  try {
+    const saved = localStorage.getItem("theme");
+    if (saved === "light") document.documentElement.dataset.theme = "light";
+  } catch (e) {}
+</script>
+
+  </head>
+
+  <body class="landing login-page">
+    <main class="auth-main">
+      <div class="auth-wrap">
+        <section class="auth-info section">
+          <div class="section-head">
+            <div>
+              <h3>Masuk untuk Kelola Data</h3>
+              <p>Tambah / edit / hapus data sumur dengan akses admin.</p>
+            </div>
+            <a class="btn outline" href="./map.html">Buka Peta</a>
+          </div>
+
+          <div class="section-pad">
+            <div class="panel">
+              <div class="visual-title">Yang bisa kamu lakukan</div>
+              <ul class="list">
+                <li>
+                  <i>✓</i> Kelola data sumur (CRUD) di halaman Database Admin
+                </li>
+                <li><i>✓</i> Export CSV untuk laporan</li>
+                <li><i>✓</i> Cek peta & dashboard statistika</li>
+              </ul>
+            </div>
+
+            <div style="height: var(--s-4)"></div>
+
+            <div class="panel muted">
+              Login ini memakai <b>Supabase Auth</b> (bukan localStorage).
+            </div>
+          </div>
+        </section>
+
+        <section class="auth-card section" aria-label="Form Login">
+          <div class="section-head">
+            <div>
+              <h3>Login</h3>
+              <p>Masukkan akun admin untuk melanjutkan.</p>
+            </div>
+          </div>
+
+          <div class="section-pad">
+            <form id="loginForm" class="auth-form">
+              <label class="auth-label" for="email">Email</label>
+              <input
+                class="input"
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="username"
+                placeholder="admin@gmail.com"
+                required
+              />
+
+              <div style="height: 12px"></div>
+
+              <label class="auth-label" for="password">Password</label>
+              <input
+                class="input"
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="••••••••"
+                required
+              />
+
+              <div class="auth-row">
+                <label class="auth-check">
+                  <input id="remember" type="checkbox" checked />
+                  <span class="muted">Ingat saya</span>
+                </label>
+
+                <a class="muted" href="#" onclick="return false;"
+                  >Lupa password?</a
+                >
+              </div>
+
+              <button
+                id="btnLogin"
+                class="btn primary auth-submit"
+                type="submit"
+              >
+                Masuk
+              </button>
+
+              <p class="auth-note muted">Kembali ke <a href="./">Home</a>.</p>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
