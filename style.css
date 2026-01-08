@@ -2114,3 +2114,33 @@ body.landing.data-page .db-field select {
 .db-modal .db-form-actions {
   margin-top: 12px;
 }
+
+:root:not([data-theme="light"]) select,
+:root:not([data-theme="light"]) select.input,
+:root:not([data-theme="light"]) #basemap-select,
+:root:not([data-theme="light"]) #zone-scale {
+  color-scheme: dark;
+  background: var(--surface);
+  color: var(--text);
+}
+
+:root:not([data-theme="light"]) select option,
+:root:not([data-theme="light"]) #basemap-select option,
+:root:not([data-theme="light"]) #zone-scale option {
+  background: var(--bg);
+  color: var(--text);
+}
+
+:root[data-theme="light"] select,
+:root[data-theme="light"] select.input,
+:root[data-theme="light"] #basemap-select,
+:root[data-theme="light"] #zone-scale {
+  color-scheme: light;
+}
+
+:root[data-theme="light"] select option,
+:root[data-theme="light"] #basemap-select option,
+:root[data-theme="light"] #zone-scale option {
+  background: #fff;
+  color: #0f172a;
+}
